@@ -1,0 +1,6 @@
+[package]
+name = "bitmex-rs"
+version = "0.1.0"
+authors = ["Weiyüen Wu <doomsplayer@gmail.com>"]
+
+[dependencies]
