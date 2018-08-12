@@ -5,7 +5,7 @@ use failure::Error;
 use futures::{Future, Stream};
 use hex::encode as hexify;
 use hyper::client::{HttpConnector, ResponseFuture};
-use hyper::{Body, Client, Request};
+use hyper::{Body, Client, Method, Request};
 use hyper_tls::HttpsConnector;
 use ring::{digest, hmac};
 use serde::de::DeserializeOwned;
@@ -58,12 +58,9 @@ impl Transport {
         Ok(self.handle_response(self.client.get(url.as_str().parse()?)))
     }
 
-    fn check_key(&self) -> Result<(&str, &str)> {
-        match self.credential.as_ref() {
-            None => Err(BitMEXError::NoApiKeySet)?,
-            Some((k, s)) => Ok((k, s)),
-        }
-    }
+    // pub fn post<T>(&self, endpoint: &str) -> Result<impl Future> {}
+
+    // fn put<T>(&self, endpoint: &str) -> Result<T> {}
 
     pub fn signed_get<O: DeserializeOwned, I, K, V>(&self, endpoint: &str, params: Option<I>) -> Result<impl Future<Item = O, Error = Error>>
     where
@@ -72,8 +69,6 @@ impl Transport {
         K: AsRef<str>,
         V: AsRef<str>,
     {
-        let (key, secret) = self.check_key()?;
-
         let url = format!("{}/{}", BASE, endpoint);
         let url = match params {
             Some(p) => Url::parse_with_params(&url, p)?,
@@ -81,15 +76,7 @@ impl Transport {
         };
 
         let expires = (Utc::now() + Duration::seconds(5)).timestamp();
-
-        // Signature: hex(HMAC_SHA256(apiSecret, verb + path + expires + data))
-        let signed_key = hmac::SigningKey::new(&digest::SHA256, secret.as_bytes());
-        let sign_message = match url.query() {
-            Some(query) => format!("{}{}?{}{}", "GET", url.path(), query, expires),
-            None => format!("{}{}{}", "GET", url.path(), expires),
-        };
-
-        let signature = hexify(hmac::sign(&signed_key, sign_message.as_bytes()));
+        let (key, signature) = self.signature(Method::GET, expires, &url)?;
 
         let req = Request::get(url.as_str())
             .header("api-expires", expires)
@@ -100,9 +87,25 @@ impl Transport {
         Ok(self.handle_response(self.client.request(req)))
     }
 
-    // pub fn post<T>(&self, endpoint: &str) -> Result<impl Future> {}
+    fn check_key(&self) -> Result<(&str, &str)> {
+        match self.credential.as_ref() {
+            None => Err(BitMEXError::NoApiKeySet)?,
+            Some((k, s)) => Ok((k, s)),
+        }
+    }
 
-    // fn put<T>(&self, endpoint: &str) -> Result<T> {}
+    fn signature(&self, method: Method, expires: i64, url: &Url) -> Result<(&str, String)> {
+        let (key, secret) = self.check_key()?;
+        // Signature: hex(HMAC_SHA256(apiSecret, verb + path + expires + data))
+        let signed_key = hmac::SigningKey::new(&digest::SHA256, secret.as_bytes());
+        let sign_message = match url.query() {
+            Some(query) => format!("{}{}?{}{}", url, url.path(), query, expires),
+            None => format!("{}{}{}", method.as_str(), url.path(), expires),
+        };
+
+        let signature = hexify(hmac::sign(&signed_key, sign_message.as_bytes()));
+        Ok((key, signature))
+    }
 
     fn handle_response<O: DeserializeOwned>(&self, fut: ResponseFuture) -> impl Future<Item = O, Error = Error> {
         fut.from_err::<Error>()
