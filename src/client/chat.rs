@@ -2,7 +2,8 @@ use failure::Error;
 use futures::Future;
 
 use error::Result;
-use model::Chat;
+use model::{Channel, Chat, ConnectedUsers};
+use transport::Dummy;
 
 use super::BitMEX;
 
@@ -24,16 +25,22 @@ impl BitMEX {
             payload.push(("channelID", channel_id.to_string()));
         }
 
-        Ok(self.transport.get("chat", Some(payload))?)
+        Ok(self.transport.get("/chat", Some(payload))?)
     }
 
     pub fn post_chat<K>(&self, message: &str, channel_id: K) -> Result<impl Future<Item = Chat, Error = Error>>
     where
         K: Into<Option<usize>>,
     {
-        Ok(self.transport.signed_post(
-            "chat",
-            Some(vec![("message", message.to_string()), ("channel_id", channel_id.into().unwrap_or(1).to_string())]),
-        )?)
+        let params = vec![("message", message.to_string()), ("channel_id", channel_id.into().unwrap_or(1).to_string())];
+        Ok(self.transport.signed_post("/chat", Some(params))?)
+    }
+
+    pub fn channels(&self) -> Result<impl Future<Item = Vec<Channel>, Error = Error>> {
+        Ok(self.transport.get::<_, Dummy, _, _>("/chat/channels", None)?)
+    }
+
+    pub fn connected_users(&self) -> Result<impl Future<Item = ConnectedUsers, Error = Error>> {
+        Ok(self.transport.get::<_, Dummy, _, _>("/chat/connected", None)?)
     }
 }

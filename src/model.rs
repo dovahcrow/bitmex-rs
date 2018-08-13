@@ -37,6 +37,18 @@ pub struct Chat {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
+pub struct Channel {
+    id: usize,
+    name: String,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct ConnectedUsers {
+    users: usize,
+    bots: usize,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Success {
     success: bool,
 }

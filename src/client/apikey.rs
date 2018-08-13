@@ -9,7 +9,7 @@ use super::BitMEX;
 
 impl BitMEX {
     pub fn get_api_key(&self) -> Result<impl Future<Item = Vec<ApiKey>, Error = Error>> {
-        Ok(self.transport.signed_get::<_, Dummy, _, _>("apiKey", None)?)
+        Ok(self.transport.signed_get::<_, Dummy, _, _>("/apiKey", None)?)
     }
 
     pub fn create_api_key(
@@ -30,16 +30,16 @@ impl BitMEX {
             payload.push(("token", token.to_string()));
         }
 
-        Ok(self.transport.signed_post("apiKey", Some(payload))?)
+        Ok(self.transport.signed_post("/apiKey", Some(payload))?)
     }
 
     pub fn delete_api_key(&self, id: &str) -> Result<impl Future<Item = Success, Error = Error>> {
-        Ok(self.transport.signed_delete("apiKey", Some(vec![("apiKeyID", id.to_string())]))?)
+        Ok(self.transport.signed_delete("/apiKey", Some(vec![("apiKeyID", id.to_string())]))?)
     }
     pub fn disable_api_key(&self, id: &str) -> Result<impl Future<Item = ApiKey, Error = Error>> {
-        Ok(self.transport.signed_post("apiKey/disable", Some(vec![("apiKeyID", id.to_string())]))?)
+        Ok(self.transport.signed_post("/apiKey/disable", Some(vec![("apiKeyID", id.to_string())]))?)
     }
     pub fn enable_api_key(&self, id: &str) -> Result<impl Future<Item = ApiKey, Error = Error>> {
-        Ok(self.transport.signed_post("apiKey/enable", Some(vec![("apiKeyID", id.to_string())]))?)
+        Ok(self.transport.signed_post("/apiKey/enable", Some(vec![("apiKeyID", id.to_string())]))?)
     }
 }

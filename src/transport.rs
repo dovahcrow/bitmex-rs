@@ -115,7 +115,7 @@ impl Transport {
         K2: AsRef<str>,
         V2: AsRef<str>,
     {
-        let url = format!("{}/{}", BASE, endpoint);
+        let url = format!("{}{}", BASE, endpoint);
         let url = match params {
             Some(p) => Url::parse_with_params(&url, p)?,
             None => Url::parse(&url)?,
@@ -135,7 +135,12 @@ impl Transport {
             None => Body::empty(),
         };
 
-        let req = Request::builder().method(method).uri(url.as_str()).header("content-type", "application/json").body(body)?;
+        let req = Request::builder()
+            .method(method)
+            .uri(url.as_str())
+            .header("user-agent", "bitmex-rs")
+            .header("content-type", "application/json")
+            .body(body)?;
         Ok(self.handle_response(self.client.request(req)))
     }
 
@@ -156,7 +161,7 @@ impl Transport {
         K2: AsRef<str>,
         V2: AsRef<str>,
     {
-        let url = format!("{}/{}", BASE, endpoint);
+        let url = format!("{}{}", BASE, endpoint);
         let url = match params {
             Some(p) => Url::parse_with_params(&url, p)?,
             None => Url::parse(&url)?,
@@ -186,6 +191,7 @@ impl Transport {
             .header("api-key", key)
             .header("api-signature", signature)
             .header("content-type", "application/json")
+            .header("user-agent", "bitmex-rs")
             .body(Body::from(body))?;
 
         Ok(self.handle_response(self.client.request(req)))
