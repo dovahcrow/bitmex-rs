@@ -25,6 +25,7 @@ const EXPIRE_DURATION: i64 = 5;
 
 pub(crate) type Dummy = &'static [(&'static str, &'static str); 0];
 
+#[derive(Clone)]
 pub struct Transport {
     client: Client<HttpsConnector<HttpConnector>>,
     credential: Option<(String, String)>,

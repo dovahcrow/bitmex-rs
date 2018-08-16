@@ -5,6 +5,7 @@ mod order;
 
 use transport::Transport;
 
+#[derive(Clone)]
 pub struct BitMEX {
     transport: Transport,
 }
