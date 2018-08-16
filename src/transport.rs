@@ -1,5 +1,4 @@
 use std::borrow::Borrow;
-use std::collections::BTreeMap;
 
 use chrono::{Duration, Utc};
 use failure::Error;
@@ -10,6 +9,7 @@ use hyper::{Body, Client, Method, Request};
 use hyper_tls::HttpsConnector;
 use ring::{digest, hmac};
 use serde::de::DeserializeOwned;
+use serde::Serialize;
 use serde_json::{from_slice, to_string, to_vec};
 use url::Url;
 
@@ -55,37 +55,34 @@ impl Transport {
         K: AsRef<str>,
         V: AsRef<str>,
     {
-        self.request::<_, _, Dummy, _, _, _, _>(Method::GET, endpoint, params, None)
+        self.request::<_, _, _, _, ()>(Method::GET, endpoint, params, None)
     }
 
-    pub fn signed_get<O: DeserializeOwned, I, K, V>(&self, endpoint: &str, params: Option<I>) -> Result<impl Future<Item = O, Error = Error>>
+    pub fn signed_get<O, I, K, V>(&self, endpoint: &str, params: Option<I>) -> Result<impl Future<Item = O, Error = Error>>
     where
+        O: DeserializeOwned,
         I: IntoIterator,
         I::Item: Borrow<(K, V)>,
         K: AsRef<str>,
         V: AsRef<str>,
     {
-        self.signed_request::<_, _, Dummy, _, _, _, _>(Method::GET, endpoint, params, None)
+        self.signed_request::<_, _, _, _, ()>(Method::GET, endpoint, params, None)
     }
 
-    pub fn signed_post<O: DeserializeOwned, I, K, V>(&self, endpoint: &str, data: Option<I>) -> Result<impl Future<Item = O, Error = Error>>
+    pub fn signed_post<O, S>(&self, endpoint: &str, data: Option<S>) -> Result<impl Future<Item = O, Error = Error>>
     where
-        I: IntoIterator,
-        I::Item: Borrow<(K, V)>,
-        K: AsRef<str>,
-        V: AsRef<str>,
+        O: DeserializeOwned,
+        S: Serialize,
     {
-        self.signed_request::<_, Dummy, _, _, _, _, _>(Method::POST, endpoint, None, data)
+        self.signed_request::<_, Dummy, _, _, S>(Method::POST, endpoint, None, data)
     }
 
-    pub fn signed_put<O: DeserializeOwned, I, K, V>(&self, endpoint: &str, params: Option<I>) -> Result<impl Future<Item = O, Error = Error>>
+    pub fn signed_put<O, S>(&self, endpoint: &str, data: Option<S>) -> Result<impl Future<Item = O, Error = Error>>
     where
-        I: IntoIterator,
-        I::Item: Borrow<(K, V)>,
-        K: AsRef<str>,
-        V: AsRef<str>,
+        O: DeserializeOwned,
+        S: Serialize,
     {
-        self.signed_request::<_, _, Dummy, _, _, _, _>(Method::PUT, endpoint, params, None)
+        self.signed_request::<_, Dummy, _, _, S>(Method::PUT, endpoint, None, data)
     }
 
     pub fn signed_delete<O: DeserializeOwned, I, K, V>(&self, endpoint: &str, params: Option<I>) -> Result<impl Future<Item = O, Error = Error>>
@@ -95,25 +92,16 @@ impl Transport {
         K: AsRef<str>,
         V: AsRef<str>,
     {
-        self.signed_request::<_, _, Dummy, _, _, _, _>(Method::DELETE, endpoint, params, None)
+        self.signed_request::<_, _, _, _, ()>(Method::DELETE, endpoint, params, None)
     }
 
-    pub fn request<O: DeserializeOwned, I, J, K1, V1, K2, V2>(
-        &self,
-        method: Method,
-        endpoint: &str,
-        params: Option<I>,
-        data: Option<J>,
-    ) -> Result<impl Future<Item = O, Error = Error>>
+    pub fn request<O: DeserializeOwned, I, K, V, S>(&self, method: Method, endpoint: &str, params: Option<I>, data: Option<S>) -> Result<impl Future<Item = O, Error = Error>>
     where
         I: IntoIterator,
-        I::Item: Borrow<(K1, V1)>,
-        K1: AsRef<str>,
-        V1: AsRef<str>,
-        J: IntoIterator,
-        J::Item: Borrow<(K2, V2)>,
-        K2: AsRef<str>,
-        V2: AsRef<str>,
+        I::Item: Borrow<(K, V)>,
+        K: AsRef<str>,
+        V: AsRef<str>,
+        S: Serialize,
     {
         let url = format!("{}{}", BASE, endpoint);
         let url = match params {
@@ -122,16 +110,7 @@ impl Transport {
         };
 
         let body = match data {
-            Some(data) => {
-                let bt = data
-                    .into_iter()
-                    .map(|i| {
-                        let (a, b) = i.borrow();
-                        (a.as_ref().to_string(), b.as_ref().to_string())
-                    })
-                    .collect::<BTreeMap<_, _>>();
-                Body::from(to_vec(&bt)?)
-            }
+            Some(data) => Body::from(to_vec(&data)?),
             None => Body::empty(),
         };
 
@@ -144,22 +123,19 @@ impl Transport {
         Ok(self.handle_response(self.client.request(req)))
     }
 
-    pub fn signed_request<O: DeserializeOwned, I, J, K1, V1, K2, V2>(
+    pub fn signed_request<O: DeserializeOwned, I, K, V, S>(
         &self,
         method: Method,
         endpoint: &str,
         params: Option<I>,
-        data: Option<J>,
+        data: Option<S>,
     ) -> Result<impl Future<Item = O, Error = Error>>
     where
         I: IntoIterator,
-        I::Item: Borrow<(K1, V1)>,
-        K1: AsRef<str>,
-        V1: AsRef<str>,
-        J: IntoIterator,
-        J::Item: Borrow<(K2, V2)>,
-        K2: AsRef<str>,
-        V2: AsRef<str>,
+        I::Item: Borrow<(K, V)>,
+        K: AsRef<str>,
+        V: AsRef<str>,
+        S: Serialize,
     {
         let url = format!("{}{}", BASE, endpoint);
         let url = match params {
@@ -168,21 +144,12 @@ impl Transport {
         };
 
         let body = match data {
-            Some(data) => {
-                let bt = data
-                    .into_iter()
-                    .map(|i| {
-                        let (a, b) = i.borrow();
-                        (a.as_ref().to_string(), b.as_ref().to_string())
-                    })
-                    .collect::<BTreeMap<_, _>>();
-                to_string(&bt)?
-            }
+            Some(data) => to_string(&data)?,
             None => "".to_string(),
         };
 
         let expires = (Utc::now() + Duration::seconds(EXPIRE_DURATION)).timestamp();
-        let (key, signature) = self.signature(Method::GET, expires, &url, &body)?;
+        let (key, signature) = self.signature(method.clone(), expires, &url, &body)?;
 
         let req = Request::builder()
             .method(method)
@@ -212,6 +179,7 @@ impl Transport {
             Some(query) => format!("{}{}?{}{}{}", method.as_str(), url.path(), query, expires, body),
             None => format!("{}{}{}{}", method.as_str(), url.path(), expires, body),
         };
+        trace!("Sign message {}", sign_message);
         let signature = hexify(hmac::sign(&signed_key, sign_message.as_bytes()));
         Ok((key, signature))
     }
@@ -220,7 +188,7 @@ impl Transport {
         fut.from_err::<Error>()
             .and_then(|resp| resp.into_body().concat2().from_err::<Error>())
             .map(|chunk| {
-                trace!("{}", String::from_utf8_lossy(&*chunk));
+                trace!("Response is {}", String::from_utf8_lossy(&*chunk));
                 chunk
             })
             .and_then(|chunk| Ok(from_slice(&chunk)?))

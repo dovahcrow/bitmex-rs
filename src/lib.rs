@@ -12,9 +12,9 @@ extern crate failure;
 #[macro_use]
 extern crate log;
 extern crate chrono;
-
 extern crate hex;
 extern crate ring;
+extern crate uuid;
 
 mod client;
 mod error;
