@@ -144,7 +144,7 @@ pub struct CreateOrderRequest {
     pub peg_price_type: Option<PegPriceType>,
     pub ord_type: Option<OrdType>,
     pub time_in_force: Option<TimeInForce>,
-    pub exec_inst: Option<ExecInst>,
+    pub exec_inst: Option<Vec<ExecInst>>,
     pub contingency_type: Option<ContingencyType>,
     pub text: Option<String>,
 }
