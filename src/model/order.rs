@@ -1,76 +1,6 @@
 use chrono::{DateTime, Utc};
 use uuid::Uuid;
 
-#[derive(Serialize, Deserialize, Debug)]
-pub struct Announcement {
-    id: usize,
-    link: String,
-    title: String,
-    content: String,
-    date: DateTime<Utc>,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all = "camelCase")]
-pub struct ApiKey {
-    id: String,
-    secret: Option<String>, // The document claims this field's existence, but actually not
-    name: String,
-    nonce: usize,
-    cidr: String,
-    permissions: Vec<String>,
-    enabled: bool,
-    user_id: usize,
-    created: DateTime<Utc>,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all = "camelCase")]
-pub struct Chat {
-    id: usize,
-    date: DateTime<Utc>,
-    user: String,
-    message: String,
-    html: String,
-    from_bot: bool,
-    #[serde(rename = "channelID")]
-    channel_id: usize,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-pub struct Channel {
-    id: usize,
-    name: String,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-pub struct ConnectedUsers {
-    users: usize,
-    bots: usize,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-pub struct Success {
-    success: bool,
-}
-
-#[derive(Copy, Clone, Debug)]
-pub enum ApiKeyPermission {
-    Order,
-    OrderCancel,
-    Withdraw,
-}
-
-impl ToString for ApiKeyPermission {
-    fn to_string(&self) -> String {
-        match self {
-            ApiKeyPermission::Order => "order".to_string(),
-            ApiKeyPermission::OrderCancel => "orderCancel".to_string(),
-            ApiKeyPermission::Withdraw => "withdraw".to_string(),
-        }
-    }
-}
-
 #[derive(Clone, Copy, Debug, Deserialize, Serialize)]
 pub enum Side {
     Buy,
@@ -126,9 +56,9 @@ pub enum ContingencyType {
     OneUpdatesTheOtherProportional,
 }
 
-#[derive(Clone, Default, Debug, Deserialize, Serialize)]
+#[derive(Clone, Default, Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct CreateOrderRequest {
+pub struct PostOrderRequest {
     pub symbol: String,
     pub side: Option<Side>,
     pub simple_order_qty: Option<f64>,
@@ -149,9 +79,9 @@ pub struct CreateOrderRequest {
     pub text: Option<String>,
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct CreateOrderResponse {
+pub struct PostOrderResponse {
     #[serde(rename = "orderID")]
     pub order_id: Uuid,
     #[serde(rename = "clOrdID")]
@@ -192,7 +122,7 @@ pub struct CreateOrderResponse {
 
 #[derive(Clone, Default, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct AmendOrderRequest {
+pub struct PutOrderRequest {
     #[serde(rename = "orderID")]
     pub order_id: Uuid,
     #[serde(rename = "clOrdID")]
@@ -211,7 +141,7 @@ pub struct AmendOrderRequest {
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct AmendOrderResponse {
+pub struct PutOrderResponse {
     #[serde(rename = "orderID")]
     pub order_id: Uuid,
     #[serde(rename = "clOrdID")]
@@ -249,3 +179,104 @@ pub struct AmendOrderResponse {
     pub transact_time: DateTime<Utc>,
     pub timestamp: DateTime<Utc>,
 }
+
+// #[derive(Clone, Debug, Serialize, Deserialize)]
+// #[serde(rename_all = "camelCase")]
+// pub struct DeleteOrderRequest {
+//     #[serde(rename = "orderID")]
+//     order_id: Option<String>,
+//     #[serde(rename = "clOrdID")]
+//     pub cl_ord_id: Option<String>,
+//     text: Option<String>,
+// }
+
+// // "(\w+)": "String"  $1: String
+// // "(\w+)": 0  $1: f64
+// // "(\w+)": true  $1: bool
+// // "(\w+)": "2018-09-02T18:57:54.593Z"  $1: String
+
+// #[derive(Clone, Debug, Serialize, Deserialize)]
+// #[serde(rename_all = "camelCase")]
+// pub struct DeleteOrderResponse {
+//     #[serde(rename = "orderID")]
+//     order_id: String,
+//     #[serde(rename = "clOrdID")]
+//     pub cl_ord_id: Option<String>,
+//     clOrdLinkID: String,
+//     account: f64,
+//     symbol: String,
+//     side: String,
+//     simpleOrderQty: f64,
+//     orderQty: f64,
+//     price: f64,
+//     displayQty: f64,
+//     stopPx: f64,
+//     pegOffsetValue: f64,
+//     pegPriceType: String,
+//     currency: String,
+//     settlCurrency: String,
+//     ordType: String,
+//     timeInForce: String,
+//     execInst: String,
+//     contingencyType: String,
+//     exDestination: String,
+//     ordStatus: String,
+//     triggered: String,
+//     workingIndicator: bool,
+//     ordRejReason: String,
+//     simpleLeavesQty: f64,
+//     leavesQty: f64,
+//     simpleCumQty: f64,
+//     cumQty: f64,
+//     avgPx: f64,
+//     multiLegReportingType: String,
+//     text: String,
+//     transactTime: String,
+//     timestamp: String,
+// }
+
+// #[derive(Clone, Debug, Serialize, Deserialize)]
+// #[serde(rename_all = "camelCase")]
+// pub struct DeleteOrderAllRequest {
+//     symbol: Option<String>,
+//     filter: Option<String>,
+//     text: Option<String>,
+// }
+
+// #[derive(Clone, Debug, Serialize, Deserialize)]
+// #[serde(rename_all = "camelCase")]
+// pub struct DeleteOrderAllResponse {
+//     orderID: String,
+//     clOrdID: String,
+//     clOrdLinkID: String,
+//     account: f64,
+//     symbol: String,
+//     side: String,
+//     simpleOrderQty: f64,
+//     orderQty: f64,
+//     price: f64,
+//     displayQty: f64,
+//     stopPx: f64,
+//     pegOffsetValue: f64,
+//     pegPriceType: String,
+//     currency: String,
+//     settlCurrency: String,
+//     ordType: String,
+//     timeInForce: String,
+//     execInst: String,
+//     contingencyType: String,
+//     exDestination: String,
+//     ordStatus: String,
+//     triggered: String,
+//     workingIndicator: bool,
+//     ordRejReason: String,
+//     simpleLeavesQty: f64,
+//     leavesQty: f64,
+//     simpleCumQty: f64,
+//     cumQty: f64,
+//     avgPx: f64,
+//     multiLegReportingType: String,
+//     text: String,
+//     transactTime: String,
+//     timestamp: String,
+// }

@@ -5,7 +5,7 @@ extern crate tokio;
 
 use std::env::var;
 
-use bitmex::model::{ContingencyType, CreateOrderRequest, ExecInst, OrdType, Side};
+use bitmex::model::order::{ContingencyType, ExecInst, OrdType, PostOrderRequest, Side};
 use bitmex::{BitMEX, Result};
 
 use tokio::runtime::Runtime;
@@ -17,9 +17,8 @@ fn create_order_market() -> Result<()> {
     let mut rt = Runtime::new()?;
 
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
-    let cor = CreateOrderRequest {
+    let cor = PostOrderRequest {
         symbol: "XBTUSD".to_string(),
-
         order_qty: Some(1.),
         text: Some("Shine".into()),
         ..Default::default()
@@ -37,7 +36,7 @@ fn create_order_limit_buy() -> Result<()> {
     let mut rt = Runtime::new()?;
 
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
-    let cor = CreateOrderRequest {
+    let cor = PostOrderRequest {
         symbol: "XBTUSD".to_string(),
         ord_type: Some(OrdType::Limit),
         price: Some(6000.),
@@ -58,7 +57,7 @@ fn create_order_limit_sell() -> Result<()> {
     let mut rt = Runtime::new()?;
 
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
-    let cor = CreateOrderRequest {
+    let cor = PostOrderRequest {
         symbol: "XBTUSD".to_string(),
         ord_type: Some(OrdType::Limit),
         price: Some(6000.),
@@ -79,7 +78,7 @@ fn create_order_stop() -> Result<()> {
     let mut rt = Runtime::new()?;
 
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
-    let cor = CreateOrderRequest {
+    let cor = PostOrderRequest {
         symbol: "XBTUSD".to_string(),
         ord_type: Some(OrdType::Stop),
         stop_px: Some(7000.),
@@ -100,7 +99,7 @@ fn create_order_stoplimit() -> Result<()> {
     let mut rt = Runtime::new()?;
 
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
-    let cor = CreateOrderRequest {
+    let cor = PostOrderRequest {
         symbol: "XBTUSD".to_string(),
         ord_type: Some(OrdType::StopLimit),
         stop_px: Some(7000.),
@@ -123,7 +122,7 @@ fn create_order_bracket() -> Result<()> {
 
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
 
-    let cor = CreateOrderRequest {
+    let cor = PostOrderRequest {
         symbol: "XBTUSD".to_string(),
         cl_ord_link_id: Some("SHITTY".into()),
         ord_type: Some(OrdType::StopLimit),
@@ -137,13 +136,13 @@ fn create_order_bracket() -> Result<()> {
     let fut = bm.create_order(cor)?;
     let _ = rt.block_on(fut)?;
 
-    let cor = CreateOrderRequest {
+    let cor = PostOrderRequest {
         symbol: "XBTUSD".to_string(),
         side: Some(Side::Sell),
         cl_ord_link_id: Some("SHITTY".into()),
         ord_type: Some(OrdType::Stop),
         stop_px: Some(5900.),
-        exec_inst: Some(ExecInst::Close),
+        exec_inst: Some(vec![ExecInst::Close]),
         order_qty: Some(1.),
         text: Some("Stoploss".into()),
         ..Default::default()
@@ -151,13 +150,13 @@ fn create_order_bracket() -> Result<()> {
     let fut = bm.create_order(cor)?;
     let _ = rt.block_on(fut)?;
 
-    let cor = CreateOrderRequest {
+    let cor = PostOrderRequest {
         symbol: "XBTUSD".to_string(),
         cl_ord_link_id: Some("SHITTY".into()),
         ord_type: Some(OrdType::Limit),
         price: Some(7100.),
         order_qty: Some(-1.),
-        exec_inst: Some(ExecInst::Close),
+        exec_inst: Some(vec![ExecInst::Close]),
         text: Some("Profit".into()),
         ..Default::default()
     };

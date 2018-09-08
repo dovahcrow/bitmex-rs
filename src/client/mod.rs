@@ -1,6 +1,7 @@
 mod announcement;
-mod apikey;
+mod api_key;
 mod chat;
+mod instrument;
 mod order;
 
 use transport::Transport;
