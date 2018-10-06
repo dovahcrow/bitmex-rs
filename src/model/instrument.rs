@@ -1,3 +1,5 @@
+use chrono::{DateTime, Utc};
+
 #[derive(Clone, Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct GetInstrumentRequest {
@@ -130,5 +132,29 @@ pub struct GetInstrumentResponse {
     pub indicative_settle_price: Option<f64>,
     pub option_underlying_price: Option<f64>,
     pub settled_price: Option<f64>,
-    pub timestamp: String,
+    pub timestamp: DateTime<Utc>,
+}
+
+pub type GetInstrumentActiveResponse = GetInstrumentResponse;
+pub type GetInstrumentActiveAndIndicesResponse = GetInstrumentResponse;
+pub type GetInstrumentIndicesResponse = GetInstrumentResponse;
+
+#[derive(Clone, Debug, Deserialize)]
+pub struct GetInstrumentActiveIntervalsResponse {
+    pub intervals: Vec<String>,
+    pub symbols: Vec<String>,
+}
+
+pub type GetInstrumentCompositeIndexRequest = GetInstrumentRequest;
+
+#[derive(Clone, Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct GetInstrumentCompositeIndexResponse {
+    pub timestamp: DateTime<Utc>,
+    pub symbol: String,
+    pub index_symbol: String,
+    pub reference: String,
+    pub last_price: f64,
+    pub weight: f64,
+    pub logged: DateTime<Utc>,
 }

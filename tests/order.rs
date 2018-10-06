@@ -23,7 +23,7 @@ fn create_order_market() -> Result<()> {
         text: Some("Shine".into()),
         ..Default::default()
     };
-    let fut = bm.create_order(cor)?;
+    let fut = bm.post_order(cor)?;
 
     let _ = rt.block_on(fut)?;
     Ok(())
@@ -44,7 +44,7 @@ fn create_order_limit_buy() -> Result<()> {
         text: Some("Shine".into()),
         ..Default::default()
     };
-    let fut = bm.create_order(cor)?;
+    let fut = bm.post_order(cor)?;
 
     let _ = rt.block_on(fut)?;
     Ok(())
@@ -60,12 +60,12 @@ fn create_order_limit_sell() -> Result<()> {
     let cor = PostOrderRequest {
         symbol: "XBTUSD".to_string(),
         ord_type: Some(OrdType::Limit),
-        price: Some(6000.),
+        price: Some(6500.),
         order_qty: Some(-1.),
         text: Some("Shine".into()),
         ..Default::default()
     };
-    let fut = bm.create_order(cor)?;
+    let fut = bm.post_order(cor)?;
 
     let _ = rt.block_on(fut)?;
     Ok(())
@@ -86,7 +86,7 @@ fn create_order_stop() -> Result<()> {
         text: Some("Shine".into()),
         ..Default::default()
     };
-    let fut = bm.create_order(cor)?;
+    let fut = bm.post_order(cor)?;
 
     let _ = rt.block_on(fut)?;
     Ok(())
@@ -108,7 +108,7 @@ fn create_order_stoplimit() -> Result<()> {
         text: Some("Shine".into()),
         ..Default::default()
     };
-    let fut = bm.create_order(cor)?;
+    let fut = bm.post_order(cor)?;
 
     let _ = rt.block_on(fut)?;
     Ok(())
@@ -133,7 +133,7 @@ fn create_order_bracket() -> Result<()> {
         text: Some("Entry".into()),
         ..Default::default()
     };
-    let fut = bm.create_order(cor)?;
+    let fut = bm.post_order(cor)?;
     let _ = rt.block_on(fut)?;
 
     let cor = PostOrderRequest {
@@ -147,7 +147,7 @@ fn create_order_bracket() -> Result<()> {
         text: Some("Stoploss".into()),
         ..Default::default()
     };
-    let fut = bm.create_order(cor)?;
+    let fut = bm.post_order(cor)?;
     let _ = rt.block_on(fut)?;
 
     let cor = PostOrderRequest {
@@ -160,7 +160,7 @@ fn create_order_bracket() -> Result<()> {
         text: Some("Profit".into()),
         ..Default::default()
     };
-    let fut = bm.create_order(cor)?;
+    let fut = bm.post_order(cor)?;
     let _ = rt.block_on(fut)?;
 
     Ok(())

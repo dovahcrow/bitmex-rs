@@ -18,30 +18,30 @@ Bitmex (non-official) client for rust
   - [x] GET `/chat/channels`
   - [x] GET `/chat/connected`
 - Execution
-  - [ ] GET `/execution`
-  - [ ] GET `/execution/tradeHistory`
+  - [x] GET `/execution`
+  - [x] GET `/execution/tradeHistory`
 - Funding
-  - [ ] GET `/funding`
+  - [x] GET `/funding`
 - GlobalNotification
-  - [ ] GET `/globalNotification`
+  - [x] GET `/globalNotification`
 - Instrument
-  - [ ] GET `/instrument`
-  - [ ] GET `/instrument/active`
-  - [ ] GET `/instrument/activeAndIndices`
-  - [ ] GET `/instrument/activeIntervals`
-  - [ ] GET `/instrument/compositeIndex`
-  - [ ] GET `/instrument/indices`
+  - [x] GET `/instrument`
+  - [x] GET `/instrument/active`
+  - [x] GET `/instrument/activeAndIndices`
+  - [x] GET `/instrument/activeIntervals`
+  - [x] GET `/instrument/compositeIndex`
+  - [x] GET `/instrument/indices`
 - Insurance
   - [ ] GET `/insurance`
 - Leaderboard
   - [ ] GET `/leaderboard`
-  - [ ] GET `GET /leaderboard/name`
+  - [ ] GET `/leaderboard/name`
 - Liquidation
   - [ ] GET `/liquidation`
 - Order
   - [ ] GET `/order`
-  - [ ] PUT `/order`
-  - [ ] POST `/order`
+  - [x] PUT `/order`
+  - [x] POST `/order`
   - [ ] DELETE `/order`
   - [ ] DELETE `/order/all`
   - [ ] PUT `/order/bulk`

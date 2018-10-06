@@ -15,11 +15,11 @@ impl BitMEX {
         Ok(self.transport.signed_post("/chat", Some(req))?)
     }
 
-    pub fn channels(&self) -> Result<impl Future<Item = Vec<GetChatChannelsResponse>, Error = Error>> {
+    pub fn get_chat_channels(&self) -> Result<impl Future<Item = Vec<GetChatChannelsResponse>, Error = Error>> {
         Ok(self.transport.get::<_, ()>("/chat/channels", None)?)
     }
 
-    pub fn connected_users(&self) -> Result<impl Future<Item = GetChatConnectedResponse, Error = Error>> {
+    pub fn get_chat_connected(&self) -> Result<impl Future<Item = GetChatConnectedResponse, Error = Error>> {
         Ok(self.transport.get::<_, ()>("/chat/connected", None)?)
     }
 }

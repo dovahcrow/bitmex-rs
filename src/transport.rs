@@ -175,8 +175,7 @@ impl Transport {
             .map(|chunk| {
                 trace!("Response is {}", String::from_utf8_lossy(&*chunk));
                 chunk
-            })
-            .and_then(|chunk| Ok(from_slice(&chunk)?))
+            }).and_then(|chunk| Ok(from_slice(&chunk)?))
             .and_then(|resp: BitMEXResponse<O>| Ok(resp.to_result()?))
     }
 }

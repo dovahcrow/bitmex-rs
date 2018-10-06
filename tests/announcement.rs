@@ -10,7 +10,7 @@ fn test_announcement() -> Result<()> {
     let mut rt = Runtime::new()?;
 
     let bm = BitMEX::new();
-    let fut = bm.announcement(GetAnnouncementRequest { ..Default::default() })?;
+    let fut = bm.get_announcement(GetAnnouncementRequest { ..Default::default() })?;
 
     let _ = rt.block_on(fut)?;
     Ok(())
@@ -21,7 +21,7 @@ fn test_announcement_urgent() -> Result<()> {
     let mut rt = Runtime::new()?;
 
     let bm = BitMEX::new();
-    let fut = bm.announcement_urgent()?;
+    let fut = bm.get_announcement_urgent()?;
 
     let _ = rt.block_on(fut)?;
     Ok(())
