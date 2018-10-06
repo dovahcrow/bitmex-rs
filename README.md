@@ -1,2 +1,99 @@
 # bitmex-rs
 Bitmex (non-official) client for rust
+
+## Implementation status
+
+- Announcement
+  - [x] GET /announcement
+  - [x] GET /announcement/urgent
+- APIKey
+  - [x] GET `/apiKey`
+  - [x] POST `/apiKey`
+  - [x] DELETE `/apiKey`
+  - [x] POST `/apiKey/enable`
+  - [x] POST `/apiKey/disable`
+- Chat
+  - [x] GET `/chat`
+  - [x] POST `/chat`
+  - [x] GET `/chat/channels`
+  - [x] GET `/chat/connected`
+- Execution
+  - [ ] GET `/execution`
+  - [ ] GET `/execution/tradeHistory`
+- Funding
+  - [ ] GET `/funding`
+- GlobalNotification
+  - [ ] GET `/globalNotification`
+- Instrument
+  - [ ] GET `/instrument`
+  - [ ] GET `/instrument/active`
+  - [ ] GET `/instrument/activeAndIndices`
+  - [ ] GET `/instrument/activeIntervals`
+  - [ ] GET `/instrument/compositeIndex`
+  - [ ] GET `/instrument/indices`
+- Insurance
+  - [ ] GET `/insurance`
+- Leaderboard
+  - [ ] GET `/leaderboard`
+  - [ ] GET `GET /leaderboard/name`
+- Liquidation
+  - [ ] GET `/liquidation`
+- Order
+  - [ ] GET `/order`
+  - [ ] PUT `/order`
+  - [ ] POST `/order`
+  - [ ] DELETE `/order`
+  - [ ] DELETE `/order/all`
+  - [ ] PUT `/order/bulk`
+  - [ ] POST `/order/bulk`
+  - [ ] POST `/order/cancelAllAfter`
+  - [ ] POST `/order/closePosition`
+- OrderBook
+  - [ ] GET `/orderBook/L2`
+- Position
+  - [ ] GET `/position`
+  - [ ] POST `/position/isolate`
+  - [ ] POST `/position/leverage`
+  - [ ] POST `/position/riskLimit`
+  - [ ] POST `/position/transferMargin`
+- Quote
+  - [ ] GET `/quote`
+  - [ ] GET `/quote/bucketed`
+- Schema
+  - [ ] GET `/schema`
+  - [ ] GET `/schema/websocketHelp`
+- Settlement
+  - [ ] GET `/settlement`
+- Stat
+  - [ ] GET `/stats`
+  - [ ] GET `/stats/history`
+  - [ ] GET `/stats/historyUSD`
+- Trade
+  - [ ] GET `/trade`
+  - [ ] GET `/trade/bucketed`
+- User
+  - [ ] GET `/user`
+  - [ ] PUT `/user`
+  - [ ] GET `/user/affiliateStatus`
+  - [ ] POST `/user/cancelWithdrawal`
+  - [ ] GET `/user/checkReferralCode`
+  - [ ] GET `/user/commission`
+  - [ ] POST `/user/communicationToken`
+  - [ ] POST `/user/confirmEmail`
+  - [ ] POST `/user/confirmEnableTFA`
+  - [ ] POST `/user/confirmWithdrawal`
+  - [ ] GET `/user/depositAddress`
+  - [ ] POST `/user/disableTFA`
+  - [ ] GET `/user/executionHistory`
+  - [ ] POST `/user/logout`
+  - [ ] POST `/user/logoutAll`
+  - [ ] GET `/user/margin`
+  - [ ] GET `/user/minWithdrawalFee`
+  - [ ] POST `/user/preferences`
+  - [ ] POST `/user/requestEnableTFA`
+  - [ ] POST `/user/requestWithdrawal`
+  - [ ] GET `/user/wallet`
+  - [ ] GET `/user/walletHistory`
+  - [ ] GET `/user/walletSummary`
+- UserEvent
+  - [ ] GET `/userEvent`
