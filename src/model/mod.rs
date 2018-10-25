@@ -6,3 +6,4 @@ pub mod funding;
 pub mod global_notification;
 pub mod instrument;
 pub mod order;
+pub mod ws;

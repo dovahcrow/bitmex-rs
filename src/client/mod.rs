@@ -5,6 +5,7 @@ mod funding;
 mod global_notification;
 mod instrument;
 mod order;
+mod websocket;
 
 use transport::Transport;
 

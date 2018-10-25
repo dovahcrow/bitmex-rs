@@ -9,11 +9,12 @@ extern crate url;
 extern crate serde_derive;
 #[macro_use]
 extern crate failure;
-#[macro_use]
-extern crate log;
 extern crate chrono;
 extern crate hex;
+extern crate log;
 extern crate ring;
+extern crate tokio_tungstenite;
+extern crate tungstenite;
 extern crate uuid;
 
 mod client;

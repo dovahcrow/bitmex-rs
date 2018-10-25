@@ -26,6 +26,9 @@ ring = "0.13"
 uuid = { version = "0.7", features = ["serde"] }
 # maplit = "1"
 
+tungstenite = "0.6"
+tokio-tungstenite = "0.6"
+
 [features]
 dev = []
 

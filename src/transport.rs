@@ -1,19 +1,19 @@
 use std::env::var;
 
 use chrono::{Duration, Utc};
+use error::{BitMEXError, BitMEXResponse, Result};
 use failure::Error;
 use futures::{Future, Stream};
 use hex::encode as hexify;
 use hyper::client::{HttpConnector, ResponseFuture};
 use hyper::{Body, Client, Method, Request};
 use hyper_tls::HttpsConnector;
+use log::trace;
 use ring::{digest, hmac};
 use serde::de::DeserializeOwned;
 use serde::Serialize;
 use serde_json::{from_slice, to_string, to_value, to_vec};
 use url::Url;
-
-use error::{BitMEXError, BitMEXResponse, Result};
 
 const BASE_TESTNET: &'static str = "https://testnet.bitmex.com/api/v1";
 const BASE: &'static str = "https://www.bitmex.com/api/v1";
