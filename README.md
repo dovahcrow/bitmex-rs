@@ -97,3 +97,5 @@ Bitmex (non-official) client for rust
   - [ ] GET `/user/walletSummary`
 - UserEvent
   - [ ] GET `/userEvent`
+- Websocket
+  - [x] Tentative implementation.
