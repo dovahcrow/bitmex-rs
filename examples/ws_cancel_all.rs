@@ -21,13 +21,13 @@ fn main() -> Result<()> {
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
     let job = bm
         .websocket()
-        .and_then(move |mut ws| {
+        .and_then(|ws| {
             println!("WebSocket handshake has been successfully completed");
             let expires = (Utc::now() + Duration::seconds(30)).timestamp();
-            ws.start_send(Command::authenticate(&bm, expires).unwrap()).unwrap();
-            ws.start_send(Command::CancelAllAfter(365 * 24 * 60 * 60 * 1000)).unwrap();
-            ws.map(|msg| println!("{:?}", msg)).collect().from_err()
-        }).map_err(|e| {
+            ws.send(Command::authenticate(&bm, expires).unwrap())
+        }).and_then(|ws| ws.send(Command::CancelAllAfter(365 * 24 * 60 * 60 * 1000)))
+        .and_then(|ws| ws.map(|msg| println!("{:?}", msg)).collect())
+        .map_err(|e| {
             println!("Error during the websocket handshake occurred: {}", e);
             e
         });

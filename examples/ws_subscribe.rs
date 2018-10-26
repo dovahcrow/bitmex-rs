@@ -19,9 +19,9 @@ fn main() -> Result<()> {
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
     let job = bm
         .websocket()
-        .and_then(move |mut ws| {
+        .and_then(|ws| {
             println!("WebSocket handshake has been successfully completed");
-            ws.start_send(Command::Subscribe(vec![
+            ws.send(Command::Subscribe(vec![
                 Topic::Chat,
                 Topic::OrderBookL2(Some("XBTUSD".to_string())),
                 Topic::Connected,
@@ -32,9 +32,9 @@ fn main() -> Result<()> {
                 Topic::Settlement,
                 Topic::OrderBook10,
                 Topic::Announcement,
-            ])).unwrap();
-            ws.map(|msg| println!("{:?}", msg)).collect().from_err()
-        }).map_err(|e| {
+            ]))
+        }).and_then(|ws| ws.map(|msg| println!("{:?}", msg)).collect())
+        .map_err(|e| {
             println!("Error during the websocket handshake occurred: {}", e);
             e
         });
