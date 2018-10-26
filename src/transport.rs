@@ -1,22 +1,21 @@
 use std::env::var;
 
 use chrono::{Duration, Utc};
-use error::{BitMEXError, BitMEXResponse, Result};
 use failure::Error;
 use futures::{Future, Stream};
 use hex::encode as hexify;
 use hyper::client::{HttpConnector, ResponseFuture};
 use hyper::{Body, Client, Method, Request};
 use hyper_tls::HttpsConnector;
-use log::trace;
+use log::{trace, warn};
 use ring::{digest, hmac};
 use serde::de::DeserializeOwned;
 use serde::Serialize;
 use serde_json::{from_slice, to_string, to_value, to_vec};
 use url::Url;
 
-const BASE_TESTNET: &'static str = "https://testnet.bitmex.com/api/v1";
-const BASE: &'static str = "https://www.bitmex.com/api/v1";
+use crate::consts::{REST_URL, REST_URL_TESTNET};
+use crate::error::{BitMEXError, BitMEXResponse, Result};
 
 const EXPIRE_DURATION: i64 = 5;
 
@@ -31,7 +30,12 @@ impl Transport {
     pub fn new() -> Self {
         let https = HttpsConnector::new(4).unwrap();
         let client = Client::builder().build::<_, Body>(https);
-        let base = if var("BITMEX_TESTNET").unwrap_or("0".to_string()) == "0" { BASE } else { BASE_TESTNET };
+        let base = if var("BITMEX_TESTNET").unwrap_or("0".to_string()) == "0" {
+            REST_URL
+        } else {
+            warn!("Your are using BitMEX test net");
+            REST_URL_TESTNET
+        };
         Transport {
             client: client,
             credential: None,
@@ -42,7 +46,12 @@ impl Transport {
     pub fn with_credential(api_key: &str, api_secret: &str) -> Self {
         let https = HttpsConnector::new(4).unwrap();
         let client = Client::builder().build::<_, Body>(https);
-        let base = if var("BITMEX_TESTNET").unwrap_or("0".to_string()) == "0" { BASE } else { BASE_TESTNET };
+        let base = if var("BITMEX_TESTNET").unwrap_or("0".to_string()) == "0" {
+            REST_URL
+        } else {
+            warn!("Your are using BitMEX test net");
+            REST_URL_TESTNET
+        };
         Transport {
             client: client,
             credential: Some((api_key.into(), api_secret.into())),
@@ -156,7 +165,7 @@ impl Transport {
         }
     }
 
-    pub(self) fn signature(&self, method: Method, expires: i64, url: &Url, body: &str) -> Result<(&str, String)> {
+    pub(crate) fn signature(&self, method: Method, expires: i64, url: &Url, body: &str) -> Result<(&str, String)> {
         let (key, secret) = self.check_key()?;
         // Signature: hex(HMAC_SHA256(apiSecret, verb + path + expires + data))
         let signed_key = hmac::SigningKey::new(&digest::SHA256, secret.as_bytes());

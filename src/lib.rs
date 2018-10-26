@@ -18,6 +18,7 @@ extern crate tungstenite;
 extern crate uuid;
 
 mod client;
+mod consts;
 mod error;
 pub mod model;
 mod transport;

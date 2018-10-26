@@ -11,7 +11,7 @@ use transport::Transport;
 
 #[derive(Clone)]
 pub struct BitMEX {
-    transport: Transport,
+    pub(crate) transport: Transport,
 }
 
 impl BitMEX {

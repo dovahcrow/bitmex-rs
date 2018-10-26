@@ -1,91 +1,73 @@
 use failure::Error;
 use futures::sink::Sink;
-use futures::stream::{SplitSink, SplitStream, Stream};
-use futures::Future;
-use futures::Poll;
-use serde_json::json;
+use futures::stream::Stream;
+use futures::{Future, Poll, StartSend};
+use log::trace;
+use serde_json::{from_str, to_string};
 use tokio::net::TcpStream;
 use tokio_tungstenite::{connect_async, MaybeTlsStream, WebSocketStream};
 use tungstenite::protocol::Message;
 use url::Url;
 
-use crate::error::Result;
-use crate::model::ws::Topic;
+use crate::consts::WS_URL;
+use crate::model::websocket::{Command, Message as BitMEXWsMessage};
 use crate::BitMEX;
-
-const WS_URL: &'static str = "wss://www.bitmex.com/realtime";
 
 #[allow(dead_code)]
 type WSStream = WebSocketStream<MaybeTlsStream<TcpStream>>;
 
 impl BitMEX {
-    pub fn websocket(&self) -> impl Future<Item = (BitMEXWsSender, BitMEXWsReceiver), Error = Error> {
-        connect_async(Url::parse(WS_URL).unwrap())
-            .map(|(stream, _)| stream)
-            .from_err()
-            .map(|s| s.split())
-            .map(|(sink, stream)| (BitMEXWsSender::new(sink), BitMEXWsReceiver::new(stream)))
+    pub fn websocket(&self) -> impl Future<Item = BitMEXWebsocket, Error = Error> {
+        connect_async(Url::parse(WS_URL).unwrap()).map(|(stream, _)| stream).from_err().map(BitMEXWebsocket::new)
     }
 }
 
-pub struct BitMEXWsSender {
-    inner: SplitSink<WSStream>,
+pub struct BitMEXWebsocket {
+    inner: WSStream,
 }
 
-impl BitMEXWsSender {
-    fn new(sink: SplitSink<WSStream>) -> Self {
-        Self { inner: sink }
+impl BitMEXWebsocket {
+    fn new(ws: WSStream) -> Self {
+        Self { inner: ws }
     }
+}
 
-    pub fn subscribe(&mut self, topic: Topic) -> Result<()> {
-        let command = json! {
-            {
-                "op": "subscribe", "args": [topic.to_string()]
-            }
+impl Sink for BitMEXWebsocket {
+    type SinkItem = Command;
+    type SinkError = Error;
+
+    fn start_send(&mut self, item: Self::SinkItem) -> StartSend<Self::SinkItem, Self::SinkError> {
+        let command = match &item {
+            &Command::Ping => "ping".to_string(),
+            command => to_string(command)?,
         };
-
-        self.inner.start_send(Message::text(command.to_string()))?;
-        self.inner.poll_complete()?;
-        Ok(())
+        trace!("Sending '{}' through websocket", command);
+        Ok(self.inner.start_send(Message::Text(command))?.map(|_| item))
     }
 
-    pub fn unsubscribe(&mut self, topic: Topic) -> Result<()> {
-        let command = json! {
-            {
-                "op": "unsubscribe", "args": [topic.to_string()]
-            }
-        };
-
-        self.inner.start_send(Message::text(command.to_string()))?;
-        self.inner.poll_complete()?;
-        Ok(())
-    }
-}
-pub struct BitMEXWsReceiver {
-    inner: SplitStream<WSStream>,
-}
-
-impl BitMEXWsReceiver {
-    fn new(stream: SplitStream<WSStream>) -> Self {
-        Self { inner: stream }
+    fn poll_complete(&mut self) -> Poll<(), Self::SinkError> {
+        Ok(self.inner.poll_complete()?)
     }
 }
 
-impl Stream for BitMEXWsReceiver {
-    type Item = WsMessage;
+impl Stream for BitMEXWebsocket {
+    type Item = BitMEXWsMessage;
     type Error = Error;
+
     fn poll(&mut self) -> Poll<Option<Self::Item>, Self::Error> {
-        Ok(self.inner.poll().map(|a| {
-            a.map(|i| {
-                i.map(|resp| match resp {
-                    _ => WsMessage::Ok,
-                })
-            })
-        })?)
+        Ok(self.inner.poll().map(|a| a.map(|i| i.map(parse_message)))?)
     }
 }
 
-#[derive(Debug)]
-pub enum WsMessage {
-    Ok,
+fn parse_message(msg: Message) -> BitMEXWsMessage {
+    match msg {
+        Message::Text(message) => match message.as_str() {
+            "pong" => BitMEXWsMessage::Pong,
+            others => match from_str(others) {
+                Ok(r) => r,
+                Err(_) => unreachable!("Received message from BitMEX: '{}'", others),
+            },
+        },
+        _ => unreachable!(),
+    }
 }

@@ -1,4 +1,7 @@
-#[derive(Debug)]
+use serde::de::{Error, Unexpected};
+use serde::{Deserialize, Deserializer, Serialize, Serializer};
+
+#[derive(Debug, Clone)]
 pub enum Topic {
     Announcement,
     Chat,
@@ -33,10 +36,10 @@ pub enum Topic {
     Wallet,
 }
 
-impl ToString for Topic {
-    fn to_string(&self) -> String {
+impl Serialize for Topic {
+    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
         use self::Topic::*;
-        match self {
+        let repr = match self {
             Announcement => "announcement".to_string(),
             Chat => "chat".to_string(),
             Connected => "connected".to_string(),
@@ -69,6 +72,56 @@ impl ToString for Topic {
             PrivateNotifications => "privateNotifications".to_string(),
             Transact => "transact".to_string(),
             Wallet => "wallet".to_string(),
-        }
+        };
+
+        serializer.serialize_str(&repr)
+    }
+}
+
+impl<'de> Deserialize<'de> for Topic {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        use self::Topic::*;
+        let repr = String::deserialize(deserializer)?;
+        let reprs: Vec<_> = repr.split(":").collect();
+
+        let topic = match &reprs[..] {
+            ["announcement"] => Announcement,
+            ["chat"] => Chat,
+            ["connected"] => Connected,
+            ["funding"] => Funding,
+            ["instrument"] => Instrument,
+            ["insurance"] => Insurance,
+            ["liquidation"] => Liquidation,
+            ["orderBookL2"] => OrderBookL2(None),
+            ["orderBook10"] => OrderBook10,
+            ["publicNotifications"] => PublicNotifications,
+            ["quote"] => Quote,
+            ["quoteBin1m"] => QuoteBin1m,
+            ["quoteBin5m"] => QuoteBin5m,
+            ["quoteBin1h"] => QuoteBin1h,
+            ["quoteBin1d"] => QuoteBin1d,
+            ["settlement"] => Settlement,
+            ["trade"] => Trade,
+            ["tradeBin1m"] => TradeBin1m,
+            ["tradeBin5m"] => TradeBin5m,
+            ["tradeBin1h"] => TradeBin1h,
+            ["tradeBin1d"] => TradeBin1d,
+
+            // requires auth
+            ["affiliate"] => Affiliate,
+            ["execution"] => Execution,
+            ["rorde"] => Order,
+            ["margin"] => Margin,
+            ["position"] => Position,
+            ["privateNotifications"] => PrivateNotifications,
+            ["transact"] => Transact,
+            ["wallet"] => Wallet,
+            ["orderBookL2", filter] => OrderBookL2(Some(filter.to_string())),
+            _ => return Err(D::Error::invalid_value(Unexpected::Str(&repr), &"A valid topic")),
+        };
+        Ok(topic)
     }
 }
