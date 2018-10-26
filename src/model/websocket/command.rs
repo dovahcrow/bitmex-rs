@@ -11,12 +11,13 @@ use crate::BitMEX;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "op", content = "args")]
-#[serde(rename_all = "lowercase")]
+#[serde(rename_all = "camelCase")]
 pub enum Command {
     Subscribe(Vec<Topic>),
     Unsubscribe(Vec<Topic>),
     #[serde(rename = "authKeyExpires")]
     Authenticate(String, i64, String), // ApiKey, Expires, Signature
+    CancelAllAfter(i64),
     Ping,
 }
 

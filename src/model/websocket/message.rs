@@ -17,12 +17,22 @@ pub enum Message {
     Error(ErrorMessage),
     Table(TableMessage),
     Info(InfoMessage),
+    CancelAllAfter(CancelAllAfterMessage),
     Pong,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SuccessMessage {
     success: bool,
+    subscribe: Option<String>,
+    request: Command,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct CancelAllAfterMessage {
+    now: DateTime<Utc>,
+    cancel_time: DateTime<Utc>,
     request: Command,
 }
 
@@ -44,6 +54,7 @@ pub struct Limit {
 pub struct ErrorMessage {
     status: i64,
     error: String,
+    request: Option<Command>,
     meta: Value,
 }
 
@@ -54,14 +65,23 @@ pub struct ErrorMessage {
 pub struct TableMessage {
     table: String,
     action: Action,
-    keys: Option<Vec<String>>,
     data: Vec<Value>,
-    types: Option<HashMap<String, String>>,
+    keys: Option<Vec<String>>,
     foreign_keys: Option<HashMap<String, String>>,
+    types: Option<HashMap<String, String>>,
+    filter: Option<TableFilter>,
     attributes: Option<HashMap<String, String>>,
 }
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(rename_all = "lowercase")]
+#[serde(rename_all = "camelCase")]
+pub struct TableFilter {
+    account: Option<i64>,
+    symbol: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub enum Action {
     Insert,
     Partial,
