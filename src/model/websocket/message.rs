@@ -15,7 +15,7 @@ use super::Command;
 pub enum Message {
     Success(SuccessMessage),
     Error(ErrorMessage),
-    Table(TableMessage),
+    Table(TableMessage<Value>),
     Info(InfoMessage),
     CancelAllAfter(CancelAllAfterMessage),
     Pong,
@@ -62,10 +62,10 @@ pub struct ErrorMessage {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct TableMessage {
+pub struct TableMessage<T> {
     table: String,
     action: Action,
-    data: Vec<Value>,
+    data: Vec<T>,
     keys: Option<Vec<String>>,
     foreign_keys: Option<HashMap<String, String>>,
     types: Option<HashMap<String, String>>,
