@@ -1,5 +1,3 @@
-use std::env::var;
-
 use chrono::{Duration, Utc};
 use failure::Error;
 use futures::{Future, Stream};
@@ -7,14 +5,14 @@ use hex::encode as hexify;
 use hyper::client::{HttpConnector, ResponseFuture};
 use hyper::{Body, Client, Method, Request};
 use hyper_tls::HttpsConnector;
-use log::{trace, warn};
+use log::trace;
 use ring::{digest, hmac};
 use serde::de::DeserializeOwned;
 use serde::Serialize;
 use serde_json::{from_slice, to_string, to_value, to_vec};
 use url::Url;
 
-use crate::consts::{REST_URL, REST_URL_TESTNET};
+use crate::consts::REST_URL;
 use crate::error::{BitMEXError, BitMEXResponse, Result};
 
 const EXPIRE_DURATION: i64 = 5;
@@ -30,32 +28,22 @@ impl Transport {
     pub fn new() -> Self {
         let https = HttpsConnector::new(4).unwrap();
         let client = Client::builder().build::<_, Body>(https);
-        let base = if var("BITMEX_TESTNET").unwrap_or("0".to_string()) == "0" {
-            REST_URL
-        } else {
-            warn!("Your are using BitMEX test net");
-            REST_URL_TESTNET
-        };
+
         Transport {
             client: client,
             credential: None,
-            base: base.to_string(),
+            base: REST_URL.to_string(),
         }
     }
 
     pub fn with_credential(api_key: &str, api_secret: &str) -> Self {
         let https = HttpsConnector::new(4).unwrap();
         let client = Client::builder().build::<_, Body>(https);
-        let base = if var("BITMEX_TESTNET").unwrap_or("0".to_string()) == "0" {
-            REST_URL
-        } else {
-            warn!("Your are using BitMEX test net");
-            REST_URL_TESTNET
-        };
+
         Transport {
             client: client,
             credential: Some((api_key.into(), api_secret.into())),
-            base: base.to_string(),
+            base: REST_URL.to_string(),
         }
     }
 

@@ -1,4 +1,22 @@
-pub const WS_URL: &'static str = "wss://www.bitmex.com/realtime";
-pub const WS_URL_TESTNET: &'static str = "wss://testnet.bitmex.com/realtime";
-pub const REST_URL_TESTNET: &'static str = "https://testnet.bitmex.com/api/v1";
-pub const REST_URL: &'static str = "https://www.bitmex.com/api/v1";
+use std::env::var;
+
+use log::warn;
+
+lazy_static! {
+    pub static ref WS_URL: &'static str = {
+        if var("BITMEX_TESTNET").unwrap_or("0".to_string()) == "0" {
+            "wss://www.bitmex.com/realtime"
+        } else {
+            warn!("Your are using BitMEX testnet Restful API");
+            "wss://testnet.bitmex.com/realtime"
+        }
+    };
+    pub static ref REST_URL: &'static str = {
+        if var("BITMEX_TESTNET").unwrap_or("0".to_string()) == "0" {
+            "https://www.bitmex.com/api/v1"
+        } else {
+            warn!("Your are using BitMEX testnet Websocket");
+            "https://testnet.bitmex.com/api/v1"
+        }
+    };
+}

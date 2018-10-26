@@ -11,6 +11,8 @@ extern crate serde_derive;
 extern crate failure;
 extern crate chrono;
 extern crate hex;
+#[macro_use]
+extern crate lazy_static;
 extern crate log;
 extern crate ring;
 extern crate tokio_tungstenite;

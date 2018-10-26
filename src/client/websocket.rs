@@ -18,7 +18,7 @@ type WSStream = WebSocketStream<MaybeTlsStream<TcpStream>>;
 
 impl BitMEX {
     pub fn websocket(&self) -> impl Future<Item = BitMEXWebsocket, Error = Error> {
-        connect_async(Url::parse(WS_URL).unwrap()).map(|(stream, _)| stream).from_err().map(BitMEXWebsocket::new)
+        connect_async(Url::parse(&WS_URL).unwrap()).map(|(stream, _)| stream).from_err().map(BitMEXWebsocket::new)
     }
 }
 

@@ -1,11 +1,8 @@
-use std::env::var;
-
 use hyper::Method;
-use log::warn;
 use url::Url;
 
 use super::Topic;
-use crate::consts::{WS_URL, WS_URL_TESTNET};
+use crate::consts::WS_URL;
 use crate::error::Result;
 use crate::BitMEX;
 
@@ -23,13 +20,7 @@ pub enum Command {
 
 impl Command {
     pub fn authenticate(bm: &BitMEX, expires: i64) -> Result<Command> {
-        let base = if var("BITMEX_TESTNET").unwrap_or("0".to_string()) == "0" {
-            WS_URL
-        } else {
-            warn!("Your are using BitMEX test net");
-            WS_URL_TESTNET
-        };
-        let (key, sig) = bm.transport.signature(Method::GET, expires, &Url::parse(base)?, "")?;
+        let (key, sig) = bm.transport.signature(Method::GET, expires, &Url::parse(&WS_URL)?, "")?;
         Ok(Command::Authenticate(key.to_string(), expires, sig))
     }
 }

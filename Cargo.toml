@@ -28,6 +28,7 @@ uuid = { version = "0.7", features = ["serde"] }
 
 tungstenite = "0.6"
 tokio-tungstenite = "0.6"
+lazy_static = "1"
 
 [features]
 dev = []
