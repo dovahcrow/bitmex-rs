@@ -13,4 +13,3 @@ Cargo.lock
 **/*.rs.bk
 
 .env
-/examples/
