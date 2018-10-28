@@ -1,4 +1,6 @@
 use super::instrument::GetInstrumentRequest;
+use super::Side;
+
 use chrono::{DateTime, Utc};
 
 pub type GetExecutionRequest = GetInstrumentRequest;
@@ -16,7 +18,7 @@ pub struct GetExecutionResponse {
     pub cl_ord_link_id: String,
     pub account: usize,
     pub symbol: String,
-    pub side: String,
+    pub side: Side,
     pub last_qty: f64,
     pub last_px: f64,
     pub underlying_last_px: f64,

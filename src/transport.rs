@@ -87,7 +87,7 @@ impl Transport {
         Q: Serialize,
         D: Serialize,
     {
-        let url = format!("{}{}", REST_URL,, endpoint);
+        let url = format!("{}{}", &*REST_URL, endpoint);
         let url = match params {
             Some(p) => Url::parse_with_params(&url, p.to_url_query())?,
             None => Url::parse(&url)?,
@@ -113,7 +113,7 @@ impl Transport {
         Q: Serialize,
         D: Serialize,
     {
-        let url = format!("{}{}", REST_URL, endpoint);
+        let url = format!("{}{}", &*REST_URL, endpoint);
         let url = match params {
             Some(p) => Url::parse_with_params(&url, p.to_url_query())?,
             None => Url::parse(&url)?,

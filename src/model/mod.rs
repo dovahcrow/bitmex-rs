@@ -7,3 +7,9 @@ pub mod global_notification;
 pub mod instrument;
 pub mod order;
 pub mod websocket;
+
+#[derive(Clone, Copy, Debug, Deserialize, Serialize)]
+pub enum Side {
+    Buy,
+    Sell,
+}

@@ -5,7 +5,9 @@ extern crate tokio;
 
 use std::env::var;
 
-use bitmex::model::order::{ContingencyType, ExecInst, OrdType, PostOrderRequest, Side};
+use bitmex::model::order::{ContingencyType, ExecInst, OrdType, PostOrderRequest};
+use bitmex::model::Side;
+
 use bitmex::{BitMEX, Result};
 
 use tokio::runtime::Runtime;

@@ -1,11 +1,7 @@
 use chrono::{DateTime, Utc};
 use uuid::Uuid;
 
-#[derive(Clone, Copy, Debug, Deserialize, Serialize)]
-pub enum Side {
-    Buy,
-    Sell,
-}
+use super::Side;
 
 #[derive(Clone, Copy, Debug, Deserialize, Serialize)]
 pub enum PegPriceType {
@@ -109,9 +105,9 @@ pub struct PostOrderResponse {
     pub triggered: String,
     pub working_indicator: bool,
     pub ord_rej_reason: String,
-    pub simple_leaves_qty: f64,
+    pub simple_leaves_qty: Option<f64>,
     pub leaves_qty: f64,
-    pub simple_cum_qty: f64,
+    pub simple_cum_qty: Option<f64>,
     pub cum_qty: f64,
     pub avg_px: Option<f64>,
     pub multi_leg_reporting_type: String,
@@ -150,8 +146,8 @@ pub struct PutOrderResponse {
     pub cl_ord_link_id: String,
     pub account: f64,
     pub symbol: String,
-    pub side: String,
-    pub simple_order_qty: f64,
+    pub side: Side,
+    pub simple_order_qty: Option<f64>,
     pub order_qty: f64,
     pub price: f64,
     pub display_qty: f64,
