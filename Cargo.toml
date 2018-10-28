@@ -2,6 +2,13 @@
 name = "bitmex"
 version = "0.1.1"
 authors = ["Weiyüen Wu <doomsplayer@gmail.com>"]
+license = "MIT OR Apache-2.0"
+description = "Rust Library for the BitMEX API (Async)"
+keywords = ["cryptocurrency", "trading", "bitmex", "async"]
+documentation = "https://docs.rs/crate/bitmex"
+repository = "https://github.com/dovahcrow/bitmex-rs"
+readme = "README.md"
+
 
 [dependencies]
 hyper = "0.12"
