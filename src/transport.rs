@@ -19,7 +19,6 @@ const EXPIRE_DURATION: i64 = 5;
 
 #[derive(Clone)]
 pub struct Transport {
-    base: String,
     client: Client<HttpsConnector<HttpConnector>>,
     credential: Option<(String, String)>,
 }
@@ -29,11 +28,7 @@ impl Transport {
         let https = HttpsConnector::new(4).unwrap();
         let client = Client::builder().build::<_, Body>(https);
 
-        Transport {
-            client: client,
-            credential: None,
-            base: REST_URL.to_string(),
-        }
+        Transport { client: client, credential: None }
     }
 
     pub fn with_credential(api_key: &str, api_secret: &str) -> Self {
@@ -43,7 +38,6 @@ impl Transport {
         Transport {
             client: client,
             credential: Some((api_key.into(), api_secret.into())),
-            base: REST_URL.to_string(),
         }
     }
 
@@ -93,7 +87,7 @@ impl Transport {
         Q: Serialize,
         D: Serialize,
     {
-        let url = format!("{}{}", self.base, endpoint);
+        let url = format!("{}{}", REST_URL,, endpoint);
         let url = match params {
             Some(p) => Url::parse_with_params(&url, p.to_url_query())?,
             None => Url::parse(&url)?,
@@ -119,7 +113,7 @@ impl Transport {
         Q: Serialize,
         D: Serialize,
     {
-        let url = format!("{}{}", self.base, endpoint);
+        let url = format!("{}{}", REST_URL, endpoint);
         let url = match params {
             Some(p) => Url::parse_with_params(&url, p.to_url_query())?,
             None => Url::parse(&url)?,
@@ -180,7 +174,7 @@ impl Transport {
 trait ToUrlQuery: Serialize {
     fn to_url_query_string(&self) -> String {
         let vec = self.to_url_query();
-        let s = vec.into_iter().map(|(k, v)| format!("{}={}&", k, v)).collect::<Vec<_>>().join("&");
+        let s = vec.into_iter().map(|(k, v)| format!("{}={}", k, v)).collect::<Vec<_>>().join("&");
         s
     }
 
