@@ -1,6 +1,6 @@
 [package]
 name = "bitmex"
-version = "0.1.0-alpha.1"
+version = "0.1.1"
 authors = ["Weiyüen Wu <doomsplayer@gmail.com>"]
 
 [dependencies]
