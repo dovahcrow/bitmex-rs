@@ -32,33 +32,33 @@ Bitmex (non-official) client for rust
   - [x] GET `/instrument/compositeIndex`
   - [x] GET `/instrument/indices`
 - Insurance
-  - [ ] GET `/insurance`
+  - [x] GET `/insurance`
 - Leaderboard
-  - [ ] GET `/leaderboard`
-  - [ ] GET `/leaderboard/name`
+  - [x] GET `/leaderboard`
+  - [x] GET `/leaderboard/name`
 - Liquidation
-  - [ ] GET `/liquidation`
+  - [x] GET `/liquidation`
 - Order
-  - [ ] GET `/order`
+  - [x] GET `/order`
   - [x] PUT `/order`
   - [x] POST `/order`
-  - [ ] DELETE `/order`
-  - [ ] DELETE `/order/all`
+  - [x] DELETE `/order`
+  - [x] DELETE `/order/all`
   - [ ] PUT `/order/bulk`
   - [ ] POST `/order/bulk`
-  - [ ] POST `/order/cancelAllAfter`
-  - [ ] POST `/order/closePosition`
+  - [x] POST `/order/cancelAllAfter`
+  - [x] POST `/order/closePosition`
 - OrderBook
-  - [ ] GET `/orderBook/L2`
+  - [x] GET `/orderBook/L2`
 - Position
-  - [ ] GET `/position`
-  - [ ] POST `/position/isolate`
-  - [ ] POST `/position/leverage`
-  - [ ] POST `/position/riskLimit`
-  - [ ] POST `/position/transferMargin`
+  - [x] GET `/position`
+  - [x] POST `/position/isolate`
+  - [x] POST `/position/leverage`
+  - [x] POST `/position/riskLimit`
+  - [x] POST `/position/transferMargin`
 - Quote
-  - [ ] GET `/quote`
-  - [ ] GET `/quote/bucketed`
+  - [x] GET `/quote`
+  - [x] GET `/quote/bucketed`
 - Schema
   - [ ] GET `/schema`
   - [ ] GET `/schema/websocketHelp`

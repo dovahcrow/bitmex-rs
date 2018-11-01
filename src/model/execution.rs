@@ -1,9 +1,9 @@
-use super::instrument::GetInstrumentRequest;
+use super::GeneralRequest;
 use super::Side;
 
 use chrono::{DateTime, Utc};
 
-pub type GetExecutionRequest = GetInstrumentRequest;
+pub type GetExecutionRequest = GeneralRequest;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -16,7 +16,7 @@ pub struct GetExecutionResponse {
     pub cl_ord_id: String,
     #[serde(rename = "clOrdLinkID")]
     pub cl_ord_link_id: String,
-    pub account: usize,
+    pub account: u64,
     pub symbol: String,
     pub side: Side,
     pub last_qty: f64,
@@ -62,5 +62,5 @@ pub struct GetExecutionResponse {
     pub timestamp: DateTime<Utc>,
 }
 
-pub type GetExecutionTradeHistoryRequest = GetExecutionRequest;
+pub type GetExecutionTradeHistoryRequest = GeneralRequest;
 pub type GetExecutionTradeHistoryResponse = GetExecutionResponse;

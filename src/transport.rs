@@ -14,6 +14,8 @@ use url::Url;
 
 use crate::consts::REST_URL;
 use crate::error::{BitMEXError, BitMEXResponse, Result};
+use crate::model::swagger::SwaggerApiDescription;
+use crate::SWAGGER_URL;
 
 const EXPIRE_DURATION: i64 = 5;
 
@@ -147,7 +149,7 @@ impl Transport {
         }
     }
 
-    pub(crate) fn signature(&self, method: Method, expires: i64, url: &Url, body: &str) -> Result<(&str, String)> {
+    pub fn signature(&self, method: Method, expires: i64, url: &Url, body: &str) -> Result<(&str, String)> {
         let (key, secret) = self.check_key()?;
         // Signature: hex(HMAC_SHA256(apiSecret, verb + path + expires + data))
         let signed_key = hmac::SigningKey::new(&digest::SHA256, secret.as_bytes());
@@ -168,6 +170,16 @@ impl Transport {
                 chunk
             }).and_then(|chunk| Ok(from_slice(&chunk)?))
             .and_then(|resp: BitMEXResponse<O>| Ok(resp.to_result()?))
+    }
+
+    pub fn get_swagger(&self) -> Result<impl Future<Item = SwaggerApiDescription, Error = Error>> {
+        let req = Request::builder()
+            .method(Method::GET)
+            .uri(SWAGGER_URL)
+            .header("user-agent", "bitmex-rs")
+            .header("content-type", "application/json")
+            .body(Body::empty())?;
+        Ok(self.handle_response(self.client.request(req)))
     }
 }
 

@@ -1,7 +1,7 @@
-use super::instrument::GetInstrumentRequest;
+use super::GeneralRequest;
 use chrono::{DateTime, Utc};
 
-pub type GetFundingRequest = GetInstrumentRequest;
+pub type GetFundingRequest = GeneralRequest;
 
 #[derive(Clone, Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]

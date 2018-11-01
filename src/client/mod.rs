@@ -4,7 +4,13 @@ mod chat;
 mod funding;
 mod global_notification;
 mod instrument;
+mod insurance;
+mod leaderboard;
+mod liquidation;
 mod order;
+mod order_book;
+mod position;
+mod quote;
 mod websocket;
 
 use transport::Transport;

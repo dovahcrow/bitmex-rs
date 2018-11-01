@@ -1,17 +1,7 @@
+use super::GeneralRequest;
 use chrono::{DateTime, Utc};
 
-#[derive(Clone, Debug, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct GetInstrumentRequest {
-    pub symbol: Option<String>,
-    //filter: Option<>,
-    pub columns: Option<Vec<String>>,
-    pub count: u64,
-    pub start: Option<u64>,
-    pub reverse: Option<bool>,
-    pub start_time: Option<String>,
-    pub end_time: Option<String>,
-}
+pub type GetInstrumentRequest = GeneralRequest;
 
 impl Default for GetInstrumentRequest {
     fn default() -> Self {
