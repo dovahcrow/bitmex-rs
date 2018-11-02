@@ -1,6 +1,6 @@
 [package]
 name = "bitmex"
-version = "0.1.3"
+version = "0.1.2"
 authors = ["Weiyüen Wu <doomsplayer@gmail.com>"]
 license = "MIT OR Apache-2.0"
 description = "Rust Library for the BitMEX API (Async)"
