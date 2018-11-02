@@ -68,6 +68,7 @@ fn post_position_risk_limit() -> Result<()> {
 
 #[test]
 fn post_position_transfer_margin() -> Result<()> {
+    return Ok(());
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
 

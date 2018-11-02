@@ -1,5 +1,19 @@
-# bitmex-rs
-Bitmex (non-official) client for rust
+# bitmex-rs [![Crates.io](https://img.shields.io/crates/v/bitmex.svg)](https://crates.io/crates/bitmex-rs) [![Build Status](https://travis-ci.org/dovahcrow/bitmex-rs.png?branch=master)](https://travis-ci.org/dovahcrow/bitmex-rs) [![MIT licensed](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE-MIT)
+
+[BitMEX](https://www.bitmex.com/app/apiOverview) (non-official) client for rust
+
+[Documentation](https://docs.rs/crate/bitmex-rs)
+
+## Usage
+
+Add this to your Cargo.toml
+
+```toml
+[dependencies]
+bitmex-rs = 0.1.3
+```
+
+Examples located in the examples and tests folder.
 
 ## Implementation status
 
@@ -99,5 +113,4 @@ If you find some feature is not implemented and you just need it urgently, file 
   - [ ] GET `/user/walletSummary`
 - UserEvent
   - [ ] GET `/userEvent`
-- Websocket
-  - [x] Tentative implementation.
+- [x] Websocket
