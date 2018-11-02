@@ -16,4 +16,5 @@ pub mod quote;
 pub mod swagger;
 pub mod websocket;
 
-pub use self::public::{GeneralRequest, Side};
+use self::public::GeneralRequest;
+pub use self::public::Side;

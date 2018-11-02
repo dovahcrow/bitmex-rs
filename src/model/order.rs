@@ -1,4 +1,5 @@
-use super::{GeneralRequest, Side};
+use super::GeneralRequest;
+pub use super::Side;
 use chrono::{DateTime, Utc};
 use uuid::Uuid;
 
@@ -99,9 +100,9 @@ pub type GetOrderResponse = GeneralOrderResponse;
 #[serde(rename_all = "camelCase")]
 pub struct PutOrderRequest {
     #[serde(rename = "orderID")]
-    pub order_id: Uuid,
+    pub order_id: Option<Uuid>,
     #[serde(rename = "clOrdID")]
-    pub cl_ord_id: String,
+    pub cl_ord_id: Option<String>,
     #[serde(rename = "origClOrdID")]
     pub orig_cl_ord_id: Option<String>,
     pub simple_order_qty: Option<f64>,
@@ -141,11 +142,11 @@ pub struct PostOrderRequest {
 
 pub type PostOrderResponse = GeneralOrderResponse;
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct DeleteOrderRequest {
     #[serde(rename = "orderID")]
-    pub order_id: Option<String>,
+    pub order_id: Option<Uuid>,
     #[serde(rename = "clOrdID")]
     pub cl_ord_id: Option<String>,
     pub text: Option<String>,
@@ -153,7 +154,7 @@ pub struct DeleteOrderRequest {
 
 pub type DeleteOrderResponse = GeneralOrderResponse;
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, Serialize, Deserialize)]
 pub struct DeleteOrderAllRequest {
     pub symbol: Option<String>,
     pub filter: Option<String>,

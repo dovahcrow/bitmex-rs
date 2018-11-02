@@ -4,19 +4,18 @@ extern crate tokio;
 
 use std::env::var;
 
+use bitmex::model::liquidation::GetLiquidationRequest;
 use bitmex::{BitMEX, Result};
 use tokio::runtime::Runtime;
 
 #[test]
-fn get_global_notification() -> Result<()> {
-    // This will fail for error access denied
+fn get_liquidation() -> Result<()> {
     ::dotenv::dotenv().ok();
-
     let mut rt = Runtime::new()?;
 
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
-    let fut = bm.get_global_notification()?;
+    let fut = bm.get_liquidation(GetLiquidationRequest { ..Default::default() })?;
 
-    assert!(rt.block_on(fut).is_err());
+    let _ = rt.block_on(fut)?;
     Ok(())
 }

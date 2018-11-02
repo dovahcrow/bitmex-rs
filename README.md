@@ -3,6 +3,8 @@ Bitmex (non-official) client for rust
 
 ## Implementation status
 
+If you find some feature is not implemented and you just need it urgently, file an issue and I'll put that in priority. A PR is also welcome :)
+
 - Announcement
   - [x] GET /announcement
   - [x] GET /announcement/urgent

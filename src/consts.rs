@@ -2,6 +2,7 @@ use std::env::var;
 
 use log::warn;
 
+// dotenv is a must run in every test otherwise the url will be mis-loaded
 lazy_static! {
     pub static ref WS_URL: &'static str = {
         if var("BITMEX_TESTNET").unwrap_or("0".to_string()) == "0" {

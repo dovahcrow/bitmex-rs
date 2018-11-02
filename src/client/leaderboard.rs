@@ -12,6 +12,6 @@ impl BitMEX {
     }
 
     pub fn get_leaderboard_name(&self) -> Result<impl Future<Item = GetLeaderboardNameResponse, Error = Error>> {
-        Ok(self.transport.get::<_, ()>("/leaderboard/name", None)?)
+        Ok(self.transport.signed_get::<_, ()>("/leaderboard/name", None)?)
     }
 }

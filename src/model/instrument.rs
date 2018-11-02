@@ -8,6 +8,7 @@ impl Default for GetInstrumentRequest {
         GetInstrumentRequest {
             symbol: None,
             columns: None,
+            filter: None,
             count: 100,
             start: None,
             reverse: None,

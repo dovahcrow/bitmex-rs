@@ -2,7 +2,7 @@ use chrono::{DateTime, Utc};
 
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
-pub struct GetApiKeyResponse {
+pub struct GeneralApiKeyResponse {
     pub id: String,
     pub secret: Option<String>, // The document claims this field's existence, but actually not
     pub name: String,
@@ -14,7 +14,9 @@ pub struct GetApiKeyResponse {
     pub created: DateTime<Utc>,
 }
 
-#[derive(Serialize, Debug)]
+pub type GetApiKeyResponse = GeneralApiKeyResponse;
+
+#[derive(Serialize, Default, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct PostApiKeyRequest {
     pub name: Option<String>,
@@ -24,7 +26,7 @@ pub struct PostApiKeyRequest {
     pub token: Option<String>,
 }
 
-pub type PostApiKeyResponse = GetApiKeyResponse;
+pub type PostApiKeyResponse = GeneralApiKeyResponse;
 
 #[derive(Copy, Clone, Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -57,7 +59,7 @@ pub struct DeleteApiKeyRequest {
 pub type DeleteApiKeyResponse = Success;
 
 pub type PostApiKeyDisableRequest = DeleteApiKeyRequest;
-pub type PostApiKeyDisableResponse = GetApiKeyResponse;
+pub type PostApiKeyDisableResponse = GeneralApiKeyResponse;
 
 pub type PostApiKeyEnableRequest = DeleteApiKeyRequest;
-pub type PostApiKeyEnableResponse = GetApiKeyResponse;
+pub type PostApiKeyEnableResponse = GeneralApiKeyResponse;

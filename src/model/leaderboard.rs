@@ -6,7 +6,13 @@ pub enum RankingType {
     ROE,
 }
 
-#[derive(Clone, Debug, Serialize)]
+impl Default for RankingType {
+    fn default() -> Self {
+        self::RankingType::Notional
+    }
+}
+
+#[derive(Clone, Default, Debug, Serialize)]
 pub struct GetLeaderboardRequest {
     pub method: RankingType,
 }

@@ -1,4 +1,4 @@
-use super::Side;
+pub use super::Side;
 
 #[derive(Clone, Debug, Serialize)]
 pub struct GetOrderBookL2Request {

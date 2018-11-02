@@ -1,6 +1,7 @@
 mod announcement;
 mod api_key;
 mod chat;
+mod execution;
 mod funding;
 mod global_notification;
 mod instrument;

@@ -1,5 +1,5 @@
 use super::GeneralRequest;
-use super::Side;
+pub use super::Side;
 
 use chrono::{DateTime, Utc};
 
@@ -21,15 +21,15 @@ pub struct GetExecutionResponse {
     pub side: Side,
     pub last_qty: f64,
     pub last_px: f64,
-    pub underlying_last_px: f64,
+    pub underlying_last_px: Option<f64>,
     pub last_mkt: String,
     pub last_liquidity_ind: String,
-    pub simple_order_qty: f64,
+    pub simple_order_qty: Option<f64>,
     pub order_qty: f64,
     pub price: f64,
-    pub display_qty: f64,
-    pub stop_px: f64,
-    pub peg_offset_value: f64,
+    pub display_qty: Option<f64>,
+    pub stop_px: Option<f64>,
+    pub peg_offset_value: Option<f64>,
     pub peg_price_type: String,
     pub currency: String,
     pub settl_currency: String,

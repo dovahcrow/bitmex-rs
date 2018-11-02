@@ -6,7 +6,7 @@ use bitmex::{BitMEX, Result};
 use tokio::runtime::Runtime;
 
 #[test]
-fn test_announcement() -> Result<()> {
+fn get_announcement() -> Result<()> {
     let mut rt = Runtime::new()?;
 
     let bm = BitMEX::new();
@@ -17,7 +17,7 @@ fn test_announcement() -> Result<()> {
 }
 
 #[test]
-fn test_announcement_urgent() -> Result<()> {
+fn get_announcement_urgent() -> Result<()> {
     let mut rt = Runtime::new()?;
 
     let bm = BitMEX::new();
