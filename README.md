@@ -17,7 +17,7 @@ Examples located in the examples and tests folder.
 
 ## Implementation status
 
-If you find some feature is not implemented and you just need it urgently, file an issue and I'll put that in priority. A PR is also welcome :)
+If you find some features are not implemented and you just need them urgently, file an issue and I'll put that in priority. A PR is also welcome :)
 
 - Announcement
   - [x] GET /announcement
