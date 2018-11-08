@@ -4,33 +4,33 @@ extern crate tokio;
 
 use std::env::var;
 
-use bitmex::model::quote::{GetQuoteBucketedRequest, GetQuoteRequest};
+use bitmex::model::trade::{GetTradeBucketedRequest, GetTradeRequest};
 use bitmex::model::BinSize;
 use bitmex::{BitMEX, Result};
 use tokio::runtime::Runtime;
 
 #[test]
-fn get_quote() -> Result<()> {
+fn get_trade() -> Result<()> {
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
 
-    assert!(rt.block_on(bm.get_quote(GetQuoteRequest { ..Default::default() })?).is_err());
+    let _ = rt.block_on(bm.get_trade(GetTradeRequest { ..Default::default() })?)?;
     Ok(())
 }
 
 #[test]
-fn get_quote_bucketed() -> Result<()> {
+fn get_trade_bucketed() -> Result<()> {
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
 
-    assert!(
-        rt.block_on(bm.get_quote_bucketed(GetQuoteBucketedRequest {
-            partial: false,
-            bin_size: BinSize::D1,
-            ..Default::default()
-        })?).is_err()
-    );
+    let _ = rt.block_on(bm.get_trade_bucketed(GetTradeBucketedRequest {
+        partial: false,
+        bin_size: BinSize::D1,
+        count: 10,
+        ..Default::default()
+    })?)?;
+
     Ok(())
 }

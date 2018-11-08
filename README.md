@@ -60,8 +60,8 @@ If you find some features are not implemented and you just need them urgently, f
   - [x] POST `/order`
   - [x] DELETE `/order`
   - [x] DELETE `/order/all`
-  - [ ] PUT `/order/bulk`
-  - [ ] POST `/order/bulk`
+  - [x] PUT `/order/bulk`
+  - [x] POST `/order/bulk`
   - [x] POST `/order/cancelAllAfter`
   - [x] POST `/order/closePosition`
 - OrderBook
@@ -79,14 +79,14 @@ If you find some features are not implemented and you just need them urgently, f
   - [ ] GET `/schema`
   - [ ] GET `/schema/websocketHelp`
 - Settlement
-  - [ ] GET `/settlement`
+  - [x] GET `/settlement`
 - Stat
   - [ ] GET `/stats`
   - [ ] GET `/stats/history`
   - [ ] GET `/stats/historyUSD`
 - Trade
-  - [ ] GET `/trade`
-  - [ ] GET `/trade/bucketed`
+  - [x] GET `/trade`
+  - [x] GET `/trade/bucketed`
 - User
   - [ ] GET `/user`
   - [ ] PUT `/user`

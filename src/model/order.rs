@@ -1,56 +1,7 @@
 use super::GeneralRequest;
-pub use super::Side;
+pub use super::{BinSize, ContingencyType, ExecInst, OrdType, PegPriceType, Side, TimeInForce};
 use chrono::{DateTime, Utc};
 use uuid::Uuid;
-
-#[derive(Clone, Copy, Debug, Deserialize, Serialize)]
-pub enum PegPriceType {
-    LastPeg,
-    MidPricePeg,
-    MarketPeg,
-    PrimaryPeg,
-    TrailingStopPeg,
-}
-
-#[derive(Clone, Copy, Debug, Deserialize, Serialize)]
-pub enum OrdType {
-    Market,
-    Limit,
-    Stop,
-    StopLimit,
-    MarketIfTouched,
-    LimitIfTouched,
-    MarketWithLeftOverAsLimit,
-    Pegged,
-}
-
-#[derive(Clone, Copy, Debug, Deserialize, Serialize)]
-pub enum TimeInForce {
-    Day,
-    GoodTillCancel,
-    ImmediateOrCancel,
-    FillOrKill,
-}
-
-#[derive(Clone, Copy, Debug, Deserialize, Serialize)]
-pub enum ExecInst {
-    ParticipateDoNotInitiate,
-    AllOrNone,
-    MarkPrice,
-    IndexPrice,
-    LastPrice,
-    Close,
-    ReduceOnly,
-    Fixed,
-}
-
-#[derive(Clone, Copy, Debug, Deserialize, Serialize)]
-pub enum ContingencyType {
-    OneCancelsTheOther,
-    OneTriggersTheOther,
-    OneUpdatesTheOtherAbsolute,
-    OneUpdatesTheOtherProportional,
-}
 
 #[derive(Clone, Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]

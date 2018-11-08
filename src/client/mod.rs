@@ -12,6 +12,8 @@ mod order;
 mod order_book;
 mod position;
 mod quote;
+mod settlement;
+mod trade;
 mod websocket;
 
 use transport::Transport;

@@ -1,6 +1,7 @@
 pub mod announcement;
 pub mod api_key;
 pub mod chat;
+pub mod definitions;
 pub mod execution;
 pub mod funding;
 pub mod global_notification;
@@ -13,8 +14,10 @@ pub mod order_book;
 pub mod position;
 mod public;
 pub mod quote;
+pub mod settlement;
 pub mod swagger;
+pub mod trade;
 pub mod websocket;
 
 use self::public::GeneralRequest;
-pub use self::public::Side;
+pub use self::public::{BinSize, ContingencyType, ExecInst, OrdType, PegPriceType, Side, TimeInForce};
