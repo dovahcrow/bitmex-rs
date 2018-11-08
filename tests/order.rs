@@ -261,3 +261,54 @@ fn create_delete_all_order() -> Result<()> {
 
     Ok(())
 }
+
+#[test]
+fn create_amend_delete_order_bulk() -> Result<()> {
+    return Ok(());
+    ::dotenv::dotenv().ok();
+    let mut rt = Runtime::new()?;
+
+    let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
+
+    let orders = vec![
+        PostOrderRequest {
+            symbol: "XBTUSD".to_string(),
+            ord_type: Some(OrdType::StopLimit),
+            stop_px: Some(6000.),
+            price: Some(6000.),
+            order_qty: Some(100.),
+            ..Default::default()
+        },
+        PostOrderRequest {
+            symbol: "XBTUSD".to_string(),
+            ord_type: Some(OrdType::StopLimit),
+            stop_px: Some(6000.),
+            price: Some(6000.),
+            order_qty: Some(100.),
+            ..Default::default()
+        },
+    ];
+
+    let fut = bm.post_order_bulk(orders)?;
+    let orders = rt.block_on(fut)?;
+
+    let req = orders
+        .into_iter()
+        .map(|order| PutOrderRequest {
+            symbol: order.symbol,
+            order_id: Some(order.order_id),
+            order_qty: Some(110.),
+            ..Default::default()
+        }).collect();
+
+    let fut = bm.put_order_bulk(req)?;
+    let _ = rt.block_on(fut)?;
+
+    let fut = bm.delete_order_all(DeleteOrderAllRequest {
+        symbol: Some("XBTUSD".to_string()),
+        ..Default::default()
+    })?;
+    let _ = rt.block_on(fut)?;
+
+    Ok(())
+}

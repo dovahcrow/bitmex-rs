@@ -1,5 +1,6 @@
 use failure::Error;
 use futures::Future;
+use serde_json::json;
 
 use error::Result;
 use model::order::{
@@ -18,8 +19,16 @@ impl BitMEX {
         Ok(self.transport.signed_put("/order", Some(req))?)
     }
 
+    pub fn put_order_bulk(&self, req: Vec<PutOrderRequest>) -> Result<impl Future<Item = Vec<PostOrderResponse>, Error = Error>> {
+        Ok(self.transport.signed_post("/order/bulk", Some(json! {{ "orders": req }}))?)
+    }
+
     pub fn post_order(&self, req: PostOrderRequest) -> Result<impl Future<Item = PostOrderResponse, Error = Error>> {
         Ok(self.transport.signed_post("/order", Some(req))?)
+    }
+
+    pub fn post_order_bulk(&self, req: Vec<PostOrderRequest>) -> Result<impl Future<Item = Vec<PostOrderResponse>, Error = Error>> {
+        Ok(self.transport.signed_post("/order/bulk", Some(json! {{ "orders": req }}))?)
     }
 
     pub fn delete_order(&self, req: DeleteOrderRequest) -> Result<impl Future<Item = Vec<DeleteOrderResponse>, Error = Error>> {

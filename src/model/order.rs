@@ -99,6 +99,7 @@ pub type GetOrderResponse = GeneralOrderResponse;
 #[derive(Clone, Default, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct PutOrderRequest {
+    pub symbol: String,
     #[serde(rename = "orderID")]
     pub order_id: Option<Uuid>,
     #[serde(rename = "clOrdID")]
