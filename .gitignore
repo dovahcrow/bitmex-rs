@@ -13,3 +13,4 @@ Cargo.lock
 **/*.rs.bk
 
 .env
+.ipynb_checkpoints
