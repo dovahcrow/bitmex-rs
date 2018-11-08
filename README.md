@@ -10,7 +10,7 @@ Add this to your Cargo.toml
 
 ```toml
 [dependencies]
-bitmex-rs = 0.1.2
+bitmex-rs = 0.1
 ```
 
 Examples located in the examples and tests folder.
