@@ -6,6 +6,7 @@ extern crate tokio;
 use std::env::var;
 
 use bitmex::model::order::{ContingencyType, DeleteOrderAllRequest, DeleteOrderRequest, ExecInst, OrdType, PostOrderRequest, PutOrderRequest, Side};
+use bitmex::model::Vararg;
 
 use bitmex::{BitMEX, Result};
 
@@ -27,7 +28,7 @@ fn create_order_market() -> Result<()> {
     })?)?;
 
     let _ = rt.block_on(bm.delete_order(DeleteOrderRequest {
-        order_id: Some(resp.order_id),
+        order_id: Some(Vararg::Single(resp.order_id)),
         ..Default::default()
     })?)?;
     Ok(())
@@ -50,7 +51,7 @@ fn create_order_limit_buy() -> Result<()> {
     })?)?;
 
     let _ = rt.block_on(bm.delete_order(DeleteOrderRequest {
-        order_id: Some(resp.order_id),
+        order_id: Some(Vararg::Single(resp.order_id)),
         ..Default::default()
     })?)?;
 
@@ -74,7 +75,7 @@ fn create_order_limit_sell() -> Result<()> {
     })?)?;
 
     let _ = rt.block_on(bm.delete_order(DeleteOrderRequest {
-        order_id: Some(resp.order_id),
+        order_id: Some(Vararg::Single(resp.order_id)),
         ..Default::default()
     })?)?;
 
@@ -98,7 +99,7 @@ fn create_order_stop() -> Result<()> {
     })?)?;
 
     let _ = rt.block_on(bm.delete_order(DeleteOrderRequest {
-        order_id: Some(resp.order_id),
+        order_id: Some(Vararg::Single(resp.order_id)),
         ..Default::default()
     })?)?;
 
@@ -123,7 +124,7 @@ fn create_order_stoplimit() -> Result<()> {
     })?)?;
 
     let _ = rt.block_on(bm.delete_order(DeleteOrderRequest {
-        order_id: Some(resp.order_id),
+        order_id: Some(Vararg::Single(resp.order_id)),
         ..Default::default()
     })?)?;
 
@@ -174,15 +175,7 @@ fn create_order_bracket() -> Result<()> {
     })?)?;
 
     let _ = rt.block_on(bm.delete_order(DeleteOrderRequest {
-        order_id: Some(resp1.order_id),
-        ..Default::default()
-    })?)?;
-    let _ = rt.block_on(bm.delete_order(DeleteOrderRequest {
-        order_id: Some(resp2.order_id),
-        ..Default::default()
-    })?)?;
-    let _ = rt.block_on(bm.delete_order(DeleteOrderRequest {
-        order_id: Some(resp3.order_id),
+        order_id: Some(Vararg::Multiple(vec![resp1.order_id, resp2.order_id, resp3.order_id])),
         ..Default::default()
     })?)?;
 
@@ -216,7 +209,7 @@ fn create_amend_delete_order() -> Result<()> {
     let _ = rt.block_on(fut)?;
 
     let fut = bm.delete_order(DeleteOrderRequest {
-        order_id: Some(resp.order_id),
+        order_id: Some(Vararg::Single(resp.order_id)),
         ..Default::default()
     })?;
     let _ = rt.block_on(fut)?;

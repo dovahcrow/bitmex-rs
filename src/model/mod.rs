@@ -20,4 +20,4 @@ pub mod trade;
 pub mod websocket;
 
 use self::public::GeneralRequest;
-pub use self::public::{BinSize, ContingencyType, Either, ExecInst, OrdType, PegPriceType, Side, TimeInForce};
+pub use self::public::{BinSize, ContingencyType, ExecInst, OrdType, PegPriceType, Side, TimeInForce, Vararg};

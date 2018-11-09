@@ -91,7 +91,7 @@ pub enum ContingencyType {
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 #[serde(untagged)]
-pub enum Either<L, R> {
-    Left(L),
-    Right(R),
+pub enum Vararg<T> {
+    Single(T),
+    Multiple(Vec<T>),
 }

@@ -1,5 +1,5 @@
 use super::GeneralRequest;
-pub use super::{BinSize, ContingencyType, Either, ExecInst, OrdType, PegPriceType, Side, TimeInForce};
+pub use super::{BinSize, ContingencyType, ExecInst, OrdType, PegPriceType, Side, TimeInForce, Vararg};
 use chrono::{DateTime, Utc};
 use serde_json::Value;
 use uuid::Uuid;
@@ -99,9 +99,9 @@ pub type PostOrderResponse = GeneralOrderResponse;
 #[serde(rename_all = "camelCase")]
 pub struct DeleteOrderRequest {
     #[serde(rename = "orderID")]
-    pub order_id: Option<Either<Uuid, Vec<Uuid>>>,
+    pub order_id: Option<Vararg<Uuid>>,
     #[serde(rename = "clOrdID")]
-    pub cl_ord_id: Option<Either<String, Vec<String>>>,
+    pub cl_ord_id: Option<Vararg<String>>,
     pub text: Option<String>,
 }
 
