@@ -30,7 +30,7 @@ impl Transport {
         let https = HttpsConnector::new(4).unwrap();
         let client = Client::builder().build::<_, Body>(https);
 
-        Transport { client: client, credential: None }
+        Transport { client, credential: None }
     }
 
     pub fn with_credential(api_key: &str, api_secret: &str) -> Self {
@@ -38,7 +38,7 @@ impl Transport {
         let client = Client::builder().build::<_, Body>(https);
 
         Transport {
-            client: client,
+            client,
             credential: Some((api_key.into(), api_secret.into())),
         }
     }
@@ -127,7 +127,7 @@ impl Transport {
         };
 
         let expires = (Utc::now() + Duration::seconds(EXPIRE_DURATION)).timestamp();
-        let (key, signature) = self.signature(method.clone(), expires, &url, &body)?;
+        let (key, signature) = self.signature(&method, expires, &url, &body)?;
 
         let req = Request::builder()
             .method(method)
@@ -149,7 +149,7 @@ impl Transport {
         }
     }
 
-    pub fn signature(&self, method: Method, expires: i64, url: &Url, body: &str) -> Result<(&str, String)> {
+    pub fn signature(&self, method: &Method, expires: i64, url: &Url, body: &str) -> Result<(&str, String)> {
         let (key, secret) = self.check_key()?;
         // Signature: hex(HMAC_SHA256(apiSecret, verb + path + expires + data))
         let signed_key = hmac::SigningKey::new(&digest::SHA256, secret.as_bytes());
@@ -170,7 +170,7 @@ impl Transport {
                 chunk
             })
             .and_then(|chunk| Ok(from_slice(&chunk)?))
-            .and_then(|resp: BitMEXResponse<O>| Ok(resp.to_result()?))
+            .and_then(|resp: BitMEXResponse<O>| Ok(resp.into_result()?))
     }
 
     pub fn get_swagger(&self) -> Result<impl Future<Item = SwaggerApiDescription, Error = Error>> {
@@ -187,8 +187,7 @@ impl Transport {
 trait ToUrlQuery: Serialize {
     fn to_url_query_string(&self) -> String {
         let vec = self.to_url_query();
-        let s = vec.into_iter().map(|(k, v)| format!("{}={}", k, v)).collect::<Vec<_>>().join("&");
-        s
+        vec.into_iter().map(|(k, v)| format!("{}={}", k, v)).collect::<Vec<_>>().join("&")
     }
 
     fn to_url_query(&self) -> Vec<(String, String)> {

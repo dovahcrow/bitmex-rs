@@ -24,6 +24,12 @@ pub struct BitMEX {
     pub(crate) transport: Transport,
 }
 
+impl Default for BitMEX {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl BitMEX {
     pub fn new() -> Self {
         BitMEX { transport: Transport::new() }

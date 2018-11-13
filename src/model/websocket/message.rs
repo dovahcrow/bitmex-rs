@@ -15,7 +15,7 @@ use super::Command;
 pub enum Message {
     Success(SuccessMessage),
     Error(ErrorMessage),
-    Table(TableMessage<Value>),
+    Table(Box<TableMessage<Value>>),
     Info(InfoMessage),
     CancelAllAfter(CancelAllAfterMessage),
     Pong,

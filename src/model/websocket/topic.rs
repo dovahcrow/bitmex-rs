@@ -85,7 +85,7 @@ impl<'de> Deserialize<'de> for Topic {
     {
         use self::Topic::*;
         let repr = String::deserialize(deserializer)?;
-        let reprs: Vec<_> = repr.split(":").collect();
+        let reprs: Vec<_> = repr.split(':').collect();
 
         let topic = match &reprs[..] {
             ["announcement"] => Announcement,

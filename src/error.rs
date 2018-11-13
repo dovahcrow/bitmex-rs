@@ -13,7 +13,7 @@ pub enum BitMEXResponse<T> {
 }
 
 impl<T: DeserializeOwned> BitMEXResponse<T> {
-    pub fn to_result(self) -> StdResult<T, BitMEXResponseError> {
+    pub fn into_result(self) -> StdResult<T, BitMEXResponseError> {
         match self {
             BitMEXResponse::Success(t) => StdResult::Ok(t),
             BitMEXResponse::Error { error: e } => StdResult::Err(e),
