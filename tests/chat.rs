@@ -25,8 +25,8 @@ fn get_chat() -> Result<()> {
 }
 
 #[test]
+#[ignore] // My test account was banned from chatting on testnet
 fn post_chat() -> Result<()> {
-    return Ok(()); // My test account was banned from chatting on testnet
     ::dotenv::dotenv().ok();
 
     let mut rt = Runtime::new()?;

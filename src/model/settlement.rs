@@ -6,7 +6,7 @@ pub type GetSettlementRequest = GeneralRequest;
 
 #[derive(Clone, Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct GetSettlementResponse {
+pub struct GetSettlementResponseItem {
     timestamp: DateTime<Utc>,
     symbol: String,
     settlement_type: String,
@@ -17,3 +17,5 @@ pub struct GetSettlementResponse {
     tax_base: Option<i64>,
     tax_rate: Option<f64>,
 }
+
+pub type GetSettlementResponse = Vec<GetSettlementResponseItem>;

@@ -7,7 +7,7 @@ use chrono::{DateTime, Utc};
 use std::collections::BTreeMap;
 
 pub type GetTradeRequest = GeneralRequest;
-pub type GetTradeResponse = Trade;
+pub type GetTradeResponse = Vec<Trade>;
 
 #[derive(Clone, Default, Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -24,4 +24,4 @@ pub struct GetTradeBucketedRequest {
     pub end_time: Option<DateTime<Utc>>,
 }
 
-pub type GetTradeBucketedResponse = TradeBin;
+pub type GetTradeBucketedResponse = Vec<TradeBin>;

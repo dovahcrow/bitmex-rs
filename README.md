@@ -88,12 +88,12 @@ If you find some features are not implemented and you just need them urgently, f
   - [x] GET `/trade`
   - [x] GET `/trade/bucketed`
 - User
-  - [ ] GET `/user`
+  - [x] GET `/user`
   - [ ] PUT `/user`
   - [ ] GET `/user/affiliateStatus`
   - [ ] POST `/user/cancelWithdrawal`
   - [ ] GET `/user/checkReferralCode`
-  - [ ] GET `/user/commission`
+  - [x] GET `/user/commission`
   - [ ] POST `/user/communicationToken`
   - [ ] POST `/user/confirmEmail`
   - [ ] POST `/user/confirmEnableTFA`
@@ -108,9 +108,9 @@ If you find some features are not implemented and you just need them urgently, f
   - [ ] POST `/user/preferences`
   - [ ] POST `/user/requestEnableTFA`
   - [ ] POST `/user/requestWithdrawal`
-  - [ ] GET `/user/wallet`
-  - [ ] GET `/user/walletHistory`
-  - [ ] GET `/user/walletSummary`
+  - [x] GET `/user/wallet`
+  - [x] GET `/user/walletHistory`
+  - [x] GET `/user/walletSummary`
 - UserEvent
   - [ ] GET `/userEvent`
 - [x] Websocket

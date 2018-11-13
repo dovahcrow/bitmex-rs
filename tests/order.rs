@@ -14,8 +14,8 @@ use tokio::runtime::Runtime;
 
 // SKip order testings otherwise we will be marked as spammer
 #[test]
+#[ignore]
 fn create_order_market() -> Result<()> {
-    return Ok(());
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
@@ -35,8 +35,8 @@ fn create_order_market() -> Result<()> {
 }
 
 #[test]
+#[ignore]
 fn create_order_limit_buy() -> Result<()> {
-    return Ok(());
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
@@ -59,8 +59,8 @@ fn create_order_limit_buy() -> Result<()> {
 }
 
 #[test]
+#[ignore]
 fn create_order_limit_sell() -> Result<()> {
-    return Ok(());
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
@@ -83,8 +83,8 @@ fn create_order_limit_sell() -> Result<()> {
 }
 
 #[test]
+#[ignore]
 fn create_order_stop() -> Result<()> {
-    return Ok(());
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
@@ -107,8 +107,8 @@ fn create_order_stop() -> Result<()> {
 }
 
 #[test]
+#[ignore]
 fn create_order_stoplimit() -> Result<()> {
-    return Ok(());
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
@@ -132,8 +132,8 @@ fn create_order_stoplimit() -> Result<()> {
 }
 
 #[test]
+#[ignore]
 fn create_order_bracket() -> Result<()> {
-    return Ok(());
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
 
@@ -183,8 +183,8 @@ fn create_order_bracket() -> Result<()> {
 }
 
 #[test]
+#[ignore]
 fn create_amend_delete_order() -> Result<()> {
-    return Ok(());
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
 
@@ -218,8 +218,8 @@ fn create_amend_delete_order() -> Result<()> {
 }
 
 #[test]
+#[ignore]
 fn create_delete_all_order() -> Result<()> {
-    return Ok(());
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
 
@@ -256,8 +256,8 @@ fn create_delete_all_order() -> Result<()> {
 }
 
 #[test]
+#[ignore]
 fn create_amend_delete_order_bulk() -> Result<()> {
-    return Ok(());
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
 
@@ -292,7 +292,8 @@ fn create_amend_delete_order_bulk() -> Result<()> {
             order_id: Some(order.order_id),
             order_qty: Some(110.),
             ..Default::default()
-        }).collect();
+        })
+        .collect();
 
     let fut = bm.put_order_bulk(req)?;
     let _ = rt.block_on(fut)?;

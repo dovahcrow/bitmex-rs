@@ -17,5 +17,6 @@ fn get_insurance() -> Result<()> {
     let fut = bm.get_funding(GetInsuranceRequest { ..Default::default() })?;
 
     let _ = rt.block_on(fut)?;
+
     Ok(())
 }

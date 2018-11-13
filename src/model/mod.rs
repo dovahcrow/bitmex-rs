@@ -17,6 +17,7 @@ pub mod quote;
 pub mod settlement;
 pub mod swagger;
 pub mod trade;
+pub mod user;
 pub mod websocket;
 
 use self::public::GeneralRequest;

@@ -7,10 +7,10 @@ use model::quote::{GetQuoteBucketedRequest, GetQuoteBucketedResponse, GetQuoteRe
 use super::BitMEX;
 
 impl BitMEX {
-    pub fn get_quote(&self, req: GetQuoteRequest) -> Result<impl Future<Item = Vec<GetQuoteResponse>, Error = Error>> {
+    pub fn get_quote(&self, req: GetQuoteRequest) -> Result<impl Future<Item = GetQuoteResponse, Error = Error>> {
         Ok(self.transport.get("/quote", Some(req))?)
     }
-    pub fn get_quote_bucketed(&self, req: GetQuoteBucketedRequest) -> Result<impl Future<Item = Vec<GetQuoteBucketedResponse>, Error = Error>> {
+    pub fn get_quote_bucketed(&self, req: GetQuoteBucketedRequest) -> Result<impl Future<Item = GetQuoteBucketedResponse, Error = Error>> {
         Ok(self.transport.get("/quote/bucketed", Some(req))?)
     }
 }

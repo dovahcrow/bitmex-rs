@@ -7,7 +7,7 @@ use model::settlement::{GetSettlementRequest, GetSettlementResponse};
 use super::BitMEX;
 
 impl BitMEX {
-    pub fn get_settlement(&self, req: GetSettlementRequest) -> Result<impl Future<Item = Vec<GetSettlementResponse>, Error = Error>> {
+    pub fn get_settlement(&self, req: GetSettlementRequest) -> Result<impl Future<Item = GetSettlementResponse, Error = Error>> {
         Ok(self.transport.signed_get("/settlement", Some(req))?)
     }
 }
