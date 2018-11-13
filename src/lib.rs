@@ -25,7 +25,9 @@ mod error;
 pub mod model;
 mod transport;
 
+pub use client::websocket::BitMEXWebsocket;
 pub use client::BitMEX;
+
 pub use error::Result;
 use failure::Error;
 use futures::{Future, IntoFuture};

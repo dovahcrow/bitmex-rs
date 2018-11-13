@@ -15,7 +15,7 @@ mod quote;
 mod settlement;
 mod trade;
 mod user;
-mod websocket;
+pub mod websocket;
 
 use transport::Transport;
 
