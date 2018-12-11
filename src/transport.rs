@@ -220,7 +220,7 @@ mod test {
     #[test]
     fn test_signature_get() -> Result<()> {
         let tr = Transport::with_credential("LAqUlngMIQkIUjXMUreyu3qn", "chNOOS4KvNXR_Xq4k4c9qsfoKWvnDecLATCRlcBwyKDYnWgO");
-        let (_, sig) = tr.signature(Method::GET, 1518064236, &Url::parse("http://a.com/api/v1/instrument")?, "")?;
+        let (_, sig) = tr.signature(&Method::GET, 1518064236, &Url::parse("http://a.com/api/v1/instrument")?, "")?;
         assert_eq!(sig, "c7682d435d0cfe87c16098df34ef2eb5a549d4c5a3c2b1f0f77b8af73423bf00");
         Ok(())
     }
@@ -229,7 +229,7 @@ mod test {
     fn test_signature_get_param() -> Result<()> {
         let tr = Transport::with_credential("LAqUlngMIQkIUjXMUreyu3qn", "chNOOS4KvNXR_Xq4k4c9qsfoKWvnDecLATCRlcBwyKDYnWgO");
         let (_, sig) = tr.signature(
-            Method::GET,
+            &Method::GET,
             1518064237,
             &Url::parse_with_params("http://a.com/api/v1/instrument", &[("filter", r#"{"symbol": "XBTM15"}"#)])?,
             "",
@@ -242,7 +242,7 @@ mod test {
     fn test_signature_post() -> Result<()> {
         let tr = Transport::with_credential("LAqUlngMIQkIUjXMUreyu3qn", "chNOOS4KvNXR_Xq4k4c9qsfoKWvnDecLATCRlcBwyKDYnWgO");
         let (_, sig) = tr.signature(
-            Method::POST,
+            &Method::POST,
             1518064238,
             &Url::parse("http://a.com/api/v1/order")?,
             r#"{"symbol":"XBTM15","price":219.0,"clOrdID":"mm_bitmex_1a/oemUeQ4CAJZgP3fjHsA","orderQty":98}"#,

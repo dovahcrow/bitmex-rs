@@ -282,10 +282,10 @@ fn create_amend_delete_order_bulk() -> Result<()> {
         },
     ];
 
-    let fut = bm.post_order_bulk(orders)?;
+    let fut = bm.post_order_bulk(&orders)?;
     let orders = rt.block_on(fut)?;
 
-    let req = orders
+    let req: Vec<_> = orders
         .into_iter()
         .map(|order| PutOrderRequest {
             symbol: order.symbol,
@@ -295,7 +295,7 @@ fn create_amend_delete_order_bulk() -> Result<()> {
         })
         .collect();
 
-    let fut = bm.put_order_bulk(req)?;
+    let fut = bm.put_order_bulk(&req)?;
     let _ = rt.block_on(fut)?;
 
     let fut = bm.delete_order_all(DeleteOrderAllRequest {
