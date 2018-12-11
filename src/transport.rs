@@ -212,11 +212,12 @@ impl<S: Serialize> ToUrlQuery for S {}
 
 #[cfg(test)]
 mod test {
-    use super::Transport;
-    use error::Result;
     use hyper::Method;
     use url::Url;
 
+    use super::Transport;
+    use crate::error::Result;
+    
     #[test]
     fn test_signature_get() -> Result<()> {
         let tr = Transport::with_credential("LAqUlngMIQkIUjXMUreyu3qn", "chNOOS4KvNXR_Xq4k4c9qsfoKWvnDecLATCRlcBwyKDYnWgO");
