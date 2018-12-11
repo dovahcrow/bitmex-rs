@@ -1,13 +1,12 @@
 use failure::Error;
 use futures::Future;
 
-use error::Result;
-use model::api_key::{
+use crate::error::Result;
+use crate::model::api_key::{
     DeleteApiKeyRequest, DeleteApiKeyResponse, GetApiKeyResponse, PostApiKeyDisableRequest, PostApiKeyDisableResponse, PostApiKeyEnableRequest, PostApiKeyEnableResponse,
     PostApiKeyRequest, PostApiKeyResponse,
 };
-
-use super::BitMEX;
+use crate::BitMEX;
 
 impl BitMEX {
     pub fn get_api_key(&self) -> Result<impl Future<Item = Vec<GetApiKeyResponse>, Error = Error>> {

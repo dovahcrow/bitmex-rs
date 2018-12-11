@@ -1,10 +1,9 @@
 use failure::Error;
 use futures::Future;
 
-use error::Result;
-use model::chat::{GetChatChannelsResponse, GetChatConnectedResponse, GetChatRequest, GetChatResponse, PostChatRequest, PostChatResponse};
-
-use super::BitMEX;
+use crate::error::Result;
+use crate::model::chat::{GetChatChannelsResponse, GetChatConnectedResponse, GetChatRequest, GetChatResponse, PostChatRequest, PostChatResponse};
+use crate::BitMEX;
 
 impl BitMEX {
     pub fn get_chat(&self, req: GetChatRequest) -> Result<impl Future<Item = Vec<GetChatResponse>, Error = Error>> {

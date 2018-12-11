@@ -1,10 +1,9 @@
 use failure::Error;
 use futures::Future;
 
-use error::Result;
-use model::settlement::{GetSettlementRequest, GetSettlementResponse};
-
-use super::BitMEX;
+use crate::error::Result;
+use crate::model::settlement::{GetSettlementRequest, GetSettlementResponse};
+use crate::BitMEX;
 
 impl BitMEX {
     pub fn get_settlement(&self, req: GetSettlementRequest) -> Result<impl Future<Item = GetSettlementResponse, Error = Error>> {

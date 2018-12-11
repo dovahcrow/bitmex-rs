@@ -1,10 +1,9 @@
 use failure::Error;
 use futures::Future;
 
-use error::Result;
-use model::funding::{GetFundingRequest, GetFundingResponse};
-
-use super::BitMEX;
+use crate::error::Result;
+use crate::model::funding::{GetFundingRequest, GetFundingResponse};
+use crate::BitMEX;
 
 impl BitMEX {
     pub fn get_funding(&self, req: GetFundingRequest) -> Result<impl Future<Item = Vec<GetFundingResponse>, Error = Error>> {

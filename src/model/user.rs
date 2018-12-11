@@ -1,5 +1,9 @@
-use super::definitions::{Transaction, User, UserCommission, Wallet};
 use std::collections::BTreeMap;
+
+use serde_derive::{Deserialize, Serialize};
+
+use super::definitions::{Transaction, User, UserCommission, Wallet};
+
 
 pub type GetUserResponse = User;
 

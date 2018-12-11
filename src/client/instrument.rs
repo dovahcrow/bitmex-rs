@@ -1,13 +1,12 @@
 use failure::Error;
 use futures::Future;
 
-use error::Result;
-use model::instrument::{
+use crate::error::Result;
+use crate::model::instrument::{
     GetInstrumentActiveAndIndicesResponse, GetInstrumentActiveIntervalsResponse, GetInstrumentActiveResponse, GetInstrumentCompositeIndexRequest,
     GetInstrumentCompositeIndexResponse, GetInstrumentIndicesResponse, GetInstrumentRequest, GetInstrumentResponse,
 };
-
-use super::BitMEX;
+use crate::BitMEX;
 
 impl BitMEX {
     pub fn get_instrument(&self, req: GetInstrumentRequest) -> Result<impl Future<Item = Vec<GetInstrumentResponse>, Error = Error>> {

@@ -1,10 +1,9 @@
 use failure::Error;
 use futures::Future;
 
-use error::Result;
-use model::trade::{GetTradeBucketedRequest, GetTradeBucketedResponse, GetTradeRequest, GetTradeResponse};
-
-use super::BitMEX;
+use crate::error::Result;
+use crate::model::trade::{GetTradeBucketedRequest, GetTradeBucketedResponse, GetTradeRequest, GetTradeResponse};
+use crate::BitMEX;
 
 impl BitMEX {
     pub fn get_trade(&self, req: GetTradeRequest) -> Result<impl Future<Item = GetTradeResponse, Error = Error>> {

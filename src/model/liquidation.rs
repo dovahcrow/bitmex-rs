@@ -1,4 +1,5 @@
 use super::{GeneralRequest, Side};
+use serde_derive::Deserialize;
 
 pub type GetLiquidationRequest = GeneralRequest;
 

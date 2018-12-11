@@ -1,5 +1,6 @@
 use hyper::Method;
 use url::Url;
+use serde_derive::{Deserialize, Serialize};
 
 use super::Topic;
 use crate::consts::WS_URL;

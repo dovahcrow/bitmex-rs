@@ -1,10 +1,9 @@
 use failure::Error;
 use futures::Future;
 
-use error::Result;
-use model::execution::{GetExecutionRequest, GetExecutionResponse, GetExecutionTradeHistoryRequest, GetExecutionTradeHistoryResponse};
-
-use super::BitMEX;
+use crate::error::Result;
+use crate::model::execution::{GetExecutionRequest, GetExecutionResponse, GetExecutionTradeHistoryRequest, GetExecutionTradeHistoryResponse};
+use crate::BitMEX;
 
 impl BitMEX {
     pub fn get_execution(&self, req: GetExecutionRequest) -> Result<impl Future<Item = Vec<GetExecutionResponse>, Error = Error>> {

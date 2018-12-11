@@ -17,7 +17,7 @@ mod trade;
 mod user;
 pub mod websocket;
 
-use transport::Transport;
+use crate::transport::Transport;
 
 #[derive(Clone)]
 pub struct BitMEX {

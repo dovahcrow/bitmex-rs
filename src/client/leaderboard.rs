@@ -1,10 +1,9 @@
 use failure::Error;
 use futures::Future;
 
-use error::Result;
-use model::leaderboard::{GetLeaderboardNameResponse, GetLeaderboardRequest, GetLeaderboardResponse};
-
-use super::BitMEX;
+use crate::error::Result;
+use crate::model::leaderboard::{GetLeaderboardNameResponse, GetLeaderboardRequest, GetLeaderboardResponse};
+use crate::BitMEX;
 
 impl BitMEX {
     pub fn get_leaderboard(&self, req: GetLeaderboardRequest) -> Result<impl Future<Item = Vec<GetLeaderboardResponse>, Error = Error>> {

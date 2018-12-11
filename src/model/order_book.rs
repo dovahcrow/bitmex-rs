@@ -1,3 +1,5 @@
+use serde_derive::{Deserialize, Serialize};
+
 pub use super::Side;
 
 #[derive(Clone, Debug, Serialize)]

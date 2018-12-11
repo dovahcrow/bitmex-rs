@@ -1,10 +1,9 @@
 use failure::Error;
 use futures::Future;
 
-use error::Result;
-use model::global_notification::GetGlobalNotificationResponse;
-
-use super::BitMEX;
+use crate::error::Result;
+use crate::model::global_notification::GetGlobalNotificationResponse;
+use crate::BitMEX;
 
 impl BitMEX {
     pub fn get_global_notification(&self) -> Result<impl Future<Item = Vec<GetGlobalNotificationResponse>, Error = Error>> {

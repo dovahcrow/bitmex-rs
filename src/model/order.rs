@@ -1,8 +1,11 @@
-use super::GeneralRequest;
-pub use super::{BinSize, ContingencyType, ExecInst, OrdType, PegPriceType, Side, TimeInForce, Vararg};
+use serde_derive::{Deserialize, Serialize};
 use chrono::{DateTime, Utc};
 use serde_json::Value;
 use uuid::Uuid;
+
+use super::GeneralRequest;
+pub use super::{BinSize, ContingencyType, ExecInst, OrdType, PegPriceType, Side, TimeInForce, Vararg};
+
 
 #[derive(Clone, Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]

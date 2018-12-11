@@ -1,10 +1,9 @@
 use failure::Error;
 use futures::Future;
 
-use error::Result;
-use model::quote::{GetQuoteBucketedRequest, GetQuoteBucketedResponse, GetQuoteRequest, GetQuoteResponse};
-
-use super::BitMEX;
+use crate::error::Result;
+use crate::model::quote::{GetQuoteBucketedRequest, GetQuoteBucketedResponse, GetQuoteRequest, GetQuoteResponse};
+use crate::BitMEX;
 
 impl BitMEX {
     pub fn get_quote(&self, req: GetQuoteRequest) -> Result<impl Future<Item = GetQuoteResponse, Error = Error>> {

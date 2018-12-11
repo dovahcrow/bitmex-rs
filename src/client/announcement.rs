@@ -1,10 +1,9 @@
 use failure::Error;
 use futures::Future;
 
-use error::Result;
-use model::announcement::{GetAnnouncementRequest, GetAnnouncementResponse, GetAnnouncementUrgentResponse};
-
-use super::BitMEX;
+use crate::error::Result;
+use crate::model::announcement::{GetAnnouncementRequest, GetAnnouncementResponse, GetAnnouncementUrgentResponse};
+use crate::BitMEX;
 
 impl BitMEX {
     pub fn get_announcement(&self, req: GetAnnouncementRequest) -> Result<impl Future<Item = Vec<GetAnnouncementResponse>, Error = Error>> {

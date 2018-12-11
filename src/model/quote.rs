@@ -1,8 +1,11 @@
+use std::collections::BTreeMap;
+
+use chrono::{DateTime, Utc};
+use serde_derive::Serialize;
+
 use super::definitions::Quote;
 use super::BinSize;
 use super::GeneralRequest;
-use chrono::{DateTime, Utc};
-use std::collections::BTreeMap;
 
 pub type GetQuoteRequest = GeneralRequest;
 

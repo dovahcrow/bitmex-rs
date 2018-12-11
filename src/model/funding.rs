@@ -1,5 +1,6 @@
 use super::GeneralRequest;
 use chrono::{DateTime, Utc};
+use serde_derive::Deserialize;
 
 pub type GetFundingRequest = GeneralRequest;
 

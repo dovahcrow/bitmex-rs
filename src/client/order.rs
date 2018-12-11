@@ -2,13 +2,12 @@ use failure::Error;
 use futures::Future;
 use serde_json::json;
 
-use error::Result;
-use model::order::{
+use crate::error::Result;
+use crate::model::order::{
     DeleteOrderAllRequest, DeleteOrderAllResponse, DeleteOrderRequest, DeleteOrderResponse, GetOrderRequest, GetOrderResponse, PostOrderCancelAllAfterRequest,
     PostOrderCancelAllAfterResponse, PostOrderClosePositionRequest, PostOrderClosePositionResponse, PostOrderRequest, PostOrderResponse, PutOrderRequest, PutOrderResponse,
 };
-
-use super::BitMEX;
+use crate::BitMEX;
 
 impl BitMEX {
     pub fn get_order(&self, req: GetOrderRequest) -> Result<impl Future<Item = GetOrderResponse, Error = Error>> {

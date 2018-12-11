@@ -1,13 +1,12 @@
 use failure::Error;
 use futures::Future;
 
-use error::Result;
-use model::position::{
+use crate::error::Result;
+use crate::model::position::{
     GetPositionRequest, GetPositionResponse, PostPositionIsolateRequest, PostPositionIsolateResponse, PostPositionLeverageRequest, PostPositionLeverageResponse,
     PostPositionRiskLimitRequest, PostPositionRiskLimitResponse, PostPositionTransferMarginRequest, PostPositionTransferMarginResponse,
 };
-
-use super::BitMEX;
+use crate::BitMEX;
 
 impl BitMEX {
     pub fn get_position(&self, req: GetPositionRequest) -> Result<impl Future<Item = Vec<GetPositionResponse>, Error = Error>> {

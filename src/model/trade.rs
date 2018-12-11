@@ -1,10 +1,13 @@
+use std::collections::BTreeMap;
+
+use chrono::{DateTime, Utc};
+use serde_derive::Serialize;
+
 use super::BinSize;
 use super::{
     definitions::{Trade, TradeBin},
     GeneralRequest,
 };
-use chrono::{DateTime, Utc};
-use std::collections::BTreeMap;
 
 pub type GetTradeRequest = GeneralRequest;
 pub type GetTradeResponse = Vec<Trade>;

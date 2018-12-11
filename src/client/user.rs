@@ -1,13 +1,12 @@
 use failure::Error;
 use futures::Future;
 
-use error::Result;
-use model::user::{
+use crate::error::Result;
+use crate::model::user::{
     GetUserCommissionResponse, GetUserResponse, GetUserWalletHistoryRequest, GetUserWalletHistoryResponse, GetUserWalletRequest, GetUserWalletResponse,
     GetUserWalletSummaryRequest, GetUserWalletSummaryResponse,
 };
-
-use super::BitMEX;
+use crate::BitMEX;
 
 impl BitMEX {
     pub fn get_user(&self) -> Result<impl Future<Item = GetUserResponse, Error = Error>> {

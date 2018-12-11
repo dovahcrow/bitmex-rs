@@ -8,6 +8,7 @@ keywords = ["cryptocurrency", "trading", "bitmex", "async"]
 documentation = "https://docs.rs/crate/bitmex"
 repository = "https://github.com/dovahcrow/bitmex-rs"
 readme = "README.md"
+edition = "2018"
 
 
 [dependencies]

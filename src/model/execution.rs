@@ -1,6 +1,7 @@
 use super::GeneralRequest;
 pub use super::Side;
 
+use serde_derive::{Deserialize, Serialize};
 use chrono::{DateTime, Utc};
 
 pub type GetExecutionRequest = GeneralRequest;

@@ -1,10 +1,9 @@
 use failure::Error;
 use futures::Future;
 
-use error::Result;
-use model::insurance::{GetInsuranceRequest, GetInsuranceResponse};
-
-use super::BitMEX;
+use crate::error::Result;
+use crate::model::insurance::{GetInsuranceRequest, GetInsuranceResponse};
+use crate::BitMEX;
 
 impl BitMEX {
     pub fn get_insurance(&self, req: GetInsuranceRequest) -> Result<impl Future<Item = Vec<GetInsuranceResponse>, Error = Error>> {

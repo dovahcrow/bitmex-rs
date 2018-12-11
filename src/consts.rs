@@ -1,5 +1,6 @@
 use std::env::var;
 
+use lazy_static::lazy_static;
 use log::warn;
 
 // dotenv is a must run in every test otherwise the url will be mis-loaded

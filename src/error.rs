@@ -1,7 +1,8 @@
 use std::result::Result as StdResult;
 
-use failure::Error;
+use failure::{Error, Fail};
 use serde::de::DeserializeOwned;
+use serde_derive::{Deserialize, Serialize};
 
 pub type Result<T> = ::std::result::Result<T, Error>;
 

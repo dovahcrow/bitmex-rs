@@ -1,3 +1,5 @@
+use serde_derive::{Deserialize, Serialize};
+
 #[derive(Clone, Debug, Serialize)]
 pub enum RankingType {
     #[serde(rename = "notional")]
