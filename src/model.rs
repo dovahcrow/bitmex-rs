@@ -18,6 +18,7 @@ pub mod settlement;
 pub mod swagger;
 pub mod trade;
 pub mod user;
+pub mod user_event;
 pub mod websocket;
 
 use self::public::GeneralRequest;

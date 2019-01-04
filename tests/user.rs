@@ -18,6 +18,18 @@ fn get_user() -> Result<()> {
     Ok(())
 }
 
+
+#[test]
+fn get_user_affiliate_status() -> Result<()> {
+    ::dotenv::dotenv().ok();
+    let mut rt = Runtime::new()?;
+    let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
+
+    let _ = rt.block_on(bm.get_user_affiliate_status()?)?;
+    Ok(())
+}
+
+
 #[test]
 fn get_user_wallet() -> Result<()> {
     ::dotenv::dotenv().ok();
@@ -61,3 +73,15 @@ fn get_user_commission() -> Result<()> {
 
     Ok(())
 }
+
+#[test]
+fn get_user_deposit_address() -> Result<()> {
+    ::dotenv::dotenv().ok();
+    let mut rt = Runtime::new()?;
+    let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
+
+    let _ = rt.block_on(bm.get_user_deposit_address(Default::default())?)?;
+
+    Ok(())
+}
+

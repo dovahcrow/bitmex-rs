@@ -3,8 +3,8 @@ use futures::Future;
 
 use crate::error::Result;
 use crate::model::user::{
-    GetUserCommissionResponse, GetUserResponse, GetUserWalletHistoryRequest, GetUserWalletHistoryResponse, GetUserWalletRequest, GetUserWalletResponse,
-    GetUserWalletSummaryRequest, GetUserWalletSummaryResponse,
+    GetUserAffiliateStatusResponse, GetUserCommissionResponse, GetUserDepositAddressRequest, GetUserDepositAddressResponse, GetUserResponse, GetUserWalletHistoryRequest,
+    GetUserWalletHistoryResponse, GetUserWalletRequest, GetUserWalletResponse, GetUserWalletSummaryRequest, GetUserWalletSummaryResponse,
 };
 use crate::BitMEX;
 
@@ -12,9 +12,17 @@ impl BitMEX {
     pub fn get_user(&self) -> Result<impl Future<Item = GetUserResponse, Error = Error>> {
         Ok(self.transport.signed_get::<_, ()>("/user", None)?)
     }
+    pub fn get_user_affiliate_status(&self) -> Result<impl Future<Item = GetUserAffiliateStatusResponse, Error = Error>> {
+        Ok(self.transport.signed_get::<_, ()>("/user/affiliateStatus", None)?)
+    }
+
     pub fn get_user_commission(&self) -> Result<impl Future<Item = GetUserCommissionResponse, Error = Error>> {
         Ok(self.transport.signed_get::<_, ()>("/user/commission", None)?)
     }
+    pub fn get_user_deposit_address(&self, req: GetUserDepositAddressRequest) -> Result<impl Future<Item = GetUserDepositAddressResponse, Error = Error>> {
+        Ok(self.transport.signed_get("/user/depositAddress", Some(req))?)
+    }
+
     pub fn get_user_wallet(&self, req: GetUserWalletRequest) -> Result<impl Future<Item = GetUserWalletResponse, Error = Error>> {
         Ok(self.transport.signed_get("/user/wallet", Some(req))?)
     }

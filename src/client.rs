@@ -15,6 +15,7 @@ mod quote;
 mod settlement;
 mod trade;
 mod user;
+mod user_event;
 pub mod websocket;
 
 use crate::transport::Transport;

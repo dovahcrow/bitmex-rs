@@ -90,7 +90,7 @@ If you find some features are not implemented and you just need them urgently, f
 - User
   - [x] GET `/user`
   - [ ] PUT `/user`
-  - [ ] GET `/user/affiliateStatus`
+  - [x] GET `/user/affiliateStatus`
   - [ ] POST `/user/cancelWithdrawal`
   - [ ] GET `/user/checkReferralCode`
   - [x] GET `/user/commission`
@@ -98,7 +98,7 @@ If you find some features are not implemented and you just need them urgently, f
   - [ ] POST `/user/confirmEmail`
   - [ ] POST `/user/confirmEnableTFA`
   - [ ] POST `/user/confirmWithdrawal`
-  - [ ] GET `/user/depositAddress`
+  - [x] GET `/user/depositAddress`
   - [ ] POST `/user/disableTFA`
   - [ ] GET `/user/executionHistory`
   - [ ] POST `/user/logout`
@@ -112,5 +112,5 @@ If you find some features are not implemented and you just need them urgently, f
   - [x] GET `/user/walletHistory`
   - [x] GET `/user/walletSummary`
 - UserEvent
-  - [ ] GET `/userEvent`
+  - [x] GET `/userEvent`
 - [x] Websocket
