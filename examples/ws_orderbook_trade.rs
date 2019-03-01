@@ -22,16 +22,8 @@ fn main() -> Result<()> {
         .and_then(|ws| {
             println!("WebSocket handshake has been successfully completed");
             ws.send(Command::Subscribe(vec![
-                Topic::Chat,
-                Topic::OrderBookL2(Some("XBTUSD".to_string())),
-                Topic::Connected,
-                Topic::Liquidation,
-                Topic::QuoteBin1m,
-                Topic::TradeBin1m,
-                Topic::Trade(None),
-                Topic::Settlement,
-                Topic::OrderBook10,
-                Topic::Announcement,
+                // Topic::OrderBookL2_25(Some("XBTUSD".to_string())),
+                Topic::Trade(Some("XBTUSD".to_string())),
             ]))
         })
         .and_then(|ws| ws.map(|msg| println!("{:?}", msg)).collect())
