@@ -4,17 +4,23 @@ extern crate tokio;
 
 use std::env::var;
 
-use bitmex::model::position::{GetPositionRequest, PostPositionIsolateRequest, PostPositionLeverageRequest, PostPositionRiskLimitRequest, PostPositionTransferMarginRequest};
+use bitmex::model::position::{
+    GetPositionRequest, PostPositionIsolateRequest, PostPositionLeverageRequest,
+    PostPositionRiskLimitRequest, PostPositionTransferMarginRequest,
+};
 use bitmex::{BitMEX, Result};
 use tokio::runtime::Runtime;
 
 #[test]
 fn get_position() -> Result<()> {
     ::dotenv::dotenv().ok();
+    let _ = ::env_logger::try_init();
     let mut rt = Runtime::new()?;
 
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
-    let fut = bm.get_position(GetPositionRequest { ..Default::default() })?;
+    let fut = bm.get_position(GetPositionRequest {
+        ..Default::default()
+    })?;
 
     let _ = rt.block_on(fut)?;
     Ok(())
@@ -23,6 +29,7 @@ fn get_position() -> Result<()> {
 #[test]
 fn post_position_isolate() -> Result<()> {
     ::dotenv::dotenv().ok();
+    let _ = ::env_logger::try_init();
     let mut rt = Runtime::new()?;
 
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
@@ -38,6 +45,7 @@ fn post_position_isolate() -> Result<()> {
 #[test]
 fn post_position_leverage() -> Result<()> {
     ::dotenv::dotenv().ok();
+    let _ = ::env_logger::try_init();
     let mut rt = Runtime::new()?;
 
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
@@ -53,6 +61,7 @@ fn post_position_leverage() -> Result<()> {
 #[test]
 fn post_position_risk_limit() -> Result<()> {
     ::dotenv::dotenv().ok();
+    let _ = ::env_logger::try_init();
     let mut rt = Runtime::new()?;
 
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
@@ -70,6 +79,7 @@ fn post_position_risk_limit() -> Result<()> {
 #[ignore]
 fn post_position_transfer_margin() -> Result<()> {
     ::dotenv::dotenv().ok();
+    let _ = ::env_logger::try_init();
     let mut rt = Runtime::new()?;
 
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);

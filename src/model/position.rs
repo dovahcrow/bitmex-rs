@@ -1,7 +1,7 @@
 use std::collections::BTreeMap;
 
-use serde_derive::{Deserialize, Serialize};
 use chrono::{DateTime, Utc};
+use serde_derive::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -77,7 +77,7 @@ pub struct GeneralPositionResponse {
     pub long_bankrupt: f64,
     pub short_bankrupt: f64,
     pub tax_base: f64,
-    pub indicative_tax_rate: f64,
+    pub indicative_tax_rate: Option<f64>,
     pub indicative_tax: f64,
     pub unrealised_tax: f64,
     pub unrealised_pnl: f64,
