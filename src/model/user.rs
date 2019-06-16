@@ -34,7 +34,7 @@ pub type GetUserCommissionResponse = BTreeMap<String, UserCommission>;
 #[derive(Clone, Debug, Default, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct GetUserDepositAddressRequest {
-    currency: Option<String>, // default is XBt
+    pub currency: Option<String>, // default is XBt
 }
 
 pub type GetUserDepositAddressResponse = String;
@@ -43,21 +43,21 @@ pub type GetUserDepositAddressResponse = String;
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct GetUserAffiliateStatusResponse {
-    account: Option<i64>,
-    currency: Option<String>,
-    prev_payout: Option<i64>,
-    prev_turnover: Option<i64>,
-    prev_comm: Option<i64>,
-    prev_timestamp: Option<DateTime<Utc>>,
-    exec_turnover: Option<i64>,
-    exec_comm: Option<i64>,
-    total_referrals: Option<i64>,
-    total_turnover: Option<i64>,
-    total_comm: Option<i64>,
-    payout_pcnt: Option<f64>,
-    pending_payout: Option<i64>,
-    timestamp: Option<DateTime<Utc>>,
-    referrer_account: Option<f64>,
-    referral_discount: Option<f64>,
-    affiliate_payout: Option<f64>,
+    pub account: Option<i64>,
+    pub currency: Option<String>,
+    pub prev_payout: Option<i64>,
+    pub prev_turnover: Option<i64>,
+    pub prev_comm: Option<i64>,
+    pub prev_timestamp: Option<DateTime<Utc>>,
+    pub exec_turnover: Option<i64>,
+    pub exec_comm: Option<i64>,
+    pub total_referrals: Option<i64>,
+    pub total_turnover: Option<i64>,
+    pub total_comm: Option<i64>,
+    pub payout_pcnt: Option<f64>,
+    pub pending_payout: Option<i64>,
+    pub timestamp: Option<DateTime<Utc>>,
+    pub referrer_account: Option<f64>,
+    pub referral_discount: Option<f64>,
+    pub affiliate_payout: Option<f64>,
 }
