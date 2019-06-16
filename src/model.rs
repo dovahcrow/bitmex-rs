@@ -21,5 +21,7 @@ pub mod user;
 pub mod user_event;
 pub mod websocket;
 
-use self::public::GeneralRequest;
-pub use self::public::{BinSize, ContingencyType, ExecInst, OrdType, PegPriceType, Side, TimeInForce, Vararg};
+pub use self::public::{
+    BinSize, ContingencyType, ExecInst, GeneralRequest, OrdType, PegPriceType, Side, TimeInForce,
+    Vararg,
+};
