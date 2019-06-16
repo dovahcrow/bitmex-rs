@@ -1,9 +1,8 @@
 use std::collections::HashMap;
 
 use chrono::{DateTime, Utc};
-use serde_json::Value;
 use serde_derive::{Deserialize, Serialize};
-
+use serde_json::Value;
 
 use super::Command;
 
@@ -26,39 +25,39 @@ pub enum Message {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SuccessMessage {
-    success: bool,
-    subscribe: Option<String>,
-    request: Command,
+    pub success: bool,
+    pub subscribe: Option<String>,
+    pub request: Command,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct CancelAllAfterMessage {
-    now: DateTime<Utc>,
-    cancel_time: DateTime<Utc>,
-    request: Command,
+    pub now: DateTime<Utc>,
+    pub cancel_time: DateTime<Utc>,
+    pub request: Command,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct InfoMessage {
-    info: String,
-    version: DateTime<Utc>,
-    timestamp: DateTime<Utc>,
-    docs: String,
-    limit: Limit,
+    pub info: String,
+    pub version: DateTime<Utc>,
+    pub timestamp: DateTime<Utc>,
+    pub docs: String,
+    pub limit: Limit,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Limit {
-    remaining: i64,
+    pub remaining: i64,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ErrorMessage {
-    status: i64,
-    error: String,
-    request: Option<Command>,
-    meta: Value,
+    pub status: i64,
+    pub error: String,
+    pub request: Option<Command>,
+    pub meta: Value,
 }
 
 //Text("{\"table\":\"chat\",\"action\":\"insert\",\"keys\":[\"id\"],\"data\":[{\"channelID\":4,\"date\":\"2018-10-26T05:09:44.159Z\",\"fromBot\":false,\"html\":\"ㅋㅋㅋㅋㅋ ETF 드립 ㅈㄴ웃기네\\n\",\"id\":21699228,\"message\":\"ㅋㅋㅋㅋㅋ ETF 드립 ㅈㄴ웃기네\",\"user\":\"xixixiaqs\"}],\"filterKey\":\"channelID\"}")
@@ -66,21 +65,21 @@ pub struct ErrorMessage {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct TableMessage<T> {
-    table: String,
-    action: Action,
-    data: Vec<T>,
-    keys: Option<Vec<String>>,
-    foreign_keys: Option<HashMap<String, String>>,
-    types: Option<HashMap<String, String>>,
-    filter: Option<TableFilter>,
-    attributes: Option<HashMap<String, String>>,
+    pub table: String,
+    pub action: Action,
+    pub data: Vec<T>,
+    pub keys: Option<Vec<String>>,
+    pub foreign_keys: Option<HashMap<String, String>>,
+    pub types: Option<HashMap<String, String>>,
+    pub filter: Option<TableFilter>,
+    pub attributes: Option<HashMap<String, String>>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct TableFilter {
-    account: Option<i64>,
-    symbol: Option<String>,
+    pub account: Option<i64>,
+    pub symbol: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
