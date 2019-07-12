@@ -1,8 +1,10 @@
-mod client;
+pub mod core;
+mod client; //此处会扫描src/client.rs 或者 /src/client/mod.rs
 mod consts;
 mod error;
 pub mod model;
 mod transport;
+
 
 use failure::Error;
 use futures::{Future, IntoFuture};
@@ -17,4 +19,8 @@ pub const SWAGGER_URL: &str = "https://www.bitmex.com/api/explorer/swagger.json"
 pub fn check_version() -> impl Future<Item = bool, Error = Error> {
     let resp = transport::Transport::new().get_swagger().into_future().flatten();
     resp.map(|desc| desc.info.version == API_VERSION)
+}
+
+pub fn print_version() {
+    println!("the vesion is 0.1");
 }

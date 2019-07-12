@@ -16,6 +16,8 @@ fn main() -> Result<()> {
     ::env_logger::init();
 
     let mut rt = Runtime::new()?;
+    //kSd8p10yUJJMavFZ3V-vqNCJ
+    //t2vD6HhOeTK8YjgP4AQ-QX69mNVLTAXy6tm4pT_c9zixbV0-
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
     let job = bm
         .websocket()
