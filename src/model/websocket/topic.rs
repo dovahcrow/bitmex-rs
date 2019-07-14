@@ -70,7 +70,7 @@ impl Serialize for Topic {
             // requires auth
             Affiliate => "affiliate".to_string(),
             Execution => "execution".to_string(),
-            Order => "rorde".to_string(),
+            Order => "order".to_string(),
             Margin => "margin".to_string(),
             Position => "position".to_string(),
             PrivateNotifications => "privateNotifications".to_string(),
