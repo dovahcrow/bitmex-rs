@@ -9,7 +9,7 @@ lazy_static! {
         if var("BITMEX_TESTNET").unwrap_or_else(|_| "0".to_string()) == "0" {
             "wss://www.bitmex.com/realtime"
         } else {
-            warn!("Your are using BitMEX testnet Restful API");
+            warn!("Your are using BitMEX testnet Websocket");
             "wss://testnet.bitmex.com/realtime"
         }
     };
@@ -17,7 +17,7 @@ lazy_static! {
         if var("BITMEX_TESTNET").unwrap_or_else(|_| "0".to_string()) == "0" {
             "https://www.bitmex.com/api/v1"
         } else {
-            warn!("Your are using BitMEX testnet Websocket");
+            warn!("Your are using BitMEX testnet Restful API");
             "https://testnet.bitmex.com/api/v1"
         }
     };
