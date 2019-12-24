@@ -1,33 +1,29 @@
-extern crate bitmex;
-extern crate dotenv;
-extern crate env_logger;
-extern crate tokio;
-
+use bitmex::models::Vararg;
+use bitmex::models::{
+    ContingencyType, DeleteOrderAllRequest, DeleteOrderRequest, ExecInst, OrdType,
+    PostOrderRequest, PutOrderRequest, Side,
+};
+use bitmex::BitMEX;
+use failure::Fallible;
 use std::env::var;
-
-use bitmex::model::order::{ContingencyType, DeleteOrderAllRequest, DeleteOrderRequest, ExecInst, OrdType, PostOrderRequest, PutOrderRequest, Side};
-use bitmex::model::Vararg;
-
-use bitmex::{BitMEX, Result};
-
 use tokio::runtime::Runtime;
 
 // SKip order testings otherwise we will be marked as spammer
 #[test]
 #[ignore]
-fn create_order_market() -> Result<()> {
+fn create_order_market() -> Fallible<()> {
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
 
-    let resp = rt.block_on(bm.post_order(PostOrderRequest {
+    let resp = rt.block_on(bm.request(PostOrderRequest {
         symbol: "XBTUSD".to_string(),
         order_qty: Some(1.),
         text: Some("Shine".into()),
         ..Default::default()
     })?)?;
 
-    let _ = rt.block_on(bm.delete_order(DeleteOrderRequest {
+    let _ = rt.block_on(bm.request(DeleteOrderRequest {
         order_id: Some(Vararg::Single(resp.order_id)),
         ..Default::default()
     })?)?;
@@ -36,12 +32,12 @@ fn create_order_market() -> Result<()> {
 
 #[test]
 #[ignore]
-fn create_order_limit_buy() -> Result<()> {
+fn create_order_limit_buy() -> Fallible<()> {
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
 
-    let resp = rt.block_on(bm.post_order(PostOrderRequest {
+    let resp = rt.block_on(bm.request(PostOrderRequest {
         symbol: "XBTUSD".to_string(),
         ord_type: Some(OrdType::Limit),
         price: Some(6000.),
@@ -50,7 +46,7 @@ fn create_order_limit_buy() -> Result<()> {
         ..Default::default()
     })?)?;
 
-    let _ = rt.block_on(bm.delete_order(DeleteOrderRequest {
+    let _ = rt.block_on(bm.request(DeleteOrderRequest {
         order_id: Some(Vararg::Single(resp.order_id)),
         ..Default::default()
     })?)?;
@@ -60,12 +56,12 @@ fn create_order_limit_buy() -> Result<()> {
 
 #[test]
 #[ignore]
-fn create_order_limit_sell() -> Result<()> {
+fn create_order_limit_sell() -> Fallible<()> {
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
 
-    let resp = rt.block_on(bm.post_order(PostOrderRequest {
+    let resp = rt.block_on(bm.request(PostOrderRequest {
         symbol: "XBTUSD".to_string(),
         ord_type: Some(OrdType::Limit),
         price: Some(6500.),
@@ -74,7 +70,7 @@ fn create_order_limit_sell() -> Result<()> {
         ..Default::default()
     })?)?;
 
-    let _ = rt.block_on(bm.delete_order(DeleteOrderRequest {
+    let _ = rt.block_on(bm.request(DeleteOrderRequest {
         order_id: Some(Vararg::Single(resp.order_id)),
         ..Default::default()
     })?)?;
@@ -84,12 +80,12 @@ fn create_order_limit_sell() -> Result<()> {
 
 #[test]
 #[ignore]
-fn create_order_stop() -> Result<()> {
+fn create_order_stop() -> Fallible<()> {
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
 
-    let resp = rt.block_on(bm.post_order(PostOrderRequest {
+    let resp = rt.block_on(bm.request(PostOrderRequest {
         symbol: "XBTUSD".to_string(),
         ord_type: Some(OrdType::Stop),
         stop_px: Some(7000.),
@@ -98,7 +94,7 @@ fn create_order_stop() -> Result<()> {
         ..Default::default()
     })?)?;
 
-    let _ = rt.block_on(bm.delete_order(DeleteOrderRequest {
+    let _ = rt.block_on(bm.request(DeleteOrderRequest {
         order_id: Some(Vararg::Single(resp.order_id)),
         ..Default::default()
     })?)?;
@@ -108,7 +104,7 @@ fn create_order_stop() -> Result<()> {
 
 #[test]
 #[ignore]
-fn create_order_stoplimit() -> Result<()> {
+fn create_order_stoplimit() -> Fallible<()> {
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
@@ -133,7 +129,7 @@ fn create_order_stoplimit() -> Result<()> {
 
 #[test]
 #[ignore]
-fn create_order_bracket() -> Result<()> {
+fn create_order_bracket() -> Fallible<()> {
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
 
@@ -175,7 +171,11 @@ fn create_order_bracket() -> Result<()> {
     })?)?;
 
     let _ = rt.block_on(bm.delete_order(DeleteOrderRequest {
-        order_id: Some(Vararg::Multiple(vec![resp1.order_id, resp2.order_id, resp3.order_id])),
+        order_id: Some(Vararg::Multiple(vec![
+            resp1.order_id,
+            resp2.order_id,
+            resp3.order_id,
+        ])),
         ..Default::default()
     })?)?;
 
@@ -184,7 +184,7 @@ fn create_order_bracket() -> Result<()> {
 
 #[test]
 #[ignore]
-fn create_amend_delete_order() -> Result<()> {
+fn create_amend_delete_order() -> Fallible<()> {
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
 
@@ -219,7 +219,7 @@ fn create_amend_delete_order() -> Result<()> {
 
 #[test]
 #[ignore]
-fn create_delete_all_order() -> Result<()> {
+fn create_delete_all_order() -> Fallible<()> {
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
 
@@ -257,7 +257,7 @@ fn create_delete_all_order() -> Result<()> {
 
 #[test]
 #[ignore]
-fn create_amend_delete_order_bulk() -> Result<()> {
+fn create_amend_delete_order_bulk() -> Fallible<()> {
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
 
@@ -282,7 +282,7 @@ fn create_amend_delete_order_bulk() -> Result<()> {
         },
     ];
 
-    let fut = bm.post_order_bulk(&orders)?;
+    let fut = bm.request(&orders)?;
     let orders = rt.block_on(fut)?;
 
     let req: Vec<_> = orders
@@ -295,13 +295,14 @@ fn create_amend_delete_order_bulk() -> Result<()> {
         })
         .collect();
 
-    let fut = bm.put_order_bulk(&req)?;
+    let fut = bm.request(req)?;
     let _ = rt.block_on(fut)?;
 
-    let fut = bm.delete_order_all(DeleteOrderAllRequest {
+    let fut = bm.request(DeleteOrderAllRequest {
         symbol: Some("XBTUSD".to_string()),
-        ..Default::default()
-    })?;
+        filter: None,
+        text: None,
+    });
     let _ = rt.block_on(fut)?;
 
     Ok(())

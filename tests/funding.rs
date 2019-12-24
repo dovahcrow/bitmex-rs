@@ -1,12 +1,10 @@
-extern crate bitmex;
-extern crate tokio;
-
-use bitmex::model::funding::GetFundingRequest;
-use bitmex::{BitMEX, Result};
+use bitmex::models::GetFundingRequest;
+use bitmex::BitMEX;
+use failure::Fallible;
 use tokio::runtime::Runtime;
 
 #[test]
-fn get_funding() -> Result<()> {
+fn get_funding() -> Fallible<()> {
     let mut rt = Runtime::new()?;
 
     let bm = BitMEX::new();

@@ -1,70 +1,73 @@
-extern crate bitmex;
-extern crate dotenv;
-extern crate tokio;
-
+use bitmex::models::{
+    GetUserWalletHistoryRequest, GetUserWalletRequest, GetUserWalletSummaryRequest,
+};
+use bitmex::BitMEX;
+use failure::Fallible;
+use failure::Fallible;
 use std::env::var;
-
-use bitmex::model::user::{GetUserWalletHistoryRequest, GetUserWalletRequest, GetUserWalletSummaryRequest};
-use bitmex::{BitMEX, Result};
 use tokio::runtime::Runtime;
 
 #[test]
-fn get_user() -> Result<()> {
+fn get_user() -> Fallible<()> {
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
 
-    let _ = rt.block_on(bm.get_user()?)?;
-    Ok(())
-}
-
-
-#[test]
-fn get_user_affiliate_status() -> Result<()> {
-    ::dotenv::dotenv().ok();
-    let mut rt = Runtime::new()?;
-    let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
-
-    let _ = rt.block_on(bm.get_user_affiliate_status()?)?;
-    Ok(())
-}
-
-
-#[test]
-fn get_user_wallet() -> Result<()> {
-    ::dotenv::dotenv().ok();
-    let mut rt = Runtime::new()?;
-    let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
-
-    let _ = rt.block_on(bm.get_user_wallet(GetUserWalletRequest { ..Default::default() })?)?;
-
+    let _ = rt.block_on(bm.request()?)?;
     Ok(())
 }
 
 #[test]
-fn get_user_wallet_history() -> Result<()> {
+fn get_user_affiliate_status() -> Fallible<()> {
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
 
-    let _ = rt.block_on(bm.get_user_wallet_history(GetUserWalletHistoryRequest { ..Default::default() })?)?;
+    let _ = rt.block_on(bm.request()?)?;
+    Ok(())
+}
+
+#[test]
+fn get_user_wallet() -> Fallible<()> {
+    ::dotenv::dotenv().ok();
+    let mut rt = Runtime::new()?;
+    let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
+
+    let _ = rt.block_on(bm.request(GetUserWalletRequest {
+        ..Default::default()
+    })?)?;
 
     Ok(())
 }
 
 #[test]
-fn get_user_wallet_summary() -> Result<()> {
+fn get_user_wallet_history() -> Fallible<()> {
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
 
-    let _ = rt.block_on(bm.get_user_wallet_summary(GetUserWalletSummaryRequest { ..Default::default() })?)?;
+    let _ = rt.block_on(bm.request(GetUserWalletHistoryRequest {
+        ..Default::default()
+    })?)?;
 
     Ok(())
 }
 
 #[test]
-fn get_user_commission() -> Result<()> {
+fn get_user_wallet_summary() -> Fallible<()> {
+    ::dotenv::dotenv().ok();
+    let mut rt = Runtime::new()?;
+    let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
+
+    let _ = rt.block_on(bm.request(GetUserWalletSummaryRequest {
+        ..Default::default()
+    })?)?;
+
+    Ok(())
+}
+
+#[test]
+fn get_user_commission() -> Fallible<()> {
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
@@ -75,13 +78,12 @@ fn get_user_commission() -> Result<()> {
 }
 
 #[test]
-fn get_user_deposit_address() -> Result<()> {
+fn get_user_deposit_address() -> Fallible<()> {
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
 
-    let _ = rt.block_on(bm.get_user_deposit_address(Default::default())?)?;
+    let _ = rt.block_on(bm.request(Default::default())?)?;
 
     Ok(())
 }
-

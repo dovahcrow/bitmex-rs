@@ -1,17 +1,10 @@
-extern crate bitmex;
-extern crate dotenv;
-extern crate env_logger;
-extern crate futures;
-extern crate tokio;
-extern crate tungstenite;
-
-use bitmex::model::websocket::{Command, Topic};
-use bitmex::{BitMEX, Result};
+use bitmex::models::{Command, Topic};
+use bitmex::BitMEX;
 use futures::{Future, Sink, Stream};
 use std::env::var;
 use tokio::runtime::current_thread::Runtime;
 
-fn main() -> Result<()> {
+fn main() -> Fallible<()> {
     ::dotenv::dotenv().ok();
     ::env_logger::init();
 

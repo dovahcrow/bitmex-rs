@@ -1,26 +1,24 @@
-extern crate bitmex;
-extern crate dotenv;
-extern crate tokio;
-
+use bitmex::models::BinSize;
+use bitmex::models::{GetTradeBucketedRequest, GetTradeRequest};
+use bitmex::BitMEX;
+use failure::Fallible;
 use std::env::var;
-
-use bitmex::model::trade::{GetTradeBucketedRequest, GetTradeRequest};
-use bitmex::model::BinSize;
-use bitmex::{BitMEX, Result};
 use tokio::runtime::Runtime;
 
 #[test]
-fn get_trade() -> Result<()> {
+fn get_trade() -> Fallible<()> {
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
 
-    let _ = rt.block_on(bm.get_trade(GetTradeRequest { ..Default::default() })?)?;
+    let _ = rt.block_on(bm.get_trade(GetTradeRequest {
+        ..Default::default()
+    })?)?;
     Ok(())
 }
 
 #[test]
-fn get_trade_bucketed() -> Result<()> {
+fn get_trade_bucketed() -> Fallible<()> {
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);

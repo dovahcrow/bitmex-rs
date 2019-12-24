@@ -1,14 +1,10 @@
-extern crate bitmex;
-extern crate dotenv;
-extern crate tokio;
-
+use bitmex::BitMEX;
+use failure::Fallible;
 use std::env::var;
-
-use bitmex::{BitMEX, Result};
 use tokio::runtime::Runtime;
 
 #[test]
-fn get_global_notification() -> Result<()> {
+fn get_global_notification() -> Fallible<()> {
     // This will fail for error access denied
     ::dotenv::dotenv().ok();
 

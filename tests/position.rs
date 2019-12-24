@@ -1,18 +1,14 @@
-extern crate bitmex;
-extern crate dotenv;
-extern crate tokio;
-
-use std::env::var;
-
-use bitmex::model::position::{
+use bitmex::models::{
     GetPositionRequest, PostPositionIsolateRequest, PostPositionLeverageRequest,
     PostPositionRiskLimitRequest, PostPositionTransferMarginRequest,
 };
-use bitmex::{BitMEX, Result};
+use bitmex::BitMEX;
+use failure::Fallible;
+use std::env::var;
 use tokio::runtime::Runtime;
 
 #[test]
-fn get_position() -> Result<()> {
+fn get_position() -> Fallible<()> {
     ::dotenv::dotenv().ok();
     let _ = ::env_logger::try_init();
     let mut rt = Runtime::new()?;
@@ -27,7 +23,7 @@ fn get_position() -> Result<()> {
 }
 
 #[test]
-fn post_position_isolate() -> Result<()> {
+fn post_position_isolate() -> Fallible<()> {
     ::dotenv::dotenv().ok();
     let _ = ::env_logger::try_init();
     let mut rt = Runtime::new()?;
@@ -43,7 +39,7 @@ fn post_position_isolate() -> Result<()> {
 }
 
 #[test]
-fn post_position_leverage() -> Result<()> {
+fn post_position_leverage() -> Fallible<()> {
     ::dotenv::dotenv().ok();
     let _ = ::env_logger::try_init();
     let mut rt = Runtime::new()?;
@@ -59,7 +55,7 @@ fn post_position_leverage() -> Result<()> {
 }
 
 #[test]
-fn post_position_risk_limit() -> Result<()> {
+fn post_position_risk_limit() -> Fallible<()> {
     ::dotenv::dotenv().ok();
     let _ = ::env_logger::try_init();
     let mut rt = Runtime::new()?;
@@ -77,7 +73,7 @@ fn post_position_risk_limit() -> Result<()> {
 
 #[test]
 #[ignore]
-fn post_position_transfer_margin() -> Result<()> {
+fn post_position_transfer_margin() -> Fallible<()> {
     ::dotenv::dotenv().ok();
     let _ = ::env_logger::try_init();
     let mut rt = Runtime::new()?;

@@ -1,13 +1,10 @@
-extern crate bitmex;
-extern crate dotenv;
-extern crate tokio;
-
-use bitmex::model::instrument::GetInstrumentRequest;
-use bitmex::{BitMEX, Result};
+use bitmex::models::GetInstrumentRequest;
+use bitmex::BitMEX;
+use failure::Fallible;
 use tokio::runtime::Runtime;
 
 #[test]
-fn test_get_instrument() -> Result<()> {
+fn test_get_instrument() -> Fallible<()> {
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
 
@@ -22,7 +19,7 @@ fn test_get_instrument() -> Result<()> {
 }
 
 #[test]
-fn test_get_instrument_active() -> Result<()> {
+fn test_get_instrument_active() -> Fallible<()> {
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
 
@@ -35,7 +32,7 @@ fn test_get_instrument_active() -> Result<()> {
 }
 
 #[test]
-fn test_get_instrument_active_and_indices() -> Result<()> {
+fn test_get_instrument_active_and_indices() -> Fallible<()> {
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
 
@@ -48,7 +45,7 @@ fn test_get_instrument_active_and_indices() -> Result<()> {
 }
 
 #[test]
-fn get_instrument_active_interval() -> Result<()> {
+fn get_instrument_active_interval() -> Fallible<()> {
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
 
@@ -61,7 +58,7 @@ fn get_instrument_active_interval() -> Result<()> {
 }
 
 #[test]
-fn get_instrument_composite_index() -> Result<()> {
+fn get_instrument_composite_index() -> Fallible<()> {
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
 
@@ -77,7 +74,7 @@ fn get_instrument_composite_index() -> Result<()> {
 }
 
 #[test]
-fn get_instrument_indices() -> Result<()> {
+fn get_instrument_indices() -> Fallible<()> {
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
 

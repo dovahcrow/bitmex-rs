@@ -12,12 +12,14 @@ edition = "2018"
 
 
 [dependencies]
-hyper = "0.12"
-hyper-tls = "0.3"
+reqwest = { version = "0.10.0-alpha.2", git = "https://github.com/seanmonstar/reqwest", features = ["json"] }
+hyper = "0.13"
+hyper-tls = "0.4"
+http = "0.2"
 
-url = "1"
-futures = "0.1"
-tokio = "0.1"
+url = "2"
+futures = "0.3"
+tokio = { version = "0.2", features = ["macros"] }
 
 failure = "0.1"
 log = "0.4"
@@ -28,19 +30,17 @@ serde_derive = "1"
 
 chrono = { version = "0.4", features = ["serde"] }
 
-hex = "0.3"
-ring = "0.13"
+hex = "0.4"
+ring = "0.16"
 
-uuid = { version = "0.7", features = ["serde"] }
-# maplit = "1"
-
-tungstenite = "0.6"
-tokio-tungstenite = "0.6"
+uuid = { version = "0.8", features = ["serde"] }
+tungstenite = "0.9"
+tokio-tungstenite = "0.9"
 lazy_static = "1"
 
 [features]
 dev = []
 
 [dev-dependencies]
-dotenv = "0.13"
-env_logger = "0.6"
+dotenv = "0.15"
+env_logger = "0.7"

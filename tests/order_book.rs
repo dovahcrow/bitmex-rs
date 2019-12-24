@@ -1,15 +1,11 @@
-extern crate bitmex;
-extern crate dotenv;
-extern crate tokio;
-
+use bitmex::models::GetOrderBookL2Request;
+use bitmex::BitMEX;
+use failure::Fallible;
 use std::env::var;
-
-use bitmex::model::order_book::GetOrderBookL2Request;
-use bitmex::{BitMEX, Result};
 use tokio::runtime::Runtime;
 
 #[test]
-fn get_order_book_l2() -> Result<()> {
+fn get_order_book_l2() -> Fallible<()> {
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
 

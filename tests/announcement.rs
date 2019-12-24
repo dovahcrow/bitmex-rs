@@ -1,23 +1,21 @@
-extern crate bitmex;
-extern crate tokio;
-
-use bitmex::model::announcement::GetAnnouncementRequest;
-use bitmex::{BitMEX, Result};
+use bitmex::models::GetAnnouncementRequest;
+use bitmex::BitMEX;
+use failure::Fallible;
 use tokio::runtime::Runtime;
 
 #[test]
-fn get_announcement() -> Result<()> {
+fn get_announcement() -> Fallible<()> {
     let mut rt = Runtime::new()?;
 
     let bm = BitMEX::new();
-    let fut = bm.get_announcement(GetAnnouncementRequest { ..Default::default() })?;
+    let fut = bm.request(GetAnnouncementRequest { columns: None })?;
 
     let _ = rt.block_on(fut)?;
     Ok(())
 }
 
 #[test]
-fn get_announcement_urgent() -> Result<()> {
+fn get_announcement_urgent() -> Fallible<()> {
     let mut rt = Runtime::new()?;
 
     let bm = BitMEX::new();

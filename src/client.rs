@@ -1,24 +1,9 @@
-mod announcement;
-mod api_key;
-mod chat;
-mod execution;
-mod funding;
-mod global_notification;
-mod instrument;
-mod insurance;
-mod leaderboard;
-mod liquidation;
-mod order;
-mod order_book;
-mod position;
-mod quote;
-mod settlement;
-mod trade;
-mod user;
-mod user_event;
-pub mod websocket;
+// pub mod websocket;
 
+use crate::models::Request;
 use crate::transport::Transport;
+use failure::Fallible;
+use serde::de::DeserializeOwned;
 
 #[derive(Clone)]
 pub struct BitMEX {
@@ -33,12 +18,22 @@ impl Default for BitMEX {
 
 impl BitMEX {
     pub fn new() -> Self {
-        BitMEX { transport: Transport::new() }
+        BitMEX {
+            transport: Transport::new(),
+        }
     }
 
     pub fn with_credential(api_key: &str, api_secret: &str) -> Self {
         BitMEX {
             transport: Transport::with_credential(api_key, api_secret),
         }
+    }
+
+    pub async fn request<R>(&self, req: R) -> Fallible<R::Response>
+    where
+        R: Request,
+        R::Response: DeserializeOwned,
+    {
+        self.transport.request(req).await
     }
 }

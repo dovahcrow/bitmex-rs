@@ -1,17 +1,10 @@
-extern crate bitmex;
-extern crate dotenv;
-extern crate env_logger;
-extern crate futures;
-extern crate tokio;
-extern crate tungstenite;
-
-use bitmex::model::websocket::Command;
-use bitmex::{BitMEX, Result};
+use bitmex::models::Command;
+use bitmex::BitMEX;
 use futures::{Future, Sink, Stream};
 use std::env::var;
 use tokio::runtime::current_thread::Runtime;
 
-fn main() -> Result<()> {
+fn main() -> Fallible<()> {
     ::dotenv::dotenv().ok();
     ::env_logger::init();
 
@@ -22,7 +15,8 @@ fn main() -> Result<()> {
         .and_then(|ws| {
             println!("WebSocket handshake has been successfully completed");
             ws.send(Command::Ping)
-        }).and_then(|ws| ws.map(|msg| println!("{:?}", msg)).collect())
+        })
+        .and_then(|ws| ws.map(|msg| println!("{:?}", msg)).collect())
         .map_err(|e| {
             println!("Error during the websocket handshake occurred: {}", e);
             e

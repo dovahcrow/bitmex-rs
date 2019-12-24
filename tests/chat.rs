@@ -1,15 +1,11 @@
-extern crate bitmex;
-extern crate dotenv;
-extern crate tokio;
-
+use bitmex::models::{GetChatRequest, PostChatRequest};
+use bitmex::BitMEX;
+use failure::Fallible;
 use std::env::var;
-
-use bitmex::model::chat::{GetChatRequest, PostChatRequest};
-use bitmex::{BitMEX, Result};
 use tokio::runtime::Runtime;
 
 #[test]
-fn get_chat() -> Result<()> {
+fn get_chat() -> Fallible<()> {
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
 
@@ -26,7 +22,7 @@ fn get_chat() -> Result<()> {
 
 #[test]
 #[ignore] // My test account was banned from chatting on testnet
-fn post_chat() -> Result<()> {
+fn post_chat() -> Fallible<()> {
     ::dotenv::dotenv().ok();
 
     let mut rt = Runtime::new()?;
@@ -42,7 +38,7 @@ fn post_chat() -> Result<()> {
 }
 
 #[test]
-fn get_chat_channels() -> Result<()> {
+fn get_chat_channels() -> Fallible<()> {
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
 
@@ -54,7 +50,7 @@ fn get_chat_channels() -> Result<()> {
 }
 
 #[test]
-fn get_chat_connected() -> Result<()> {
+fn get_chat_connected() -> Fallible<()> {
     ::dotenv::dotenv().ok();
     let mut rt = Runtime::new()?;
 

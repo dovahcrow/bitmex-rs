@@ -1,22 +1,4 @@
-
-use std::collections::BTreeMap;
-
-use chrono::{DateTime, Utc};
 use serde_derive::{Deserialize, Serialize};
-
-
-#[derive(Clone, Debug, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct GeneralRequest {
-    pub symbol: Option<String>,
-    pub filter: Option<BTreeMap<String, String>>,
-    pub columns: Option<Vec<String>>,
-    pub count: u64,
-    pub start: Option<u64>,
-    pub reverse: Option<bool>,
-    pub start_time: Option<DateTime<Utc>>,
-    pub end_time: Option<DateTime<Utc>>,
-}
 
 #[derive(Clone, Copy, Debug, Deserialize, Serialize)]
 pub enum Side {
@@ -26,7 +8,7 @@ pub enum Side {
     Empty, // BitMEX sometimes has empty side due to unknown reason
 }
 
-#[derive(Clone, Debug, Serialize)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 pub enum BinSize {
     #[serde(rename = "1m")]
     M1,
