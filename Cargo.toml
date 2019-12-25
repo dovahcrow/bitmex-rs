@@ -1,6 +1,6 @@
 [package]
 name = "bitmex"
-version = "0.1.7"
+version = "0.2.0-alpha.1"
 authors = ["Weiyüen Wu <doomsplayer@gmail.com>"]
 license = "MIT OR Apache-2.0"
 description = "Rust Library for the BitMEX API (Async)"
@@ -12,7 +12,7 @@ edition = "2018"
 
 
 [dependencies]
-reqwest = { version = "0.10.0-alpha.2", git = "https://github.com/seanmonstar/reqwest", features = ["json"] }
+reqwest = { version = "0.10.0-alpha.2", git = "https://github.com/seanmonstar/reqwest", features = ["json"], rev = "09e7fe6" }
 hyper = "0.13"
 hyper-tls = "0.4"
 http = "0.2"
@@ -36,11 +36,8 @@ ring = "0.16"
 
 uuid = { version = "0.8", features = ["serde"] }
 tungstenite = "0.9"
-tokio-tungstenite = { git = "https://github.com/dovahcrow/tokio-tungstenite", version = "0.10", branch = "tokio2", features = ["tls"] }
+tokio-tungstenite = { git = "https://github.com/dovahcrow/tokio-tungstenite", version = "0.10", features = ["tls"], rev = "6dc2018cbfe8fe7ddd75ff977343086503135b38" }
 lazy_static = "1"
-
-[features]
-dev = []
 
 [dev-dependencies]
 dotenv = "0.15"
