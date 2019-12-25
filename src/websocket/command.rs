@@ -1,11 +1,10 @@
+use super::Topic;
+use crate::consts::WS_URL;
+use crate::BitMEX;
+use failure::Fallible;
 use hyper::Method;
 use serde_derive::{Deserialize, Serialize};
 use url::Url;
-
-use super::Topic;
-use crate::consts::WS_URL;
-use crate::error::Result;
-use crate::BitMEX;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "op", content = "args")]
@@ -20,7 +19,7 @@ pub enum Command {
 }
 
 impl Command {
-    pub fn authenticate(bm: &BitMEX, expires: i64) -> Result<Command> {
+    pub fn authenticate(bm: &BitMEX, expires: i64) -> Fallible<Command> {
         let (key, sig) = bm
             .transport
             .signature(Method::GET, expires, &Url::parse(&WS_URL)?, "")?;

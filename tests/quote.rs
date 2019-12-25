@@ -2,35 +2,42 @@ use bitmex::models::BinSize;
 use bitmex::models::{GetQuoteBucketedRequest, GetQuoteRequest};
 use bitmex::BitMEX;
 use failure::Fallible;
+use log::debug;
 use std::env::var;
 use tokio::runtime::Runtime;
 
+// 403 forbidden
 #[test]
 fn get_quote() -> Fallible<()> {
-    ::dotenv::dotenv().ok();
+    let _ = dotenv::dotenv();
+    let _ = env_logger::try_init();
     let mut rt = Runtime::new()?;
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
+    let fut = bm.request(GetQuoteRequest {
+        ..Default::default()
+    });
+    let ret = rt.block_on(fut);
+    debug!("{:?}", ret);
 
-    assert!(rt
-        .block_on(bm.get_quote(GetQuoteRequest {
-            ..Default::default()
-        })?)
-        .is_err());
+    assert!(ret.is_err());
     Ok(())
 }
 
+// 403 forbidden
 #[test]
 fn get_quote_bucketed() -> Fallible<()> {
-    ::dotenv::dotenv().ok();
+    let _ = dotenv::dotenv();
+    let _ = env_logger::try_init();
     let mut rt = Runtime::new()?;
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
+    let fut = bm.request(GetQuoteBucketedRequest {
+        partial: Some(false),
+        bin_size: Some(BinSize::D1),
+        ..Default::default()
+    });
+    let ret = rt.block_on(fut);
+    debug!("{:?}", ret);
 
-    assert!(rt
-        .block_on(bm.get_quote_bucketed(GetQuoteBucketedRequest {
-            partial: false,
-            bin_size: BinSize::D1,
-            ..Default::default()
-        })?)
-        .is_err());
+    assert!(ret.is_err());
     Ok(())
 }

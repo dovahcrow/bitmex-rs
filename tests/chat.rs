@@ -1,62 +1,70 @@
-use bitmex::models::{GetChatRequest, PostChatRequest};
+use bitmex::models::{
+    GetChatChannelsRequest, GetChatConnectedRequest, GetChatRequest, PostChatRequest,
+};
 use bitmex::BitMEX;
 use failure::Fallible;
+use log::debug;
 use std::env::var;
 use tokio::runtime::Runtime;
 
 #[test]
 fn get_chat() -> Fallible<()> {
-    ::dotenv::dotenv().ok();
+    let _ = dotenv::dotenv();
+    let _ = env_logger::try_init();
+
     let mut rt = Runtime::new()?;
 
     let bm = BitMEX::new();
-    let fut = bm.get_chat(GetChatRequest {
-        count: 1,
-        channel_id: Some(1),
+    let fut = bm.request(GetChatRequest {
+        count: Some(1),
+        channel_id: Some(1.),
         ..Default::default()
-    })?;
+    });
 
-    let _ = rt.block_on(fut)?;
+    debug!("{:?}", rt.block_on(fut)?);
     Ok(())
 }
 
 #[test]
 #[ignore] // My test account was banned from chatting on testnet
 fn post_chat() -> Fallible<()> {
-    ::dotenv::dotenv().ok();
+    let _ = dotenv::dotenv();
+    let _ = env_logger::try_init();
 
     let mut rt = Runtime::new()?;
-    let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
-    let fut = bm.post_chat(PostChatRequest {
-        message: "\n---- IGNORE ME ----\nbitmex-rs library testing\n---- IGNORE ME ----".into(),
-        channel_id: 1,
-        ..Default::default()
-    })?;
 
-    let _ = rt.block_on(fut)?;
+    let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
+    let fut = bm.request(PostChatRequest {
+        message: "Hey there".into(),
+        channel_id: Some(1.),
+    });
+
+    debug!("{:?}", rt.block_on(fut)?);
     Ok(())
 }
 
 #[test]
 fn get_chat_channels() -> Fallible<()> {
-    ::dotenv::dotenv().ok();
+    let _ = dotenv::dotenv();
+    let _ = env_logger::try_init();
     let mut rt = Runtime::new()?;
 
     let bm = BitMEX::new();
-    let fut = bm.get_chat_channels()?;
+    let fut = bm.request(GetChatChannelsRequest {});
 
-    let _ = rt.block_on(fut)?;
+    debug!("{:?}", rt.block_on(fut)?);
     Ok(())
 }
 
 #[test]
 fn get_chat_connected() -> Fallible<()> {
-    ::dotenv::dotenv().ok();
+    let _ = dotenv::dotenv();
+    let _ = env_logger::try_init();
     let mut rt = Runtime::new()?;
 
     let bm = BitMEX::new();
-    let fut = bm.get_chat_connected()?;
+    let fut = bm.request(GetChatConnectedRequest {});
 
-    let _ = rt.block_on(fut)?;
+    debug!("{:?}", rt.block_on(fut)?);
     Ok(())
 }

@@ -1,87 +1,98 @@
-use bitmex::models::GetInstrumentRequest;
+use bitmex::models::{
+    GetInstrumentActiveAndIndicesRequest, GetInstrumentActiveIntervalsRequest,
+    GetInstrumentActiveRequest, GetInstrumentCompositeIndexRequest, GetInstrumentIndicesRequest,
+    GetInstrumentRequest,
+};
 use bitmex::BitMEX;
 use failure::Fallible;
+use log::debug;
 use tokio::runtime::Runtime;
 
 #[test]
 fn test_get_instrument() -> Fallible<()> {
-    ::dotenv::dotenv().ok();
+    let _ = dotenv::dotenv();
+    let _ = env_logger::try_init();
     let mut rt = Runtime::new()?;
 
     let bm = BitMEX::new();
-    let fut = bm.get_instrument(GetInstrumentRequest {
+    let fut = bm.request(GetInstrumentRequest {
         symbol: Some("XBT".to_string()),
         ..Default::default()
-    })?;
+    });
 
-    let _ = rt.block_on(fut)?;
+    debug!("{:?}", rt.block_on(fut)?);
     Ok(())
 }
 
 #[test]
 fn test_get_instrument_active() -> Fallible<()> {
-    ::dotenv::dotenv().ok();
+    let _ = dotenv::dotenv();
+    let _ = env_logger::try_init();
     let mut rt = Runtime::new()?;
 
     let bm = BitMEX::new();
-    let fut = bm.get_instrument_active()?;
+    let fut = bm.request(GetInstrumentActiveRequest {});
 
-    let _ = rt.block_on(fut)?;
+    debug!("{:?}", rt.block_on(fut)?);
 
     Ok(())
 }
 
 #[test]
 fn test_get_instrument_active_and_indices() -> Fallible<()> {
-    ::dotenv::dotenv().ok();
+    let _ = dotenv::dotenv();
+    let _ = env_logger::try_init();
     let mut rt = Runtime::new()?;
 
     let bm = BitMEX::new();
-    let fut = bm.get_instrument_active_and_indices()?;
+    let fut = bm.request(GetInstrumentActiveAndIndicesRequest {});
 
-    let _ = rt.block_on(fut)?;
+    debug!("{:?}", rt.block_on(fut)?);
 
     Ok(())
 }
 
 #[test]
 fn get_instrument_active_interval() -> Fallible<()> {
-    ::dotenv::dotenv().ok();
+    let _ = dotenv::dotenv();
+    let _ = env_logger::try_init();
     let mut rt = Runtime::new()?;
 
     let bm = BitMEX::new();
-    let fut = bm.get_instrument_active_interval()?;
+    let fut = bm.request(GetInstrumentActiveIntervalsRequest {});
 
-    let _ = rt.block_on(fut)?;
+    debug!("{:?}", rt.block_on(fut)?);
 
     Ok(())
 }
 
 #[test]
 fn get_instrument_composite_index() -> Fallible<()> {
-    ::dotenv::dotenv().ok();
+    let _ = dotenv::dotenv();
+    let _ = env_logger::try_init();
     let mut rt = Runtime::new()?;
 
     let bm = BitMEX::new();
-    let fut = bm.get_instrument_composite_index(GetInstrumentRequest {
+    let fut = bm.request(GetInstrumentCompositeIndexRequest {
         symbol: Some("XBT".to_string()),
         ..Default::default()
-    })?;
+    });
 
-    let _ = rt.block_on(fut)?;
+    debug!("{:?}", rt.block_on(fut)?);
 
     Ok(())
 }
 
 #[test]
 fn get_instrument_indices() -> Fallible<()> {
-    ::dotenv::dotenv().ok();
+    let _ = dotenv::dotenv();
+    let _ = env_logger::try_init();
     let mut rt = Runtime::new()?;
 
     let bm = BitMEX::new();
-    let fut = bm.get_instrument_indices()?;
+    let fut = bm.request(GetInstrumentIndicesRequest {});
 
-    let _ = rt.block_on(fut)?;
+    debug!("{:?}", rt.block_on(fut)?);
 
     Ok(())
 }

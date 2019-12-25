@@ -4558,9 +4558,14 @@
                     "200": {
                         "description": "Request was successful",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/UserEvent"
+                            "type": "object",
+                            "properties": {
+                                "userEvents": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/UserEvent"
+                                    }
+                                }
                             }
                         }
                     },
@@ -4779,7 +4784,6 @@
             },
             "required": [
                 "id",
-                "secret",
                 "name",
                 "nonce",
                 "userId"
@@ -6653,9 +6657,7 @@
                     "type": "string"
                 }
             },
-            "required": [
-                "transactID"
-            ],
+            "required": [],
             "type": "object"
         },
         "AccessToken": {
@@ -6753,10 +6755,7 @@
                     "format": "double"
                 }
             },
-            "required": [
-                "account",
-                "currency"
-            ],
+            "required": [],
             "type": "object"
         },
         "QuoteFillRatio": {
@@ -7169,7 +7168,8 @@
                     "type": "string"
                 },
                 "eventMeta": {
-                    "type": "object"
+                    "type": "object",
+                    "properties": {}
                 },
                 "created": {
                     "type": "string",
@@ -7180,7 +7180,6 @@
                 "type",
                 "status",
                 "userId",
-                "createdById",
                 "created"
             ],
             "type": "object"

@@ -20,6 +20,7 @@ http = "0.2"
 url = "2"
 futures = "0.3"
 tokio = { version = "0.2", features = ["macros"] }
+pin-project = "0.4"
 
 failure = "0.1"
 log = "0.4"
@@ -35,7 +36,7 @@ ring = "0.16"
 
 uuid = { version = "0.8", features = ["serde"] }
 tungstenite = "0.9"
-tokio-tungstenite = "0.9"
+tokio-tungstenite = { git = "https://github.com/dovahcrow/tokio-tungstenite", version = "0.10", branch = "tokio2", features = ["tls"] }
 lazy_static = "1"
 
 [features]

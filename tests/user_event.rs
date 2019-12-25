@@ -6,10 +6,11 @@ use tokio::runtime::Runtime;
 
 #[test]
 fn get_user_event() -> Fallible<()> {
-    ::dotenv::dotenv().ok();
+    let _ = dotenv::dotenv();
+    let _ = env_logger::try_init();
     let mut rt = Runtime::new()?;
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
 
-    let _ = rt.block_on(bm.get_user_event(GetUserEventRequest::default())?)?;
+    let _ = rt.block_on(bm.request(GetUserEventRequest::default()))?;
     Ok(())
 }

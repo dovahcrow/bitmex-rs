@@ -1,20 +1,21 @@
 use bitmex::models::GetInsuranceRequest;
 use bitmex::BitMEX;
 use failure::Fallible;
-use std::env::var;
+use log::debug;
 use tokio::runtime::Runtime;
 
 #[test]
 fn get_insurance() -> Fallible<()> {
-    ::dotenv::dotenv().ok();
+    let _ = dotenv::dotenv();
+    let _ = env_logger::try_init();
     let mut rt = Runtime::new()?;
 
-    let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
-    let fut = bm.get_funding(GetInsuranceRequest {
+    let bm = BitMEX::new();
+    let fut = bm.request(GetInsuranceRequest {
         ..Default::default()
-    })?;
+    });
 
-    let _ = rt.block_on(fut)?;
+    debug!("{:?}", rt.block_on(fut)?);
 
     Ok(())
 }

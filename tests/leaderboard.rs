@@ -1,31 +1,34 @@
-use bitmex::models::GetLeaderboardRequest;
+use bitmex::models::{GetLeaderboardNameRequest, GetLeaderboardRequest};
 use bitmex::BitMEX;
 use failure::Fallible;
+use log::debug;
 use std::env::var;
 use tokio::runtime::Runtime;
 
 #[test]
 fn get_leaderboard() -> Fallible<()> {
-    ::dotenv::dotenv().ok();
+    let _ = dotenv::dotenv();
+    let _ = env_logger::try_init();
     let mut rt = Runtime::new()?;
 
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
-    let fut = bm.get_leaderboard(GetLeaderboardRequest {
+    let fut = bm.request(GetLeaderboardRequest {
         ..Default::default()
-    })?;
+    });
 
-    let _ = rt.block_on(fut)?;
+    debug!("{:?}", rt.block_on(fut)?);
     Ok(())
 }
 
 #[test]
 fn get_leaderboard_name() -> Fallible<()> {
-    ::dotenv::dotenv().ok();
+    let _ = dotenv::dotenv();
+    let _ = env_logger::try_init();
     let mut rt = Runtime::new()?;
 
     let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
-    let fut = bm.get_leaderboard_name()?;
+    let fut = bm.request(GetLeaderboardNameRequest {});
 
-    let _ = rt.block_on(fut)?;
+    debug!("{:?}", rt.block_on(fut)?);
     Ok(())
 }

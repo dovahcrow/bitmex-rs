@@ -45,7 +45,13 @@ impl Transport {
     {
         let url = format!("{}{}", &*REST_URL, R::ENDPOINT);
         let url = match R::METHOD {
-            Method::GET | Method::DELETE => Url::parse_with_params(&url, req.to_url_query())?,
+            Method::GET | Method::DELETE => {
+                if R::HAS_PAYLOAD {
+                    Url::parse_with_params(&url, req.to_url_query())?
+                } else {
+                    Url::parse(&url)?
+                }
+            }
             _ => Url::parse(&url)?,
         };
 

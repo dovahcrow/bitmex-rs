@@ -3,10 +3,12 @@ mod consts;
 mod error;
 pub mod models;
 mod transport;
+pub mod websocket;
 
-use failure::Fallible;
-// pub use crate::client::websocket::BitMEXWebsocket;
 pub use crate::client::BitMEX;
+pub use crate::websocket::BitMEXWebsocket;
+use failure::Fallible;
+
 pub const API_VERSION: &str = "1.2.0";
 pub const SWAGGER_URL: &str = "https://www.bitmex.com/api/explorer/swagger.json";
 

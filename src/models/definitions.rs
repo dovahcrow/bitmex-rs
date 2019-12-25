@@ -1,8 +1,7 @@
 use chrono::{DateTime, Utc};
-use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use uuid::Uuid;
-
+use serde::{Deserialize, Serialize};
 #[derive(Clone, Debug, Deserialize, Serialize)]
 /// Public Announcements
 pub struct Announcement {
@@ -10,35 +9,31 @@ pub struct Announcement {
     pub link: Option<String>,
     pub title: Option<String>,
     pub content: Option<String>,
-    pub date: Option<DateTime<Utc>>,
+    pub date: Option<DateTime<Utc>>
 }
-
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Error {
-    pub error: ErrorError,
+    pub error: ErrorError
 }
-
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 pub struct ErrorError {
     pub message: Option<String>,
-    pub name: Option<String>,
+    pub name: Option<String>
 }
-
 #[derive(Clone, Debug, Deserialize, Serialize)]
 /// Persistent API Keys for Developers
 pub struct APIKey {
     pub id: String,
-    pub secret: String,
+    pub secret: Option<String>,
     pub name: String,
     pub nonce: i64,
     pub cidr: Option<String>,
     pub permissions: Vec<Value>,
-    pub enabled: bool,
+    pub enabled: Option<bool>,
     #[serde(rename = "userId")]
     pub user_id: i32,
-    pub created: Option<DateTime<Utc>>,
+    pub created: Option<DateTime<Utc>>
 }
-
 #[derive(Clone, Debug, Deserialize, Serialize)]
 /// Trollbox Data
 pub struct Chat {
@@ -48,23 +43,20 @@ pub struct Chat {
     pub message: String,
     pub html: String,
     #[serde(rename = "fromBot")]
-    pub from_bot: bool,
+    pub from_bot: Option<bool>,
     #[serde(rename = "channelID")]
-    pub channel_id: Option<f64>,
+    pub channel_id: Option<f64>
 }
-
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct ChatChannel {
     pub id: Option<i32>,
-    pub name: String,
+    pub name: String
 }
-
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 pub struct ConnectedUsers {
     pub users: Option<i32>,
-    pub bots: Option<i32>,
+    pub bots: Option<i32>
 }
-
 #[derive(Clone, Debug, Deserialize, Serialize)]
 /// Raw Order and Balance Data
 pub struct Execution {
@@ -78,7 +70,7 @@ pub struct Execution {
     pub cl_ord_link_id: Option<String>,
     pub account: Option<i64>,
     pub symbol: Option<String>,
-    pub side: Option<super::public::Side>,
+    pub side: Option<super::Side>,
     #[serde(rename = "lastQty")]
     pub last_qty: Option<i64>,
     #[serde(rename = "lastPx")]
@@ -101,20 +93,20 @@ pub struct Execution {
     #[serde(rename = "pegOffsetValue")]
     pub peg_offset_value: Option<f64>,
     #[serde(rename = "pegPriceType")]
-    pub peg_price_type: Option<super::public::PegPriceType>,
+    pub peg_price_type: Option<super::PegPriceType>,
     pub currency: Option<String>,
     #[serde(rename = "settlCurrency")]
     pub settl_currency: Option<String>,
     #[serde(rename = "execType")]
     pub exec_type: Option<String>,
     #[serde(rename = "ordType")]
-    pub ord_type: Option<super::public::OrdType>,
+    pub ord_type: Option<super::OrdType>,
     #[serde(rename = "timeInForce")]
-    pub time_in_force: Option<super::public::TimeInForce>,
+    pub time_in_force: Option<super::TimeInForce>,
     #[serde(rename = "execInst")]
-    pub exec_inst: Option<super::public::ExecInst>,
+    pub exec_inst: Option<super::ExecInst>,
     #[serde(rename = "contingencyType")]
-    pub contingency_type: Option<super::public::ContingencyType>,
+    pub contingency_type: Option<super::ContingencyType>,
     #[serde(rename = "exDestination")]
     pub ex_destination: Option<String>,
     #[serde(rename = "ordStatus")]
@@ -152,9 +144,8 @@ pub struct Execution {
     pub foreign_notional: Option<f64>,
     #[serde(rename = "transactTime")]
     pub transact_time: Option<DateTime<Utc>>,
-    pub timestamp: Option<DateTime<Utc>>,
+    pub timestamp: Option<DateTime<Utc>>
 }
-
 #[derive(Clone, Debug, Deserialize, Serialize)]
 /// Swap Funding History
 pub struct Funding {
@@ -165,9 +156,8 @@ pub struct Funding {
     #[serde(rename = "fundingRate")]
     pub funding_rate: Option<f64>,
     #[serde(rename = "fundingRateDaily")]
-    pub funding_rate_daily: Option<f64>,
+    pub funding_rate_daily: Option<f64>
 }
-
 #[derive(Clone, Debug, Deserialize, Serialize)]
 /// Tradeable Contracts, Indices, and History
 pub struct Instrument {
@@ -356,15 +346,13 @@ pub struct Instrument {
     pub option_underlying_price: Option<f64>,
     #[serde(rename = "settledPrice")]
     pub settled_price: Option<f64>,
-    pub timestamp: Option<DateTime<Utc>>,
+    pub timestamp: Option<DateTime<Utc>>
 }
-
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 pub struct InstrumentInterval {
     pub intervals: Vec<String>,
-    pub symbols: Vec<String>,
+    pub symbols: Vec<String>
 }
-
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct IndexComposite {
     pub timestamp: DateTime<Utc>,
@@ -375,39 +363,35 @@ pub struct IndexComposite {
     #[serde(rename = "lastPrice")]
     pub last_price: Option<f64>,
     pub weight: Option<f64>,
-    pub logged: Option<DateTime<Utc>>,
+    pub logged: Option<DateTime<Utc>>
 }
-
 #[derive(Clone, Debug, Deserialize, Serialize)]
 /// Insurance Fund Data
 pub struct Insurance {
     pub currency: String,
     pub timestamp: DateTime<Utc>,
     #[serde(rename = "walletBalance")]
-    pub wallet_balance: Option<i64>,
+    pub wallet_balance: Option<i64>
 }
-
 #[derive(Clone, Debug, Deserialize, Serialize)]
 /// Information on Top Users
 pub struct Leaderboard {
     pub name: String,
     #[serde(rename = "isRealName")]
     pub is_real_name: Option<bool>,
-    pub profit: Option<f64>,
+    pub profit: Option<f64>
 }
-
 #[derive(Clone, Debug, Deserialize, Serialize)]
 /// Active Liquidations
 pub struct Liquidation {
     #[serde(rename = "orderID")]
     pub order_id: Uuid,
     pub symbol: Option<String>,
-    pub side: Option<super::public::Side>,
+    pub side: Option<super::Side>,
     pub price: Option<f64>,
     #[serde(rename = "leavesQty")]
-    pub leaves_qty: Option<i64>,
+    pub leaves_qty: Option<i64>
 }
-
 #[derive(Clone, Debug, Deserialize, Serialize)]
 /// Account Notifications
 pub struct GlobalNotification {
@@ -422,9 +406,8 @@ pub struct GlobalNotification {
     pub persist: Option<bool>,
     #[serde(rename = "waitForVisibility")]
     pub wait_for_visibility: Option<bool>,
-    pub sound: Option<String>,
+    pub sound: Option<String>
 }
-
 #[derive(Clone, Debug, Deserialize, Serialize)]
 /// Placement, Cancellation, Amending, and History
 pub struct Order {
@@ -436,7 +419,7 @@ pub struct Order {
     pub cl_ord_link_id: Option<String>,
     pub account: Option<i64>,
     pub symbol: Option<String>,
-    pub side: Option<super::public::Side>,
+    pub side: Option<super::Side>,
     #[serde(rename = "simpleOrderQty")]
     pub simple_order_qty: Option<f64>,
     #[serde(rename = "orderQty")]
@@ -449,18 +432,18 @@ pub struct Order {
     #[serde(rename = "pegOffsetValue")]
     pub peg_offset_value: Option<f64>,
     #[serde(rename = "pegPriceType")]
-    pub peg_price_type: Option<super::public::PegPriceType>,
+    pub peg_price_type: Option<super::PegPriceType>,
     pub currency: Option<String>,
     #[serde(rename = "settlCurrency")]
     pub settl_currency: Option<String>,
     #[serde(rename = "ordType")]
-    pub ord_type: Option<super::public::OrdType>,
+    pub ord_type: Option<super::OrdType>,
     #[serde(rename = "timeInForce")]
-    pub time_in_force: Option<super::public::TimeInForce>,
+    pub time_in_force: Option<super::TimeInForce>,
     #[serde(rename = "execInst")]
-    pub exec_inst: Option<super::public::ExecInst>,
+    pub exec_inst: Option<super::ExecInst>,
     #[serde(rename = "contingencyType")]
-    pub contingency_type: Option<super::public::ContingencyType>,
+    pub contingency_type: Option<super::ContingencyType>,
     #[serde(rename = "exDestination")]
     pub ex_destination: Option<String>,
     #[serde(rename = "ordStatus")]
@@ -485,18 +468,18 @@ pub struct Order {
     pub text: Option<String>,
     #[serde(rename = "transactTime")]
     pub transact_time: Option<DateTime<Utc>>,
-    pub timestamp: Option<DateTime<Utc>>,
+    pub timestamp: Option<DateTime<Utc>>
 }
-
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct OrderBookL2 {
     pub symbol: String,
     pub id: i64,
-    pub side: super::public::Side,
+    pub side: super::Side,
     pub size: Option<i64>,
-    pub price: Option<f64>,
+    pub price: Option<f64>
 }
-
+#[derive(Clone, Debug, Deserialize, Serialize, Default)]
+pub struct Ny(serde_json::Value);
 #[derive(Clone, Debug, Deserialize, Serialize)]
 /// Summary of Open and Closed Positions
 pub struct Position {
@@ -506,177 +489,176 @@ pub struct Position {
     pub underlying: Option<String>,
     #[serde(rename = "quoteCurrency")]
     pub quote_currency: Option<String>,
-    pub commission: f64,
+    pub commission: Option<f64>,
     #[serde(rename = "initMarginReq")]
-    pub init_margin_req: f64,
+    pub init_margin_req: Option<f64>,
     #[serde(rename = "maintMarginReq")]
-    pub maint_margin_req: f64,
+    pub maint_margin_req: Option<f64>,
     #[serde(rename = "riskLimit")]
-    pub risk_limit: i64,
-    pub leverage: f64,
+    pub risk_limit: Option<i64>,
+    pub leverage: Option<f64>,
     #[serde(rename = "crossMargin")]
     pub cross_margin: Option<bool>,
     #[serde(rename = "deleveragePercentile")]
-    pub deleverage_percentile: f64,
+    pub deleverage_percentile: Option<f64>,
     #[serde(rename = "rebalancedPnl")]
-    pub rebalanced_pnl: i64,
+    pub rebalanced_pnl: Option<i64>,
     #[serde(rename = "prevRealisedPnl")]
-    pub prev_realised_pnl: i64,
+    pub prev_realised_pnl: Option<i64>,
     #[serde(rename = "prevUnrealisedPnl")]
-    pub prev_unrealised_pnl: i64,
+    pub prev_unrealised_pnl: Option<i64>,
     #[serde(rename = "prevClosePrice")]
-    pub prev_close_price: f64,
+    pub prev_close_price: Option<f64>,
     #[serde(rename = "openingTimestamp")]
     pub opening_timestamp: Option<DateTime<Utc>>,
     #[serde(rename = "openingQty")]
-    pub opening_qty: i64,
+    pub opening_qty: Option<i64>,
     #[serde(rename = "openingCost")]
-    pub opening_cost: i64,
+    pub opening_cost: Option<i64>,
     #[serde(rename = "openingComm")]
-    pub opening_comm: i64,
+    pub opening_comm: Option<i64>,
     #[serde(rename = "openOrderBuyQty")]
-    pub open_order_buy_qty: i64,
+    pub open_order_buy_qty: Option<i64>,
     #[serde(rename = "openOrderBuyCost")]
-    pub open_order_buy_cost: i64,
+    pub open_order_buy_cost: Option<i64>,
     #[serde(rename = "openOrderBuyPremium")]
-    pub open_order_buy_premium: i64,
+    pub open_order_buy_premium: Option<i64>,
     #[serde(rename = "openOrderSellQty")]
-    pub open_order_sell_qty: i64,
+    pub open_order_sell_qty: Option<i64>,
     #[serde(rename = "openOrderSellCost")]
-    pub open_order_sell_cost: i64,
+    pub open_order_sell_cost: Option<i64>,
     #[serde(rename = "openOrderSellPremium")]
-    pub open_order_sell_premium: i64,
+    pub open_order_sell_premium: Option<i64>,
     #[serde(rename = "execBuyQty")]
-    pub exec_buy_qty: i64,
+    pub exec_buy_qty: Option<i64>,
     #[serde(rename = "execBuyCost")]
-    pub exec_buy_cost: i64,
+    pub exec_buy_cost: Option<i64>,
     #[serde(rename = "execSellQty")]
-    pub exec_sell_qty: i64,
+    pub exec_sell_qty: Option<i64>,
     #[serde(rename = "execSellCost")]
-    pub exec_sell_cost: i64,
+    pub exec_sell_cost: Option<i64>,
     #[serde(rename = "execQty")]
-    pub exec_qty: i64,
+    pub exec_qty: Option<i64>,
     #[serde(rename = "execCost")]
-    pub exec_cost: i64,
+    pub exec_cost: Option<i64>,
     #[serde(rename = "execComm")]
-    pub exec_comm: i64,
+    pub exec_comm: Option<i64>,
     #[serde(rename = "currentTimestamp")]
     pub current_timestamp: Option<DateTime<Utc>>,
     #[serde(rename = "currentQty")]
-    pub current_qty: i64,
+    pub current_qty: Option<i64>,
     #[serde(rename = "currentCost")]
-    pub current_cost: i64,
+    pub current_cost: Option<i64>,
     #[serde(rename = "currentComm")]
-    pub current_comm: i64,
+    pub current_comm: Option<i64>,
     #[serde(rename = "realisedCost")]
-    pub realised_cost: i64,
+    pub realised_cost: Option<i64>,
     #[serde(rename = "unrealisedCost")]
-    pub unrealised_cost: i64,
+    pub unrealised_cost: Option<i64>,
     #[serde(rename = "grossOpenCost")]
-    pub gross_open_cost: i64,
+    pub gross_open_cost: Option<i64>,
     #[serde(rename = "grossOpenPremium")]
-    pub gross_open_premium: i64,
+    pub gross_open_premium: Option<i64>,
     #[serde(rename = "grossExecCost")]
-    pub gross_exec_cost: i64,
+    pub gross_exec_cost: Option<i64>,
     #[serde(rename = "isOpen")]
     pub is_open: Option<bool>,
     #[serde(rename = "markPrice")]
-    pub mark_price: f64,
+    pub mark_price: Option<f64>,
     #[serde(rename = "markValue")]
-    pub mark_value: i64,
+    pub mark_value: Option<i64>,
     #[serde(rename = "riskValue")]
-    pub risk_value: i64,
+    pub risk_value: Option<i64>,
     #[serde(rename = "homeNotional")]
-    pub home_notional: f64,
+    pub home_notional: Option<f64>,
     #[serde(rename = "foreignNotional")]
-    pub foreign_notional: f64,
+    pub foreign_notional: Option<f64>,
     #[serde(rename = "posState")]
     pub pos_state: Option<String>,
     #[serde(rename = "posCost")]
-    pub pos_cost: i64,
+    pub pos_cost: Option<i64>,
     #[serde(rename = "posCost2")]
-    pub pos_cost2: i64,
+    pub pos_cost2: Option<i64>,
     #[serde(rename = "posCross")]
-    pub pos_cross: i64,
+    pub pos_cross: Option<i64>,
     #[serde(rename = "posInit")]
-    pub pos_init: i64,
+    pub pos_init: Option<i64>,
     #[serde(rename = "posComm")]
-    pub pos_comm: i64,
+    pub pos_comm: Option<i64>,
     #[serde(rename = "posLoss")]
-    pub pos_loss: i64,
+    pub pos_loss: Option<i64>,
     #[serde(rename = "posMargin")]
-    pub pos_margin: i64,
+    pub pos_margin: Option<i64>,
     #[serde(rename = "posMaint")]
-    pub pos_maint: i64,
+    pub pos_maint: Option<i64>,
     #[serde(rename = "posAllowance")]
-    pub pos_allowance: i64,
+    pub pos_allowance: Option<i64>,
     #[serde(rename = "taxableMargin")]
-    pub taxable_margin: i64,
+    pub taxable_margin: Option<i64>,
     #[serde(rename = "initMargin")]
-    pub init_margin: i64,
+    pub init_margin: Option<i64>,
     #[serde(rename = "maintMargin")]
-    pub maint_margin: i64,
+    pub maint_margin: Option<i64>,
     #[serde(rename = "sessionMargin")]
-    pub session_margin: i64,
+    pub session_margin: Option<i64>,
     #[serde(rename = "targetExcessMargin")]
-    pub target_excess_margin: i64,
+    pub target_excess_margin: Option<i64>,
     #[serde(rename = "varMargin")]
-    pub var_margin: i64,
+    pub var_margin: Option<i64>,
     #[serde(rename = "realisedGrossPnl")]
-    pub realised_gross_pnl: i64,
+    pub realised_gross_pnl: Option<i64>,
     #[serde(rename = "realisedTax")]
-    pub realised_tax: i64,
+    pub realised_tax: Option<i64>,
     #[serde(rename = "realisedPnl")]
-    pub realised_pnl: i64,
+    pub realised_pnl: Option<i64>,
     #[serde(rename = "unrealisedGrossPnl")]
-    pub unrealised_gross_pnl: i64,
+    pub unrealised_gross_pnl: Option<i64>,
     #[serde(rename = "longBankrupt")]
-    pub long_bankrupt: i64,
+    pub long_bankrupt: Option<i64>,
     #[serde(rename = "shortBankrupt")]
-    pub short_bankrupt: i64,
+    pub short_bankrupt: Option<i64>,
     #[serde(rename = "taxBase")]
-    pub tax_base: i64,
+    pub tax_base: Option<i64>,
     #[serde(rename = "indicativeTaxRate")]
-    pub indicative_tax_rate: f64,
+    pub indicative_tax_rate: Option<f64>,
     #[serde(rename = "indicativeTax")]
-    pub indicative_tax: i64,
+    pub indicative_tax: Option<i64>,
     #[serde(rename = "unrealisedTax")]
-    pub unrealised_tax: i64,
+    pub unrealised_tax: Option<i64>,
     #[serde(rename = "unrealisedPnl")]
-    pub unrealised_pnl: i64,
+    pub unrealised_pnl: Option<i64>,
     #[serde(rename = "unrealisedPnlPcnt")]
-    pub unrealised_pnl_pcnt: f64,
+    pub unrealised_pnl_pcnt: Option<f64>,
     #[serde(rename = "unrealisedRoePcnt")]
-    pub unrealised_roe_pcnt: f64,
+    pub unrealised_roe_pcnt: Option<f64>,
     #[serde(rename = "simpleQty")]
-    pub simple_qty: f64,
+    pub simple_qty: Option<f64>,
     #[serde(rename = "simpleCost")]
-    pub simple_cost: f64,
+    pub simple_cost: Option<f64>,
     #[serde(rename = "simpleValue")]
-    pub simple_value: f64,
+    pub simple_value: Option<f64>,
     #[serde(rename = "simplePnl")]
-    pub simple_pnl: f64,
+    pub simple_pnl: Option<f64>,
     #[serde(rename = "simplePnlPcnt")]
-    pub simple_pnl_pcnt: f64,
+    pub simple_pnl_pcnt: Option<f64>,
     #[serde(rename = "avgCostPrice")]
-    pub avg_cost_price: f64,
+    pub avg_cost_price: Option<f64>,
     #[serde(rename = "avgEntryPrice")]
-    pub avg_entry_price: f64,
+    pub avg_entry_price: Option<f64>,
     #[serde(rename = "breakEvenPrice")]
-    pub break_even_price: f64,
+    pub break_even_price: Option<f64>,
     #[serde(rename = "marginCallPrice")]
-    pub margin_call_price: f64,
+    pub margin_call_price: Option<f64>,
     #[serde(rename = "liquidationPrice")]
-    pub liquidation_price: f64,
+    pub liquidation_price: Option<f64>,
     #[serde(rename = "bankruptPrice")]
-    pub bankrupt_price: f64,
+    pub bankrupt_price: Option<f64>,
     pub timestamp: Option<DateTime<Utc>>,
     #[serde(rename = "lastPrice")]
-    pub last_price: f64,
+    pub last_price: Option<f64>,
     #[serde(rename = "lastValue")]
-    pub last_value: i64,
+    pub last_value: Option<i64>
 }
-
 #[derive(Clone, Debug, Deserialize, Serialize)]
 /// Best Bid/Offer Snapshots & Historical Bins
 pub struct Quote {
@@ -689,9 +671,8 @@ pub struct Quote {
     #[serde(rename = "askPrice")]
     pub ask_price: Option<f64>,
     #[serde(rename = "askSize")]
-    pub ask_size: Option<i64>,
+    pub ask_size: Option<i64>
 }
-
 #[derive(Clone, Debug, Deserialize, Serialize)]
 /// Historical Settlement Data
 pub struct Settlement {
@@ -709,9 +690,8 @@ pub struct Settlement {
     #[serde(rename = "taxBase")]
     pub tax_base: Option<i64>,
     #[serde(rename = "taxRate")]
-    pub tax_rate: Option<f64>,
+    pub tax_rate: Option<f64>
 }
-
 #[derive(Clone, Debug, Deserialize, Serialize)]
 /// Exchange Statistics
 pub struct Stats {
@@ -723,9 +703,8 @@ pub struct Stats {
     #[serde(rename = "openInterest")]
     pub open_interest: Option<i64>,
     #[serde(rename = "openValue")]
-    pub open_value: Option<i64>,
+    pub open_value: Option<i64>
 }
-
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct StatsHistory {
     pub date: DateTime<Utc>,
@@ -733,9 +712,8 @@ pub struct StatsHistory {
     pub root_symbol: String,
     pub currency: Option<String>,
     pub volume: Option<i64>,
-    pub turnover: Option<i64>,
+    pub turnover: Option<i64>
 }
-
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct StatsUSD {
     #[serde(rename = "rootSymbol")]
@@ -744,15 +722,14 @@ pub struct StatsUSD {
     pub turnover24h: Option<i64>,
     pub turnover30d: Option<i64>,
     pub turnover365d: Option<i64>,
-    pub turnover: Option<i64>,
+    pub turnover: Option<i64>
 }
-
 #[derive(Clone, Debug, Deserialize, Serialize)]
 /// Individual & Bucketed Trades
 pub struct Trade {
     pub timestamp: DateTime<Utc>,
     pub symbol: String,
-    pub side: Option<super::public::Side>,
+    pub side: Option<super::Side>,
     pub size: Option<i64>,
     pub price: Option<f64>,
     #[serde(rename = "tickDirection")]
@@ -764,9 +741,8 @@ pub struct Trade {
     #[serde(rename = "homeNotional")]
     pub home_notional: Option<f64>,
     #[serde(rename = "foreignNotional")]
-    pub foreign_notional: Option<f64>,
+    pub foreign_notional: Option<f64>
 }
-
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct TradeBin {
     pub timestamp: DateTime<Utc>,
@@ -784,9 +760,8 @@ pub struct TradeBin {
     #[serde(rename = "homeNotional")]
     pub home_notional: Option<f64>,
     #[serde(rename = "foreignNotional")]
-    pub foreign_notional: Option<f64>,
+    pub foreign_notional: Option<f64>
 }
-
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Wallet {
     pub account: i64,
@@ -830,13 +805,12 @@ pub struct Wallet {
     pub addr: Option<String>,
     pub script: Option<String>,
     #[serde(rename = "withdrawalLock")]
-    pub withdrawal_lock: Vec<String>,
+    pub withdrawal_lock: Option<Vec<String>>
 }
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, Default)]
 pub struct Transaction {
     #[serde(rename = "transactID")]
-    pub transact_id: Uuid,
+    pub transact_id: Option<Uuid>,
     pub account: Option<i64>,
     pub currency: Option<String>,
     #[serde(rename = "transactType")]
@@ -850,9 +824,8 @@ pub struct Transaction {
     pub text: Option<String>,
     #[serde(rename = "transactTime")]
     pub transact_time: Option<DateTime<Utc>>,
-    pub timestamp: Option<DateTime<Utc>>,
+    pub timestamp: Option<DateTime<Utc>>
 }
-
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct AccessToken {
     pub id: String,
@@ -860,13 +833,12 @@ pub struct AccessToken {
     pub ttl: Option<f64>,
     pub created: Option<DateTime<Utc>>,
     #[serde(rename = "userId")]
-    pub user_id: Option<f64>,
+    pub user_id: Option<f64>
 }
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, Default)]
 pub struct Affiliate {
-    pub account: i64,
-    pub currency: String,
+    pub account: Option<i64>,
+    pub currency: Option<String>,
     #[serde(rename = "prevPayout")]
     pub prev_payout: Option<i64>,
     #[serde(rename = "prevTurnover")]
@@ -895,9 +867,8 @@ pub struct Affiliate {
     #[serde(rename = "referralDiscount")]
     pub referral_discount: Option<f64>,
     #[serde(rename = "affiliatePayout")]
-    pub affiliate_payout: Option<f64>,
+    pub affiliate_payout: Option<f64>
 }
-
 #[derive(Clone, Debug, Deserialize, Serialize)]
 /// Daily Quote Fill Ratio Statistic
 pub struct QuoteFillRatio {
@@ -912,9 +883,8 @@ pub struct QuoteFillRatio {
     #[serde(rename = "dealtMavg7")]
     pub dealt_mavg7: Option<f64>,
     #[serde(rename = "quoteFillRatioMavg7")]
-    pub quote_fill_ratio_mavg7: Option<f64>,
+    pub quote_fill_ratio_mavg7: Option<f64>
 }
-
 #[derive(Clone, Debug, Deserialize, Serialize)]
 /// Account Operations
 pub struct User {
@@ -929,7 +899,7 @@ pub struct User {
     pub created: Option<DateTime<Utc>>,
     #[serde(rename = "lastUpdated")]
     pub last_updated: Option<DateTime<Utc>>,
-    pub preferences: Option<UserPreferences>,
+    pub preferences: UserPreferences,
     #[serde(rename = "TFAEnabled")]
     pub t_f_a_enabled: Option<String>,
     #[serde(rename = "affiliateID")]
@@ -941,91 +911,88 @@ pub struct User {
     pub geoip_country: Option<String>,
     #[serde(rename = "geoipRegion")]
     pub geoip_region: Option<String>,
-    pub typ: Option<String>,
+    pub typ: Option<String>
 }
-
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
-pub struct UserCommissionsBySymbol {}
-
+pub struct UserCommissionsBySymbol(serde_json::Value);
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Margin {
     pub account: i64,
     pub currency: String,
     #[serde(rename = "riskLimit")]
-    pub risk_limit: i64,
+    pub risk_limit: Option<i64>,
     #[serde(rename = "prevState")]
     pub prev_state: Option<String>,
     pub state: Option<String>,
     pub action: Option<String>,
-    pub amount: i64,
+    pub amount: Option<i64>,
     #[serde(rename = "pendingCredit")]
-    pub pending_credit: i64,
+    pub pending_credit: Option<i64>,
     #[serde(rename = "pendingDebit")]
-    pub pending_debit: i64,
+    pub pending_debit: Option<i64>,
     #[serde(rename = "confirmedDebit")]
-    pub confirmed_debit: i64,
+    pub confirmed_debit: Option<i64>,
     #[serde(rename = "prevRealisedPnl")]
-    pub prev_realised_pnl: i64,
+    pub prev_realised_pnl: Option<i64>,
     #[serde(rename = "prevUnrealisedPnl")]
-    pub prev_unrealised_pnl: i64,
+    pub prev_unrealised_pnl: Option<i64>,
     #[serde(rename = "grossComm")]
-    pub gross_comm: i64,
+    pub gross_comm: Option<i64>,
     #[serde(rename = "grossOpenCost")]
-    pub gross_open_cost: i64,
+    pub gross_open_cost: Option<i64>,
     #[serde(rename = "grossOpenPremium")]
-    pub gross_open_premium: i64,
+    pub gross_open_premium: Option<i64>,
     #[serde(rename = "grossExecCost")]
-    pub gross_exec_cost: i64,
+    pub gross_exec_cost: Option<i64>,
     #[serde(rename = "grossMarkValue")]
-    pub gross_mark_value: i64,
+    pub gross_mark_value: Option<i64>,
     #[serde(rename = "riskValue")]
-    pub risk_value: i64,
+    pub risk_value: Option<i64>,
     #[serde(rename = "taxableMargin")]
-    pub taxable_margin: i64,
+    pub taxable_margin: Option<i64>,
     #[serde(rename = "initMargin")]
-    pub init_margin: i64,
+    pub init_margin: Option<i64>,
     #[serde(rename = "maintMargin")]
-    pub maint_margin: i64,
+    pub maint_margin: Option<i64>,
     #[serde(rename = "sessionMargin")]
-    pub session_margin: i64,
+    pub session_margin: Option<i64>,
     #[serde(rename = "targetExcessMargin")]
-    pub target_excess_margin: i64,
+    pub target_excess_margin: Option<i64>,
     #[serde(rename = "varMargin")]
-    pub var_margin: i64,
+    pub var_margin: Option<i64>,
     #[serde(rename = "realisedPnl")]
-    pub realised_pnl: i64,
+    pub realised_pnl: Option<i64>,
     #[serde(rename = "unrealisedPnl")]
-    pub unrealised_pnl: i64,
+    pub unrealised_pnl: Option<i64>,
     #[serde(rename = "indicativeTax")]
-    pub indicative_tax: i64,
+    pub indicative_tax: Option<i64>,
     #[serde(rename = "unrealisedProfit")]
-    pub unrealised_profit: i64,
+    pub unrealised_profit: Option<i64>,
     #[serde(rename = "syntheticMargin")]
-    pub synthetic_margin: i64,
+    pub synthetic_margin: Option<i64>,
     #[serde(rename = "walletBalance")]
-    pub wallet_balance: i64,
+    pub wallet_balance: Option<i64>,
     #[serde(rename = "marginBalance")]
-    pub margin_balance: i64,
+    pub margin_balance: Option<i64>,
     #[serde(rename = "marginBalancePcnt")]
-    pub margin_balance_pcnt: f64,
+    pub margin_balance_pcnt: Option<f64>,
     #[serde(rename = "marginLeverage")]
-    pub margin_leverage: f64,
+    pub margin_leverage: Option<f64>,
     #[serde(rename = "marginUsedPcnt")]
-    pub margin_used_pcnt: f64,
+    pub margin_used_pcnt: Option<f64>,
     #[serde(rename = "excessMargin")]
-    pub excess_margin: i64,
+    pub excess_margin: Option<i64>,
     #[serde(rename = "excessMarginPcnt")]
-    pub excess_margin_pcnt: f64,
+    pub excess_margin_pcnt: Option<f64>,
     #[serde(rename = "availableMargin")]
-    pub available_margin: i64,
+    pub available_margin: Option<i64>,
     #[serde(rename = "withdrawableMargin")]
-    pub withdrawable_margin: i64,
+    pub withdrawable_margin: Option<i64>,
     pub timestamp: Option<DateTime<Utc>>,
     #[serde(rename = "grossLastValue")]
-    pub gross_last_value: i64,
-    pub commission: f64,
+    pub gross_last_value: Option<i64>,
+    pub commission: Option<f64>
 }
-
 #[derive(Clone, Debug, Deserialize, Serialize)]
 /// User communication SNS token
 pub struct CommunicationToken {
@@ -1034,9 +1001,8 @@ pub struct CommunicationToken {
     pub user_id: i32,
     #[serde(rename = "deviceToken")]
     pub device_token: String,
-    pub channel: String,
+    pub channel: String
 }
-
 #[derive(Clone, Debug, Deserialize, Serialize)]
 /// User Events for auditing
 pub struct UserEvent {
@@ -1047,7 +1013,7 @@ pub struct UserEvent {
     #[serde(rename = "userId")]
     pub user_id: f64,
     #[serde(rename = "createdById")]
-    pub created_by_id: f64,
+    pub created_by_id: Option<f64>,
     pub ip: Option<String>,
     #[serde(rename = "geoipCountry")]
     pub geoip_country: Option<String>,
@@ -1056,10 +1022,11 @@ pub struct UserEvent {
     #[serde(rename = "geoipSubRegion")]
     pub geoip_sub_region: Option<String>,
     #[serde(rename = "eventMeta")]
-    pub event_meta: Option<Value>,
-    pub created: DateTime<Utc>,
+    pub event_meta: Option<EventMetaEventMeta>,
+    pub created: DateTime<Utc>
 }
-
+#[derive(Clone, Debug, Deserialize, Serialize, Default)]
+pub struct EventMetaEventMeta(serde_json::Value);
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 pub struct UserPreferences {
     #[serde(rename = "alertOnLiquidations")]
@@ -1075,35 +1042,35 @@ pub struct UserPreferences {
     pub currency: Option<String>,
     pub debug: Option<bool>,
     #[serde(rename = "disableEmails")]
-    pub disable_emails: Vec<String>,
+    pub disable_emails: Option<Vec<String>>,
     #[serde(rename = "disablePush")]
-    pub disable_push: Vec<String>,
+    pub disable_push: Option<Vec<String>>,
     #[serde(rename = "hideConfirmDialogs")]
-    pub hide_confirm_dialogs: Vec<String>,
+    pub hide_confirm_dialogs: Option<Vec<String>>,
     #[serde(rename = "hideConnectionModal")]
     pub hide_connection_modal: Option<bool>,
     #[serde(rename = "hideFromLeaderboard")]
-    pub hide_from_leaderboard: bool,
+    pub hide_from_leaderboard: Option<bool>,
     #[serde(rename = "hideNameFromLeaderboard")]
     pub hide_name_from_leaderboard: Option<bool>,
     #[serde(rename = "hideNotifications")]
-    pub hide_notifications: Vec<String>,
+    pub hide_notifications: Option<Vec<String>>,
     pub locale: Option<String>,
     #[serde(rename = "msgsSeen")]
-    pub msgs_seen: Vec<String>,
+    pub msgs_seen: Option<Vec<String>>,
     #[serde(rename = "orderBookBinning")]
-    pub order_book_binning: Option<Value>,
+    pub order_book_binning: Option<OrderBookBinningOrderBookBinning>,
     #[serde(rename = "orderBookType")]
     pub order_book_type: Option<String>,
     #[serde(rename = "orderClearImmediate")]
-    pub order_clear_immediate: bool,
+    pub order_clear_immediate: Option<bool>,
     #[serde(rename = "orderControlsPlusMinus")]
     pub order_controls_plus_minus: Option<bool>,
     #[serde(rename = "showLocaleNumbers")]
     pub show_locale_numbers: Option<bool>,
-    pub sounds: Vec<String>,
+    pub sounds: Option<Vec<String>>,
     #[serde(rename = "strictIPCheck")]
-    pub strict_i_p_check: bool,
+    pub strict_i_p_check: Option<bool>,
     #[serde(rename = "strictTimeout")]
     pub strict_timeout: Option<bool>,
     #[serde(rename = "tickerGroup")]
@@ -1111,5 +1078,7 @@ pub struct UserPreferences {
     #[serde(rename = "tickerPinned")]
     pub ticker_pinned: Option<bool>,
     #[serde(rename = "tradeLayout")]
-    pub trade_layout: Option<String>,
+    pub trade_layout: Option<String>
 }
+#[derive(Clone, Debug, Deserialize, Serialize, Default)]
+pub struct OrderBookBinningOrderBookBinning(serde_json::Value);
