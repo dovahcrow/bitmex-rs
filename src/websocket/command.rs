@@ -20,9 +20,7 @@ pub enum Command {
 
 impl Command {
     pub fn authenticate(bm: &BitMEX, expires: i64) -> Fallible<Command> {
-        let (key, sig) = bm
-            .transport
-            .signature(Method::GET, expires, &Url::parse(&WS_URL)?, "")?;
+        let (key, sig) = bm.signature(Method::GET, expires, &Url::parse(&WS_URL)?, "")?;
         Ok(Command::Authenticate(key.to_string(), expires, sig))
     }
 }
