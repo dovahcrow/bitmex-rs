@@ -189,12 +189,12 @@ mod test {
     use hyper::Method;
     use url::Url;
 
-    use super::Transport;
+    use super::BitMEX;
     use failure::Fallible;
 
     #[test]
     fn test_signature_get() -> Fallible<()> {
-        let tr = Transport::with_credential(
+        let tr = BitMEX::with_credential(
             "LAqUlngMIQkIUjXMUreyu3qn",
             "chNOOS4KvNXR_Xq4k4c9qsfoKWvnDecLATCRlcBwyKDYnWgO",
         );
@@ -213,7 +213,7 @@ mod test {
 
     #[test]
     fn test_signature_get_param() -> Fallible<()> {
-        let tr = Transport::with_credential(
+        let tr = BitMEX::with_credential(
             "LAqUlngMIQkIUjXMUreyu3qn",
             "chNOOS4KvNXR_Xq4k4c9qsfoKWvnDecLATCRlcBwyKDYnWgO",
         );
@@ -235,7 +235,7 @@ mod test {
 
     #[test]
     fn test_signature_post() -> Fallible<()> {
-        let tr = Transport::with_credential(
+        let tr = BitMEX::with_credential(
             "LAqUlngMIQkIUjXMUreyu3qn",
             "chNOOS4KvNXR_Xq4k4c9qsfoKWvnDecLATCRlcBwyKDYnWgO",
         );
