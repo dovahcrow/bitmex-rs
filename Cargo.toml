@@ -9,7 +9,10 @@ documentation = "https://docs.rs/crate/bitmex"
 repository = "https://github.com/dovahcrow/bitmex-rs"
 readme = "README.md"
 edition = "2018"
+categories = ["api-bindings"]
 
+[badges]
+travis-ci = { repository = "dovahcrow/bitmex-rs", branch = "master" }
 
 [dependencies]
 reqwest = { version = "0.10.0-alpha.2", git = "https://github.com/seanmonstar/reqwest", features = ["json"], rev = "09e7fe6" }
