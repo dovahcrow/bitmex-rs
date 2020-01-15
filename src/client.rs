@@ -96,7 +96,7 @@ impl BitMEX {
 
     fn check_key(&self) -> Fallible<(&str, &str)> {
         match self.credential.as_ref() {
-            None => Err(BitMEXError::NoApiKeySet)?,
+            None => Err(BitMEXError::NoApiKeySet.into()),
             Some((k, s)) => Ok((k, s)),
         }
     }
@@ -134,12 +134,12 @@ impl BitMEX {
                 Ok(resp) => Ok(resp),
                 Err(e) => {
                     error!("Cannot deserialize '{}'", resp);
-                    Err(e)?
+                    Err(e.into())
                 }
             }
         } else {
             let resp: BitMEXErrorResponse = resp.json().await?;
-            Err(resp.error)?
+            Err(resp.error.into())
         }
     }
 

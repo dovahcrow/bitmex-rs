@@ -15,7 +15,7 @@ categories = ["api-bindings"]
 travis-ci = { repository = "dovahcrow/bitmex-rs", branch = "master" }
 
 [dependencies]
-reqwest = { version = "0.10.0-alpha.2", git = "https://github.com/seanmonstar/reqwest", features = ["json"], rev = "09e7fe6" }
+reqwest = { version = "0.10.0", features = ["json"] }
 hyper = "0.13"
 hyper-tls = "0.4"
 http = "0.2"
@@ -39,10 +39,13 @@ ring = "0.16"
 
 uuid = { version = "0.8", features = ["serde"] }
 tungstenite = "0.9"
-tokio-tungstenite = { git = "https://github.com/dovahcrow/tokio-tungstenite", version = "0.10", features = ["tls"], rev = "6dc2018cbfe8fe7ddd75ff977343086503135b38" }
+tokio-tungstenite = { version = "0.10", features = ["tls"] }
 lazy_static = "1"
 derive_builder = "0.9"
 
 [dev-dependencies]
 dotenv = "0.15"
 env_logger = "0.7"
+
+[patch.crates-io]
+tokio-tungstenite = { git = "https://github.com/snapview/tokio-tungstenite", rev = "308d9680c0e59dd1e8651659a775c05df937934e" }

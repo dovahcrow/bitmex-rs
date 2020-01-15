@@ -100,9 +100,9 @@ impl<'de> Deserialize<'de> for Topic {
             ["insurance"] => Insurance,
             ["liquidation"] => Liquidation,
             ["orderBookL2_25"] => OrderBookL2_25(None),
-            ["orderBookL2_25", filter] => OrderBookL2(Some(filter.to_string())),
+            ["orderBookL2_25", filter] => OrderBookL2(Some((*filter).to_string())),
             ["orderBookL2"] => OrderBookL2(None),
-            ["orderBookL2", filter] => OrderBookL2(Some(filter.to_string())),
+            ["orderBookL2", filter] => OrderBookL2(Some((*filter).to_string())),
             ["orderBook10"] => OrderBook10,
             ["publicNotifications"] => PublicNotifications,
             ["quote"] => Quote,
@@ -112,7 +112,7 @@ impl<'de> Deserialize<'de> for Topic {
             ["quoteBin1d"] => QuoteBin1d,
             ["settlement"] => Settlement,
             ["trade"] => Trade(None),
-            ["trade", filter] => OrderBookL2(Some(filter.to_string())),
+            ["trade", filter] => OrderBookL2(Some((*filter).to_string())),
             ["tradeBin1m"] => TradeBin1m,
             ["tradeBin5m"] => TradeBin5m,
             ["tradeBin1h"] => TradeBin1h,
@@ -127,7 +127,12 @@ impl<'de> Deserialize<'de> for Topic {
             ["privateNotifications"] => PrivateNotifications,
             ["transact"] => Transact,
             ["wallet"] => Wallet,
-            _ => return Err(D::Error::invalid_value(Unexpected::Str(&repr), &"A valid topic")),
+            _ => {
+                return Err(D::Error::invalid_value(
+                    Unexpected::Str(&repr),
+                    &"A valid topic",
+                ))
+            }
         };
         Ok(topic)
     }
