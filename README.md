@@ -19,7 +19,7 @@ Add this to your Cargo.toml
 
 ```toml
 [dependencies]
-bitmex-rs = { git = "https://github.com/dovahcrow/bitmex-rs" }
+bitmex-rs = "0.2"
 ```
 
 # Basic usage

@@ -1,6 +1,6 @@
 [package]
 name = "bitmex"
-version = "0.2.0-alpha.1"
+version = "0.2.0"
 authors = ["Weiyüen Wu <doomsplayer@gmail.com>"]
 license = "MIT OR Apache-2.0"
 description = "Rust Library for the BitMEX API (Async)"
@@ -38,8 +38,8 @@ hex = "0.4"
 ring = "0.16"
 
 uuid = { version = "0.8", features = ["serde"] }
-tungstenite = "0.9"
-tokio-tungstenite = { git = "https://github.com/snapview/tokio-tungstenite", rev = "308d9680c0e59dd1e8651659a775c05df937934e" , version = "0.10", features = ["tls"] }
+tungstenite = "0.10"
+tokio-tungstenite = { version = "0.10", features = ["tls"] }
 lazy_static = "1"
 derive_builder = "0.9"
 
