@@ -1,5 +1,5 @@
+pub mod message;
 mod command;
-mod message;
 mod topic;
 
 pub use self::command::Command;
