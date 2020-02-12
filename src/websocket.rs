@@ -4,6 +4,10 @@ mod topic;
 
 pub use self::command::Command;
 pub use self::message::Message as BitMEXWsMessage;
+pub use self::message::{
+    Action, CancelAllAfterMessage, ErrorMessage, InfoMessage, Limit, SuccessMessage, TableFilter,
+    TableMessage,
+};
 pub use self::topic::Topic;
 use crate::consts::WS_URL;
 use crate::BitMEX;
