@@ -5,7 +5,9 @@ pub mod models;
 pub mod websocket;
 
 pub use crate::client::{BitMEX, BitMEXBuilder};
+pub use crate::error::BitMEXError;
 pub use crate::websocket::BitMEXWebsocket;
+
 use failure::Fallible;
 
 pub const API_VERSION: &str = "1.2.0";

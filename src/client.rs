@@ -139,7 +139,7 @@ impl BitMEX {
             }
         } else {
             let resp: BitMEXErrorResponse = resp.json().await?;
-            Err(resp.error.into())
+            Err(BitMEXError::from(resp.error).into())
         }
     }
 
