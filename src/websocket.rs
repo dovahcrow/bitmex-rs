@@ -10,8 +10,10 @@ pub use self::message::{
 };
 pub use self::topic::Topic;
 use crate::consts::WS_URL;
+use crate::error::BitMEXError;
 use crate::BitMEX;
 use failure::Fallible;
+use fehler::{throw, throws};
 use futures::sink::Sink;
 use futures::stream::Stream;
 use futures::task::{Context, Poll};
@@ -28,9 +30,10 @@ use url::Url;
 type WSStream = WebSocketStream<MaybeTlsStream<TcpStream>>;
 
 impl BitMEX {
-    pub async fn websocket(&self) -> Fallible<BitMEXWebsocket> {
+    #[throws(failure::Error)]
+    pub async fn websocket(&self) -> BitMEXWebsocket {
         let (stream, _) = connect_async(Url::parse(&WS_URL).unwrap()).await?;
-        Ok(BitMEXWebsocket::new(stream))
+        BitMEXWebsocket::new(stream)
     }
 }
 
@@ -83,22 +86,29 @@ impl Stream for BitMEXWebsocket {
         let poll = this.inner.poll_next(cx);
         match poll {
             Poll::Ready(Some(Err(e))) => Poll::Ready(Some(Err(e.into()))),
-            Poll::Ready(Some(Ok(m))) => Poll::Ready(Some(Ok(parse_message(m)))),
+            Poll::Ready(Some(Ok(m))) => match parse_message(m) {
+                Ok(m) => Poll::Ready(Some(Ok(m))),
+                Err(e) => Poll::Ready(Some(Err(e))),
+            },
             Poll::Ready(None) => Poll::Ready(None),
             Poll::Pending => Poll::Pending,
         }
     }
 }
 
+#[throws(failure::Error)]
 fn parse_message(msg: WSMessage) -> BitMEXWsMessage {
     match msg {
         WSMessage::Text(message) => match message.as_str() {
             "pong" => BitMEXWsMessage::Pong,
             others => match from_str(others) {
                 Ok(r) => r,
-                Err(_) => unreachable!("Received message from BitMEX: '{}'", others),
+                Err(_) => unreachable!("Cannot deserialize message from BitMEX: '{}'", others),
             },
         },
-        _ => unreachable!(),
+        WSMessage::Close(_) => throw!(BitMEXError::WebsocketClosed),
+        WSMessage::Binary(c) => throw!(BitMEXError::UnexpectedWebsocketBinaryContent(c)),
+        WSMessage::Ping(_) => BitMEXWsMessage::Ping,
+        WSMessage::Pong(_) => BitMEXWsMessage::Pong,
     }
 }

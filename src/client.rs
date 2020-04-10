@@ -5,7 +5,7 @@ use crate::models::Request;
 use crate::SWAGGER_URL;
 use chrono::{Duration, Utc};
 use derive_builder::Builder;
-use failure::Fallible;
+use fehler::{throw, throws};
 use hex::encode as hexify;
 use hyper::Method;
 use log::{error, trace};
@@ -50,7 +50,8 @@ impl BitMEX {
         BitMEXBuilder::default()
     }
 
-    pub async fn request<R>(&self, req: R) -> Fallible<R::Response>
+    #[throws(failure::Error)]
+    pub async fn request<R>(&self, req: R) -> R::Response
     where
         R: Request,
         R::Response: DeserializeOwned,
@@ -91,23 +92,25 @@ impl BitMEX {
             .send()
             .await?;
 
-        Ok(self.handle_response(resp).await?)
+        self.handle_response(resp).await?
     }
 
-    fn check_key(&self) -> Fallible<(&str, &str)> {
+    #[throws(failure::Error)]
+    fn check_key(&self) -> (&str, &str) {
         match self.credential.as_ref() {
-            None => Err(BitMEXError::NoApiKeySet.into()),
-            Some((k, s)) => Ok((k, s)),
+            None => throw!(BitMEXError::NoApiKeySet),
+            Some((k, s)) => (k.as_str(), s.as_str()),
         }
     }
 
+    #[throws(failure::Error)]
     pub(crate) fn signature(
         &self,
         method: Method,
         expires: i64,
         url: &Url,
         body: &str,
-    ) -> Fallible<(&str, String)> {
+    ) -> (&str, String) {
         let (key, secret) = self.check_key()?;
         // Signature: hex(HMAC_SHA256(apiSecret, verb + path + expires + data))
         let signed_key = hmac::Key::new(hmac::HMAC_SHA256, secret.as_bytes());
@@ -124,26 +127,28 @@ impl BitMEX {
         };
         trace!("Sign message {}", sign_message);
         let signature = hexify(hmac::sign(&signed_key, sign_message.as_bytes()));
-        Ok((key, signature))
+        (key, signature)
     }
 
-    async fn handle_response<T: DeserializeOwned>(&self, resp: Response) -> Fallible<T> {
+    #[throws(failure::Error)]
+    async fn handle_response<T: DeserializeOwned>(&self, resp: Response) -> T {
         if resp.status().is_success() {
             let resp = resp.text().await?;
             match from_str::<T>(&resp) {
-                Ok(resp) => Ok(resp),
+                Ok(resp) => resp,
                 Err(e) => {
                     error!("Cannot deserialize '{}'", resp);
-                    Err(e.into())
+                    throw!(e);
                 }
             }
         } else {
             let resp: BitMEXErrorResponse = resp.json().await?;
-            Err(BitMEXError::from(resp.error).into())
+            throw!(BitMEXError::from(resp.error))
         }
     }
 
-    pub async fn get_swagger(&self) -> Fallible<SwaggerApiDescription> {
+    #[throws(failure::Error)]
+    pub async fn get_swagger(&self) -> SwaggerApiDescription {
         let resp: Response = self
             .client
             .get(SWAGGER_URL)
@@ -151,7 +156,7 @@ impl BitMEX {
             .header("content-type", "application/json")
             .send()
             .await?;
-        Ok(self.handle_response(resp).await?)
+        self.handle_response(resp).await?
     }
 }
 
