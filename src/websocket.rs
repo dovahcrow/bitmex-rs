@@ -2,6 +2,7 @@ mod command;
 mod message;
 mod topic;
 
+pub use serde_json::Value;
 pub use self::command::Command;
 pub use self::message::Message as BitMEXWsMessage;
 pub use self::message::{
