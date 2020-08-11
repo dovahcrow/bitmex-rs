@@ -1,5 +1,5 @@
-use bitmex::models::GetOrderBookL2Request;
-use bitmex::BitMEX;
+use bitmex::rest::BitMEXRest;
+use bitmex::rest::GetOrderBookL2Request;
 use failure::Fallible;
 use log::debug;
 use std::env::var;
@@ -11,7 +11,7 @@ fn get_order_book_l2() -> Fallible<()> {
     let _ = env_logger::try_init();
     let mut rt = Runtime::new()?;
 
-    let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
+    let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
     let fut = bm.request(GetOrderBookL2Request {
         symbol: "XBTUSD".into(),
         depth: Some(1),

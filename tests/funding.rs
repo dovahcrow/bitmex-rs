@@ -1,5 +1,5 @@
-use bitmex::models::GetFundingRequest;
-use bitmex::BitMEX;
+use bitmex::rest::BitMEXRest;
+use bitmex::rest::GetFundingRequest;
 use failure::Fallible;
 use log::debug;
 use tokio::runtime::Runtime;
@@ -11,7 +11,7 @@ fn get_funding() -> Fallible<()> {
 
     let mut rt = Runtime::new()?;
 
-    let bm = BitMEX::new();
+    let bm = BitMEXRest::new();
     let fut = bm.request(GetFundingRequest {
         symbol: Some("XBT".to_string()),
         ..Default::default()

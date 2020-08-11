@@ -1,10 +1,5 @@
 use super::Topic;
-use crate::consts::WS_URL;
-use crate::BitMEX;
-use fehler::throws;
-use hyper::Method;
-use serde_derive::{Deserialize, Serialize};
-use url::Url;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "op", content = "args")]
@@ -12,16 +7,25 @@ use url::Url;
 pub enum Command {
     Subscribe(Vec<Topic>),
     Unsubscribe(Vec<Topic>),
-    #[serde(rename = "authKeyExpires")]
-    Authenticate(String, i64, String), // ApiKey, Expires, Signature
-    CancelAllAfter(i64),
+    Authenticate(u64),
+    CancelAllAfter(u64),
     Ping,
 }
 
 impl Command {
-    #[throws(failure::Error)]
-    pub fn authenticate(bm: &BitMEX, expires: i64) -> Command {
-        let (key, sig) = bm.signature(Method::GET, expires, &Url::parse(&WS_URL)?, "")?;
-        Command::Authenticate(key.to_string(), expires, sig)
+    pub fn authenticate(expires: u64) -> Command {
+        Command::Authenticate(expires)
+    }
+    pub fn subscribe(topics: Vec<Topic>) -> Command {
+        Command::Subscribe(topics)
+    }
+    pub fn unsubscribe(topics: Vec<Topic>) -> Command {
+        Command::Unsubscribe(topics)
+    }
+    pub fn cancel_all_after(millisecs: u64) -> Command {
+        Command::CancelAllAfter(millisecs)
+    }
+    pub fn ping() -> Command {
+        Command::Ping
     }
 }

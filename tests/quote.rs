@@ -1,6 +1,6 @@
-use bitmex::models::BinSize;
-use bitmex::models::{GetQuoteBucketedRequest, GetQuoteRequest};
-use bitmex::BitMEX;
+use bitmex::rest::BinSize;
+use bitmex::rest::BitMEXRest;
+use bitmex::rest::{GetQuoteBucketedRequest, GetQuoteRequest};
 use failure::Fallible;
 use log::debug;
 use std::env::var;
@@ -12,7 +12,7 @@ fn get_quote() -> Fallible<()> {
     let _ = dotenv::dotenv();
     let _ = env_logger::try_init();
     let mut rt = Runtime::new()?;
-    let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
+    let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
     let fut = bm.request(GetQuoteRequest {
         ..Default::default()
     });
@@ -29,7 +29,7 @@ fn get_quote_bucketed() -> Fallible<()> {
     let _ = dotenv::dotenv();
     let _ = env_logger::try_init();
     let mut rt = Runtime::new()?;
-    let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
+    let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
     let fut = bm.request(GetQuoteBucketedRequest {
         partial: Some(false),
         bin_size: Some(BinSize::D1),

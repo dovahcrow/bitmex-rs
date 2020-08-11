@@ -1,5 +1,5 @@
-use bitmex::models::{GetAnnouncementRequest, GetAnnouncementUrgentRequest};
-use bitmex::BitMEX;
+use bitmex::rest::BitMEXRest;
+use bitmex::rest::{GetAnnouncementRequest, GetAnnouncementUrgentRequest};
 use failure::Fallible;
 use log::debug;
 use std::env::var;
@@ -12,7 +12,7 @@ fn get_announcement() -> Fallible<()> {
 
     let mut rt = Runtime::new()?;
 
-    let bm = BitMEX::new();
+    let bm = BitMEXRest::new();
     let fut = bm.request(GetAnnouncementRequest {
         ..Default::default()
     });
@@ -28,7 +28,7 @@ fn get_announcement_urgent() -> Fallible<()> {
 
     let mut rt = Runtime::new()?;
 
-    let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
+    let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
     let fut = bm.request(GetAnnouncementUrgentRequest {});
 
     debug!("{:?}", rt.block_on(fut)?);

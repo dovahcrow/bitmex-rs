@@ -1,9 +1,9 @@
-use bitmex::models::{
+use bitmex::rest::BitMEXRest;
+use bitmex::rest::{
     GetInstrumentActiveAndIndicesRequest, GetInstrumentActiveIntervalsRequest,
     GetInstrumentActiveRequest, GetInstrumentCompositeIndexRequest, GetInstrumentIndicesRequest,
     GetInstrumentRequest,
 };
-use bitmex::BitMEX;
 use failure::Fallible;
 use log::debug;
 use tokio::runtime::Runtime;
@@ -14,7 +14,7 @@ fn test_get_instrument() -> Fallible<()> {
     let _ = env_logger::try_init();
     let mut rt = Runtime::new()?;
 
-    let bm = BitMEX::new();
+    let bm = BitMEXRest::new();
     let fut = bm.request(GetInstrumentRequest {
         symbol: Some("XBT".to_string()),
         ..Default::default()
@@ -30,7 +30,7 @@ fn test_get_instrument_active() -> Fallible<()> {
     let _ = env_logger::try_init();
     let mut rt = Runtime::new()?;
 
-    let bm = BitMEX::new();
+    let bm = BitMEXRest::new();
     let fut = bm.request(GetInstrumentActiveRequest {});
 
     debug!("{:?}", rt.block_on(fut)?);
@@ -44,7 +44,7 @@ fn test_get_instrument_active_and_indices() -> Fallible<()> {
     let _ = env_logger::try_init();
     let mut rt = Runtime::new()?;
 
-    let bm = BitMEX::new();
+    let bm = BitMEXRest::new();
     let fut = bm.request(GetInstrumentActiveAndIndicesRequest {});
 
     debug!("{:?}", rt.block_on(fut)?);
@@ -58,7 +58,7 @@ fn get_instrument_active_interval() -> Fallible<()> {
     let _ = env_logger::try_init();
     let mut rt = Runtime::new()?;
 
-    let bm = BitMEX::new();
+    let bm = BitMEXRest::new();
     let fut = bm.request(GetInstrumentActiveIntervalsRequest {});
 
     debug!("{:?}", rt.block_on(fut)?);
@@ -72,7 +72,7 @@ fn get_instrument_composite_index() -> Fallible<()> {
     let _ = env_logger::try_init();
     let mut rt = Runtime::new()?;
 
-    let bm = BitMEX::new();
+    let bm = BitMEXRest::new();
     let fut = bm.request(GetInstrumentCompositeIndexRequest {
         symbol: Some("XBT".to_string()),
         ..Default::default()
@@ -89,7 +89,7 @@ fn get_instrument_indices() -> Fallible<()> {
     let _ = env_logger::try_init();
     let mut rt = Runtime::new()?;
 
-    let bm = BitMEX::new();
+    let bm = BitMEXRest::new();
     let fut = bm.request(GetInstrumentIndicesRequest {});
 
     debug!("{:?}", rt.block_on(fut)?);

@@ -1,5 +1,5 @@
-use bitmex::models::GetApiKeyRequest;
-use bitmex::BitMEX;
+use bitmex::rest::BitMEXRest;
+use bitmex::rest::GetApiKeyRequest;
 use failure::Fallible;
 use log::debug;
 use std::env::var;
@@ -12,7 +12,7 @@ fn get_api_key() -> Fallible<()> {
 
     let mut rt = Runtime::new()?;
 
-    let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
+    let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
     let fut = bm.request(GetApiKeyRequest {
         ..Default::default()
     });

@@ -1,5 +1,5 @@
-use bitmex::models::{GetLeaderboardNameRequest, GetLeaderboardRequest};
-use bitmex::BitMEX;
+use bitmex::rest::BitMEXRest;
+use bitmex::rest::{GetLeaderboardNameRequest, GetLeaderboardRequest};
 use failure::Fallible;
 use log::debug;
 use std::env::var;
@@ -11,7 +11,7 @@ fn get_leaderboard() -> Fallible<()> {
     let _ = env_logger::try_init();
     let mut rt = Runtime::new()?;
 
-    let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
+    let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
     let fut = bm.request(GetLeaderboardRequest {
         ..Default::default()
     });
@@ -26,7 +26,7 @@ fn get_leaderboard_name() -> Fallible<()> {
     let _ = env_logger::try_init();
     let mut rt = Runtime::new()?;
 
-    let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
+    let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
     let fut = bm.request(GetLeaderboardNameRequest {});
 
     debug!("{:?}", rt.block_on(fut)?);

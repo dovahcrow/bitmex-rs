@@ -29,9 +29,9 @@ failure = "0.1"
 fehler = "1"
 log = "0.4"
 
-serde = "1"
+serde = { version = "1", features = [ "derive" ] } 
 serde_json = "1"
-serde_derive = "1"
+serde_urlencoded = "0.6"
 
 chrono = { version = "0.4", features = ["serde"] }
 
@@ -39,8 +39,8 @@ hex = "0.4"
 ring = "0.16"
 
 uuid = { version = "0.8", features = ["serde"] }
-tungstenite = "0.10"
-tokio-tungstenite = { version = "0.10", features = ["tls"] }
+tungstenite = "0.11"
+tokio-tungstenite = { version = "0.11", features = ["tls"] }
 lazy_static = "1"
 derive_builder = "0.9"
 

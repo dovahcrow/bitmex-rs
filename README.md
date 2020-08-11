@@ -26,7 +26,7 @@ bitmex = "0.2"
 
 ```rust
 // This will give you a BitMEX instance, which the only purpose is to create connection.
-let bm = bitmex::BitMEX::with_credential(&std::env::var("BITMEX_KEY")?, &std::env::var("BITMEX_SECRET")?);
+let bm = bitmex::BitMEXRest::with_credential(&std::env::var("BITMEX_KEY")?, &std::env::var("BITMEX_SECRET")?);
 
 // All the requests to BitMEX server afterwards will go through HTTP Restful API.
 

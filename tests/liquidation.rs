@@ -1,5 +1,5 @@
-use bitmex::models::GetLiquidationRequest;
-use bitmex::BitMEX;
+use bitmex::rest::BitMEXRest;
+use bitmex::rest::GetLiquidationRequest;
 use failure::Fallible;
 use log::debug;
 use std::env::var;
@@ -11,7 +11,7 @@ fn get_liquidation() -> Fallible<()> {
     let _ = env_logger::try_init();
     let mut rt = Runtime::new()?;
 
-    let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
+    let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
     let fut = bm.request(GetLiquidationRequest {
         ..Default::default()
     });

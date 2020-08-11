@@ -1,5 +1,5 @@
-use bitmex::models::GetFundingRequest;
-use bitmex::BitMEX;
+use bitmex::rest::BitMEXRest;
+use bitmex::rest::GetFundingRequest;
 use failure::Fallible;
 use reqwest::{Client, Proxy};
 
@@ -11,7 +11,7 @@ async fn main() -> Fallible<()> {
     let proxy = Proxy::http("https://secure.example")?;
     let transport = Client::builder().proxy(proxy).build()?;
 
-    let bm = BitMEX::builder().client(transport).build().unwrap();
+    let bm = BitMEXRest::builder().client(transport).build().unwrap();
 
     let res = bm
         .request(GetFundingRequest {

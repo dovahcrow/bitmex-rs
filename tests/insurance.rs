@@ -1,5 +1,5 @@
-use bitmex::models::GetInsuranceRequest;
-use bitmex::BitMEX;
+use bitmex::rest::BitMEXRest;
+use bitmex::rest::GetInsuranceRequest;
 use failure::Fallible;
 use log::debug;
 use tokio::runtime::Runtime;
@@ -10,7 +10,7 @@ fn get_insurance() -> Fallible<()> {
     let _ = env_logger::try_init();
     let mut rt = Runtime::new()?;
 
-    let bm = BitMEX::new();
+    let bm = BitMEXRest::new();
     let fut = bm.request(GetInsuranceRequest {
         ..Default::default()
     });

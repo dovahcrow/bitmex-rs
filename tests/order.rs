@@ -1,8 +1,8 @@
-use bitmex::models::{
+use bitmex::rest::BitMEXRest;
+use bitmex::rest::{
     DeleteOrderAllRequest, DeleteOrderRequest, OrdType, PostOrderBulkRequest, PostOrderRequest,
     PutOrderBulkRequest, PutOrderRequest,
 };
-use bitmex::BitMEX;
 use failure::Fallible;
 use log::debug;
 use serde_json::Value;
@@ -15,7 +15,7 @@ fn create_order_market() -> Fallible<()> {
     let _ = dotenv::dotenv();
     let _ = env_logger::try_init();
     let mut rt = Runtime::new()?;
-    let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
+    let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
 
     let resp = rt.block_on(bm.request(post_market_order(100)))?;
 
@@ -31,7 +31,7 @@ fn create_order_limit_buy() -> Fallible<()> {
     let _ = dotenv::dotenv();
     let _ = env_logger::try_init();
     let mut rt = Runtime::new()?;
-    let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
+    let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
 
     let resp = rt.block_on(bm.request(post_limit_order(6000., 100)))?;
 
@@ -49,7 +49,7 @@ fn create_order_limit_sell() -> Fallible<()> {
     let _ = dotenv::dotenv();
     let _ = env_logger::try_init();
     let mut rt = Runtime::new()?;
-    let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
+    let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
 
     let resp = rt.block_on(bm.request(post_limit_order(6500., -100)))?;
 
@@ -66,7 +66,7 @@ fn create_order_stop() -> Fallible<()> {
     let _ = dotenv::dotenv();
     let _ = env_logger::try_init();
     let mut rt = Runtime::new()?;
-    let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
+    let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
 
     let resp = rt.block_on(bm.request(post_stop_order(-100, 7000.)))?;
 
@@ -83,7 +83,7 @@ fn create_order_stoplimit() -> Fallible<()> {
     let _ = dotenv::dotenv();
     let _ = env_logger::try_init();
     let mut rt = Runtime::new()?;
-    let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
+    let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
 
     let resp = rt.block_on(bm.request(post_stop_limit_order(7100., -100, 7000.)))?;
 
@@ -101,7 +101,7 @@ fn create_amend_delete_order() -> Fallible<()> {
     let _ = env_logger::try_init();
     let mut rt = Runtime::new()?;
 
-    let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
+    let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
 
     let cor = post_stop_limit_order(6000., 1000, 6000.);
     let fut = bm.request(cor);
@@ -129,7 +129,7 @@ fn create_delete_all_order() -> Fallible<()> {
     let _ = env_logger::try_init();
     let mut rt = Runtime::new()?;
 
-    let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
+    let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
 
     let cor = post_stop_limit_order(6000., 200, 6000.);
     let fut = bm.request(cor);
@@ -153,7 +153,7 @@ fn create_amend_delete_order_bulk() -> Fallible<()> {
     let _ = env_logger::try_init();
     let mut rt = Runtime::new()?;
 
-    let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
+    let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
 
     let orders = vec![
         post_stop_limit_order(6000., 100, 6000.),

@@ -1,5 +1,5 @@
 use failure::Fail;
-use serde_derive::{Deserialize, Serialize};
+use serde::{Deserialize, Serialize};
 use std::convert::From;
 
 // The error response from bitmex;

@@ -1,8 +1,8 @@
-use bitmex::models::{
+use bitmex::rest::BitMEXRest;
+use bitmex::rest::{
     GetPositionRequest, PostPositionIsolateRequest, PostPositionLeverageRequest,
     PostPositionRiskLimitRequest, PostPositionTransferMarginRequest,
 };
-use bitmex::BitMEX;
 use failure::Fallible;
 use log::debug;
 use std::env::var;
@@ -15,7 +15,7 @@ fn get_position() -> Fallible<()> {
     let _ = ::env_logger::try_init();
     let mut rt = Runtime::new()?;
 
-    let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
+    let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
     let fut = bm.request(GetPositionRequest {
         ..Default::default()
     });
@@ -31,7 +31,7 @@ fn post_position_isolate() -> Fallible<()> {
     let _ = ::env_logger::try_init();
     let mut rt = Runtime::new()?;
 
-    let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
+    let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
     let fut = bm.request(PostPositionIsolateRequest {
         symbol: "XBTUSD".into(),
         enabled: Some(false),
@@ -48,7 +48,7 @@ fn post_position_leverage() -> Fallible<()> {
     let _ = ::env_logger::try_init();
     let mut rt = Runtime::new()?;
 
-    let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
+    let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
     let fut = bm.request(PostPositionLeverageRequest {
         symbol: "XBTUSD".into(),
         leverage: 1.1,
@@ -65,7 +65,7 @@ fn post_position_risk_limit() -> Fallible<()> {
     let _ = ::env_logger::try_init();
     let mut rt = Runtime::new()?;
 
-    let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
+    let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
     let fut = bm.request(PostPositionRiskLimitRequest {
         symbol: "XBTUSD".into(),
         risk_limit: 30000000000,
@@ -84,7 +84,7 @@ fn post_position_transfer_margin() -> Fallible<()> {
     let _ = ::env_logger::try_init();
     let mut rt = Runtime::new()?;
 
-    let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
+    let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
     let fut = bm.request(PostPositionTransferMarginRequest {
         symbol: "XBTUSD".into(),
         amount: 10,

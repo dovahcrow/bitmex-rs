@@ -9,7 +9,7 @@ async fn main() -> Fallible<()> {
     ::env_logger::init();
 
     // This will give you a BitMEX instance, which the only purpose is to create connection.
-    let bm = bitmex::BitMEX::with_credential(
+    let bm = bitmex::rest::BitMEXRest::with_credential(
         &std::env::var("BITMEX_KEY")?,
         &std::env::var("BITMEX_SECRET")?,
     );
@@ -19,8 +19,8 @@ async fn main() -> Fallible<()> {
     // The request models reside in "bitmex::models" module, with the
     // naming convention of "Method+camelCase(endpoint)+Request", e.g. "GET /trade/bucketed" would be
     // "bitmex::models::GetTradeBucketedRequest" in bitmex-rs.
-    let req = bitmex::models::GetTradeBucketedRequest {
-        bin_size: Some(bitmex::models::BinSize::D1),
+    let req = bitmex::rest::GetTradeBucketedRequest {
+        bin_size: Some(bitmex::rest::BinSize::D1),
         ..Default::default()
     };
 
@@ -30,12 +30,16 @@ async fn main() -> Fallible<()> {
     println!("Bucketed trades: {:?}", resp);
 
     // A websocket is created by "BitMEX::websocket".
-    let mut ws = bm.websocket().await?;
+    let mut ws = bitmex::websocket::BitMEXWebsocket::with_credential(
+        &std::env::var("BITMEX_KEY")?,
+        &std::env::var("BITMEX_SECRET")?,
+    )
+    .await?;
 
     // The websocket is a duplex channel which means you can send "bitmex::websocket::Command" to BitMEX and
     // receive "bitmex::websocket::Message" from BitMEX using it.
     let expires = (Utc::now() + Duration::seconds(30)).timestamp();
-    ws.send(bitmex::websocket::Command::authenticate(&bm, expires).unwrap())
+    ws.send(bitmex::websocket::Command::authenticate(expires as u64))
         .await?;
 
     // In order to get the ws messages, just poll the ws stream.

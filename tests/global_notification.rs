@@ -1,5 +1,5 @@
-use bitmex::models::GetGlobalNotificationRequest;
-use bitmex::BitMEX;
+use bitmex::rest::BitMEXRest;
+use bitmex::rest::GetGlobalNotificationRequest;
 use failure::Fallible;
 use log::debug;
 use std::env::var;
@@ -13,7 +13,7 @@ fn get_global_notification() -> Fallible<()> {
 
     let mut rt = Runtime::new()?;
 
-    let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
+    let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
     let fut = bm.request(GetGlobalNotificationRequest {});
     let ret = rt.block_on(fut);
 

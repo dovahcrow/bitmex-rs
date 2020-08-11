@@ -1,7 +1,7 @@
-use bitmex::models::{
+use bitmex::rest::BitMEXRest;
+use bitmex::rest::{
     GetChatChannelsRequest, GetChatConnectedRequest, GetChatRequest, PostChatRequest,
 };
-use bitmex::BitMEX;
 use failure::Fallible;
 use log::debug;
 use std::env::var;
@@ -14,7 +14,7 @@ fn get_chat() -> Fallible<()> {
 
     let mut rt = Runtime::new()?;
 
-    let bm = BitMEX::new();
+    let bm = BitMEXRest::new();
     let fut = bm.request(GetChatRequest {
         count: Some(1),
         channel_id: Some(1.),
@@ -33,7 +33,7 @@ fn post_chat() -> Fallible<()> {
 
     let mut rt = Runtime::new()?;
 
-    let bm = BitMEX::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
+    let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
     let fut = bm.request(PostChatRequest {
         message: "Hey there".into(),
         channel_id: Some(1.),
@@ -49,7 +49,7 @@ fn get_chat_channels() -> Fallible<()> {
     let _ = env_logger::try_init();
     let mut rt = Runtime::new()?;
 
-    let bm = BitMEX::new();
+    let bm = BitMEXRest::new();
     let fut = bm.request(GetChatChannelsRequest {});
 
     debug!("{:?}", rt.block_on(fut)?);
@@ -62,7 +62,7 @@ fn get_chat_connected() -> Fallible<()> {
     let _ = env_logger::try_init();
     let mut rt = Runtime::new()?;
 
-    let bm = BitMEX::new();
+    let bm = BitMEXRest::new();
     let fut = bm.request(GetChatConnectedRequest {});
 
     debug!("{:?}", rt.block_on(fut)?);
