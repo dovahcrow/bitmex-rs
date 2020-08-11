@@ -1,8 +1,10 @@
-use super::models::swagger::SwaggerApiDescription;
-use super::models::Request;
+use super::{
+    models::{swagger::SwaggerApiDescription, Request},
+    BitMEXErrorResponse,
+};
 use crate::consts::REST_URL;
 use crate::credential::Credential;
-use crate::error::{BitMEXError, BitMEXErrorResponse};
+use crate::error::BitMEXError;
 use crate::SWAGGER_URL;
 use chrono::{Duration, Utc};
 use derive_builder::Builder;

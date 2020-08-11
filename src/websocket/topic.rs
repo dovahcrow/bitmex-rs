@@ -1,7 +1,9 @@
+use crate::BitMEXError;
+use fehler::throw;
 use serde::de::{Error, Unexpected};
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Hash)]
 pub enum Topic {
     Announcement,
     Chat,
@@ -37,10 +39,10 @@ pub enum Topic {
     Wallet,
 }
 
-impl Serialize for Topic {
-    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
+impl ToString for Topic {
+    fn to_string(&self) -> String {
         use self::Topic::*;
-        let repr = match self {
+        match self {
             Announcement => "announcement".to_string(),
             Chat => "chat".to_string(),
             Connected => "connected".to_string(),
@@ -76,22 +78,17 @@ impl Serialize for Topic {
             PrivateNotifications => "privateNotifications".to_string(),
             Transact => "transact".to_string(),
             Wallet => "wallet".to_string(),
-        };
-
-        serializer.serialize_str(&repr)
+        }
     }
 }
 
-impl<'de> Deserialize<'de> for Topic {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: Deserializer<'de>,
-    {
+impl std::str::FromStr for Topic {
+    type Err = BitMEXError;
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
         use self::Topic::*;
-        let repr = String::deserialize(deserializer)?;
-        let reprs: Vec<_> = repr.split(':').collect();
+        let reprs: Vec<_> = s.split(':').collect();
 
-        let topic = match &reprs[..] {
+        let topic = match reprs.as_slice() {
             ["announcement"] => Announcement,
             ["chat"] => Chat,
             ["connected"] => Connected,
@@ -127,13 +124,27 @@ impl<'de> Deserialize<'de> for Topic {
             ["privateNotifications"] => PrivateNotifications,
             ["transact"] => Transact,
             ["wallet"] => Wallet,
-            _ => {
-                return Err(D::Error::invalid_value(
-                    Unexpected::Str(&repr),
-                    &"A valid topic",
-                ))
-            }
+            _ => throw!(BitMEXError::ParseTopicError(s.into())),
         };
+
+        Ok(topic)
+    }
+}
+impl Serialize for Topic {
+    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
+        serializer.serialize_str(&self.to_string())
+    }
+}
+
+impl<'de> Deserialize<'de> for Topic {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let repr = String::deserialize(deserializer)?;
+        let topic = repr
+            .parse()
+            .map_err(|_| D::Error::invalid_value(Unexpected::Str(&repr), &"A valid topic"))?;
         Ok(topic)
     }
 }
