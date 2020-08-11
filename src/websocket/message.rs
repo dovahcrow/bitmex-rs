@@ -13,10 +13,10 @@ use super::Command;
 
 #[derive(Clone, Debug, Deserialize)]
 #[serde(untagged)]
-pub enum Message {
+pub enum Message<Row = Value> {
     Success(SuccessMessage),
     Error(ErrorMessage),
-    Table(Box<TableMessage<Value>>),
+    Table(Box<TableMessage<Row>>),
     Info(InfoMessage),
     CancelAllAfter(CancelAllAfterMessage),
     Pong,
