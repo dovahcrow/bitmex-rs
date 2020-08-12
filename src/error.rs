@@ -13,4 +13,6 @@ pub enum BitMEXError {
     UnexpectedWebsocketBinaryContent(Vec<u8>),
     #[fail(display = "Cannot parse topic {:?}", _0)]
     ParseTopicError(String),
+    #[fail(display = "Error from websocket. {}: {}", status, error)]
+    WebsocketError { status: i64, error: String },
 }

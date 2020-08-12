@@ -95,7 +95,7 @@ impl std::fmt::Display for Topic {
             Wallet => "wallet".to_string(),
         };
 
-        writeln!(f, "{}", repr)
+        write!(f, "{}", repr)
     }
 }
 
