@@ -64,10 +64,10 @@ pub struct ErrorMessage {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct TableMessage<T> {
+pub struct TableMessage<Row = Value> {
     pub table: String,
     pub action: Action,
-    pub data: Vec<T>,
+    pub data: Vec<Row>,
     pub keys: Option<Vec<String>>,
     pub foreign_keys: Option<HashMap<String, String>>,
     pub types: Option<HashMap<String, String>>,
