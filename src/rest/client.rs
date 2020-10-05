@@ -102,18 +102,24 @@ impl BitMEXRest {
 
     #[throws(failure::Error)]
     async fn handle_response<T: DeserializeOwned>(&self, resp: Response) -> T {
-        if resp.status().is_success() {
-            let resp = resp.text().await?;
-            match from_str::<T>(&resp) {
-                Ok(resp) => resp,
+        let status = resp.status();
+        let content = resp.text().await?;
+        if status.is_success() {
+            match from_str::<T>(&content) {
+                Ok(ret) => ret,
                 Err(e) => {
-                    error!("Cannot deserialize '{}'", resp);
+                    error!("Cannot deserialize '{}'", content);
                     throw!(e);
                 }
             }
         } else {
-            let resp: BitMEXErrorResponse = resp.json().await?;
-            throw!(BitMEXError::from(resp.error))
+            match from_str::<BitMEXErrorResponse>(&content) {
+                Ok(ret) => throw!(BitMEXError::from(ret.error)),
+                Err(e) => {
+                    error!("Cannot deserialize error '{}'", content);
+                    throw!(e);
+                }
+            }
         }
     }
 
