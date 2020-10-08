@@ -22,8 +22,7 @@ const EXPIRE_DURATION: i64 = 5;
 #[derive(Clone, Builder)]
 pub struct BitMEXRest {
     client: Client,
-
-    #[builder(default)]
+    #[builder(default, setter(strip_option))]
     credential: Option<Credential>,
 }
 
