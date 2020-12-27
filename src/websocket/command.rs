@@ -7,14 +7,15 @@ use serde::{Deserialize, Serialize};
 pub enum Command {
     Subscribe(Vec<Topic>),
     Unsubscribe(Vec<Topic>),
-    Authenticate(u64),
+    #[serde(rename = "authKeyExpires")]
+    Authenticate(Option<String>, u64, Option<String>),
     CancelAllAfter(u64),
     Ping,
 }
 
 impl Command {
     pub fn authenticate(expires: u64) -> Command {
-        Command::Authenticate(expires)
+        Command::Authenticate(None, expires, None)
     }
     pub fn subscribe(topics: Vec<Topic>) -> Command {
         Command::Subscribe(topics)

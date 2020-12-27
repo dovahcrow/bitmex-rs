@@ -2,7 +2,6 @@ mod command;
 mod message;
 mod topic;
 
-pub use serde_json::Value;
 pub use self::command::Command;
 pub use self::message::Message as BitMEXWsMessage;
 pub use self::message::{
@@ -20,6 +19,7 @@ use futures::stream::Stream;
 use futures::task::{Context, Poll};
 use http::Method;
 use log::trace;
+pub use serde_json::Value;
 use serde_json::{from_str, json, to_string};
 use std::pin::Pin;
 use tokio::net::TcpStream;
@@ -72,7 +72,7 @@ impl Sink<Command> for BitMEXWebsocket {
     fn start_send(mut self: Pin<&mut Self>, item: Command) -> Result<(), Self::Error> {
         let command = match &item {
             &Command::Ping => "ping".to_string(),
-            &Command::Authenticate(expires) => {
+            &Command::Authenticate(_, expires, _) => {
                 let cred = self.get_credential()?;
                 let (key, sig) = cred.signature(Method::GET, expires, &Url::parse(&WS_URL)?, "")?;
                 to_string(&json!({"op": "authKeyExpires", "args": [key, expires, sig]}))?
