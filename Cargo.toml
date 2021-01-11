@@ -15,15 +15,15 @@ categories = ["api-bindings"]
 travis-ci = { repository = "dovahcrow/bitmex-rs", branch = "master" }
 
 [dependencies]
-reqwest = { version = "0.10.0", features = ["json"] }
-hyper = "0.13"
-hyper-tls = "0.4"
+reqwest = { version = "0.11", features = ["json"] }
+hyper = "0.14"
+hyper-tls = "0.5"
 http = "0.2"
 
 url = "2"
 futures = "0.3"
-tokio = { version = "0.2", features = ["macros"] }
-pin-project = "0.4"
+tokio = { version = "1", features = ["macros"] }
+pin-project = "1"
 
 failure = "0.1"
 fehler = "1"
@@ -39,11 +39,12 @@ hex = "0.4"
 ring = "0.16"
 
 uuid = { version = "0.8", features = ["serde"] }
-tungstenite = "0.11"
-tokio-tungstenite = { version = "0.11", features = ["tls"] }
+tungstenite = "0.12"
+tokio-tungstenite = { version = "0.13", features = ["tls"] }
 lazy_static = "1"
 derive_builder = "0.9"
 
 [dev-dependencies]
 dotenv = "0.15"
-env_logger = "0.7"
+env_logger = "0.8"
+tokio = { version = "1", features = ["time", "macros", "rt-multi-thread", "net"] }

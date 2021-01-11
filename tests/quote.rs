@@ -11,7 +11,7 @@ use tokio::runtime::Runtime;
 fn get_quote() -> Fallible<()> {
     let _ = dotenv::dotenv();
     let _ = env_logger::try_init();
-    let mut rt = Runtime::new()?;
+    let rt = Runtime::new()?;
     let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
     let fut = bm.request(GetQuoteRequest {
         ..Default::default()
@@ -28,7 +28,7 @@ fn get_quote() -> Fallible<()> {
 fn get_quote_bucketed() -> Fallible<()> {
     let _ = dotenv::dotenv();
     let _ = env_logger::try_init();
-    let mut rt = Runtime::new()?;
+    let rt = Runtime::new()?;
     let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
     let fut = bm.request(GetQuoteBucketedRequest {
         partial: Some(false),

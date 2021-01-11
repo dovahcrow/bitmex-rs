@@ -12,7 +12,7 @@ use tokio::runtime::Runtime;
 fn get_user() -> Fallible<()> {
     let _ = dotenv::dotenv();
     let _ = env_logger::try_init();
-    let mut rt = Runtime::new()?;
+    let rt = Runtime::new()?;
     let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
 
     let _ = rt.block_on(bm.request(GetUserRequest))?;
@@ -23,7 +23,7 @@ fn get_user() -> Fallible<()> {
 fn get_user_affiliate_status() -> Fallible<()> {
     let _ = dotenv::dotenv();
     let _ = env_logger::try_init();
-    let mut rt = Runtime::new()?;
+    let rt = Runtime::new()?;
     let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
     let fut = bm.request(GetUserAffiliateStatusRequest);
 
@@ -35,7 +35,7 @@ fn get_user_affiliate_status() -> Fallible<()> {
 fn get_user_commission() -> Fallible<()> {
     let _ = dotenv::dotenv();
     let _ = env_logger::try_init();
-    let mut rt = Runtime::new()?;
+    let rt = Runtime::new()?;
     let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
 
     let _ = rt.block_on(bm.request(GetUserCommissionRequest))?;
@@ -47,7 +47,7 @@ fn get_user_commission() -> Fallible<()> {
 fn get_user_deposit_address() -> Fallible<()> {
     let _ = dotenv::dotenv();
     let _ = env_logger::try_init();
-    let mut rt = Runtime::new()?;
+    let rt = Runtime::new()?;
     let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
 
     let _ = rt.block_on(bm.request(GetUserDepositAddressRequest {
@@ -61,7 +61,7 @@ fn get_user_deposit_address() -> Fallible<()> {
 fn get_user_wallet() -> Fallible<()> {
     let _ = dotenv::dotenv();
     let _ = env_logger::try_init();
-    let mut rt = Runtime::new()?;
+    let rt = Runtime::new()?;
     let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
 
     let _ = rt.block_on(bm.request(GetUserWalletRequest {
@@ -75,7 +75,7 @@ fn get_user_wallet() -> Fallible<()> {
 fn get_user_wallet_history() -> Fallible<()> {
     let _ = dotenv::dotenv();
     let _ = env_logger::try_init();
-    let mut rt = Runtime::new()?;
+    let rt = Runtime::new()?;
     let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
 
     let _ = rt.block_on(bm.request(GetUserWalletHistoryRequest {
@@ -89,7 +89,7 @@ fn get_user_wallet_history() -> Fallible<()> {
 fn get_user_wallet_summary() -> Fallible<()> {
     let _ = dotenv::dotenv();
     let _ = env_logger::try_init();
-    let mut rt = Runtime::new()?;
+    let rt = Runtime::new()?;
     let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
 
     let _ = rt.block_on(bm.request(GetUserWalletSummaryRequest {

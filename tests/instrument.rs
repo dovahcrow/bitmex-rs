@@ -12,7 +12,7 @@ use tokio::runtime::Runtime;
 fn test_get_instrument() -> Fallible<()> {
     let _ = dotenv::dotenv();
     let _ = env_logger::try_init();
-    let mut rt = Runtime::new()?;
+    let rt = Runtime::new()?;
 
     let bm = BitMEXRest::new();
     let fut = bm.request(GetInstrumentRequest {
@@ -28,7 +28,7 @@ fn test_get_instrument() -> Fallible<()> {
 fn test_get_instrument_active() -> Fallible<()> {
     let _ = dotenv::dotenv();
     let _ = env_logger::try_init();
-    let mut rt = Runtime::new()?;
+    let rt = Runtime::new()?;
 
     let bm = BitMEXRest::new();
     let fut = bm.request(GetInstrumentActiveRequest {});
@@ -42,7 +42,7 @@ fn test_get_instrument_active() -> Fallible<()> {
 fn test_get_instrument_active_and_indices() -> Fallible<()> {
     let _ = dotenv::dotenv();
     let _ = env_logger::try_init();
-    let mut rt = Runtime::new()?;
+    let rt = Runtime::new()?;
 
     let bm = BitMEXRest::new();
     let fut = bm.request(GetInstrumentActiveAndIndicesRequest {});
@@ -56,7 +56,7 @@ fn test_get_instrument_active_and_indices() -> Fallible<()> {
 fn get_instrument_active_interval() -> Fallible<()> {
     let _ = dotenv::dotenv();
     let _ = env_logger::try_init();
-    let mut rt = Runtime::new()?;
+    let rt = Runtime::new()?;
 
     let bm = BitMEXRest::new();
     let fut = bm.request(GetInstrumentActiveIntervalsRequest {});
@@ -70,7 +70,7 @@ fn get_instrument_active_interval() -> Fallible<()> {
 fn get_instrument_composite_index() -> Fallible<()> {
     let _ = dotenv::dotenv();
     let _ = env_logger::try_init();
-    let mut rt = Runtime::new()?;
+    let rt = Runtime::new()?;
 
     let bm = BitMEXRest::new();
     let fut = bm.request(GetInstrumentCompositeIndexRequest {
@@ -87,7 +87,7 @@ fn get_instrument_composite_index() -> Fallible<()> {
 fn get_instrument_indices() -> Fallible<()> {
     let _ = dotenv::dotenv();
     let _ = env_logger::try_init();
-    let mut rt = Runtime::new()?;
+    let rt = Runtime::new()?;
 
     let bm = BitMEXRest::new();
     let fut = bm.request(GetInstrumentIndicesRequest {});

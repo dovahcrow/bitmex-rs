@@ -13,7 +13,7 @@ fn get_position() -> Fallible<()> {
     let _ = dotenv::dotenv();
     let _ = env_logger::try_init();
     let _ = ::env_logger::try_init();
-    let mut rt = Runtime::new()?;
+    let rt = Runtime::new()?;
 
     let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
     let fut = bm.request(GetPositionRequest {
@@ -29,7 +29,7 @@ fn post_position_isolate() -> Fallible<()> {
     let _ = dotenv::dotenv();
     let _ = env_logger::try_init();
     let _ = ::env_logger::try_init();
-    let mut rt = Runtime::new()?;
+    let rt = Runtime::new()?;
 
     let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
     let fut = bm.request(PostPositionIsolateRequest {
@@ -46,7 +46,7 @@ fn post_position_leverage() -> Fallible<()> {
     let _ = dotenv::dotenv();
     let _ = env_logger::try_init();
     let _ = ::env_logger::try_init();
-    let mut rt = Runtime::new()?;
+    let rt = Runtime::new()?;
 
     let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
     let fut = bm.request(PostPositionLeverageRequest {
@@ -63,7 +63,7 @@ fn post_position_risk_limit() -> Fallible<()> {
     let _ = dotenv::dotenv();
     let _ = env_logger::try_init();
     let _ = ::env_logger::try_init();
-    let mut rt = Runtime::new()?;
+    let rt = Runtime::new()?;
 
     let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
     let fut = bm.request(PostPositionRiskLimitRequest {
@@ -82,7 +82,7 @@ fn post_position_transfer_margin() -> Fallible<()> {
     let _ = dotenv::dotenv();
     let _ = env_logger::try_init();
     let _ = ::env_logger::try_init();
-    let mut rt = Runtime::new()?;
+    let rt = Runtime::new()?;
 
     let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
     let fut = bm.request(PostPositionTransferMarginRequest {

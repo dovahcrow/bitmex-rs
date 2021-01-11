@@ -9,7 +9,7 @@ fn get_funding() -> Fallible<()> {
     let _ = dotenv::dotenv();
     let _ = env_logger::try_init();
 
-    let mut rt = Runtime::new()?;
+    let rt = Runtime::new()?;
 
     let bm = BitMEXRest::new();
     let fut = bm.request(GetFundingRequest {

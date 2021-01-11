@@ -9,7 +9,7 @@ use tokio::runtime::Runtime;
 fn get_order_book_l2() -> Fallible<()> {
     let _ = dotenv::dotenv();
     let _ = env_logger::try_init();
-    let mut rt = Runtime::new()?;
+    let rt = Runtime::new()?;
 
     let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
     let fut = bm.request(GetOrderBookL2Request {

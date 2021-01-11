@@ -12,7 +12,7 @@ fn get_chat() -> Fallible<()> {
     let _ = dotenv::dotenv();
     let _ = env_logger::try_init();
 
-    let mut rt = Runtime::new()?;
+    let rt = Runtime::new()?;
 
     let bm = BitMEXRest::new();
     let fut = bm.request(GetChatRequest {
@@ -31,7 +31,7 @@ fn post_chat() -> Fallible<()> {
     let _ = dotenv::dotenv();
     let _ = env_logger::try_init();
 
-    let mut rt = Runtime::new()?;
+    let rt = Runtime::new()?;
 
     let bm = BitMEXRest::with_credential(&var("BITMEX_KEY")?, &var("BITMEX_SECRET")?);
     let fut = bm.request(PostChatRequest {
@@ -47,7 +47,7 @@ fn post_chat() -> Fallible<()> {
 fn get_chat_channels() -> Fallible<()> {
     let _ = dotenv::dotenv();
     let _ = env_logger::try_init();
-    let mut rt = Runtime::new()?;
+    let rt = Runtime::new()?;
 
     let bm = BitMEXRest::new();
     let fut = bm.request(GetChatChannelsRequest {});
@@ -60,7 +60,7 @@ fn get_chat_channels() -> Fallible<()> {
 fn get_chat_connected() -> Fallible<()> {
     let _ = dotenv::dotenv();
     let _ = env_logger::try_init();
-    let mut rt = Runtime::new()?;
+    let rt = Runtime::new()?;
 
     let bm = BitMEXRest::new();
     let fut = bm.request(GetChatConnectedRequest {});
