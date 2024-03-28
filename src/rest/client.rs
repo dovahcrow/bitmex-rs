@@ -72,7 +72,8 @@ impl BitMEXRest {
 
         if R::SIGNED {
             let cred = self.get_credential()?;
-            let expires = (Utc::now() + Duration::seconds(EXPIRE_DURATION)).timestamp() as u64;
+            let expires =
+                (Utc::now() + Duration::try_seconds(EXPIRE_DURATION).unwrap()).timestamp() as u64;
             let (key, signature) = cred.signature(R::METHOD, expires, &url, &body)?;
 
             builder = builder

@@ -1,14 +1,15 @@
-use http::Method;
-use super::Request;
 use super::definitions::*;
-use serde_json::Value;
-use serde::{Deserialize, Serialize};
+use super::Request;
 use chrono::{DateTime, Utc};
+use http::Method;
+use serde::{Deserialize, Serialize};
+use serde_json::Value;
+
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 /// Get site announcements.
 pub struct GetAnnouncementRequest {
     /// Array of column names to fetch. If omitted, will return all columns.
-    pub columns: Option<Value>
+    pub columns: Option<Value>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 /// Get urgent (banner) announcements.
@@ -17,7 +18,7 @@ pub struct GetAnnouncementUrgentRequest;
 /// Get your API Keys.
 pub struct GetApiKeyRequest {
     /// If true, will sort results newest first.
-    pub reverse: Option<bool>
+    pub reverse: Option<bool>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 /// Get chat messages.
@@ -30,7 +31,7 @@ pub struct GetChatRequest {
     pub reverse: Option<bool>,
     /// Channel id. GET /chat/channels for ids. Leave blank for all.
     #[serde(rename = "channelID")]
-    pub channel_id: Option<f64>
+    pub channel_id: Option<f64>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize)]
 /// Send a chat message.
@@ -38,7 +39,7 @@ pub struct PostChatRequest {
     pub message: String,
     /// Channel to post to. Default 1 (English).
     #[serde(rename = "channelID")]
-    pub channel_id: Option<f64>
+    pub channel_id: Option<f64>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 /// Get available channels.
@@ -66,7 +67,7 @@ pub struct GetExecutionRequest {
     pub start_time: Option<DateTime<Utc>>,
     /// Ending date filter for results.
     #[serde(rename = "endTime")]
-    pub end_time: Option<DateTime<Utc>>
+    pub end_time: Option<DateTime<Utc>>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 /// Get all balance-affecting executions. This includes each trade, insurance charge, and settlement.
@@ -88,7 +89,7 @@ pub struct GetExecutionTradeHistoryRequest {
     pub start_time: Option<DateTime<Utc>>,
     /// Ending date filter for results.
     #[serde(rename = "endTime")]
-    pub end_time: Option<DateTime<Utc>>
+    pub end_time: Option<DateTime<Utc>>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 /// Get funding history.
@@ -110,7 +111,7 @@ pub struct GetFundingRequest {
     pub start_time: Option<DateTime<Utc>>,
     /// Ending date filter for results.
     #[serde(rename = "endTime")]
-    pub end_time: Option<DateTime<Utc>>
+    pub end_time: Option<DateTime<Utc>>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 /// Get instruments.
@@ -132,7 +133,7 @@ pub struct GetInstrumentRequest {
     pub start_time: Option<DateTime<Utc>>,
     /// Ending date filter for results.
     #[serde(rename = "endTime")]
-    pub end_time: Option<DateTime<Utc>>
+    pub end_time: Option<DateTime<Utc>>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 /// Get all active instruments and instruments that have expired in <24hrs.
@@ -166,7 +167,7 @@ pub struct GetInstrumentCompositeIndexRequest {
     pub start_time: Option<DateTime<Utc>>,
     /// Ending date filter for results.
     #[serde(rename = "endTime")]
-    pub end_time: Option<DateTime<Utc>>
+    pub end_time: Option<DateTime<Utc>>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 /// Get insurance fund history.
@@ -188,20 +189,20 @@ pub struct GetInsuranceRequest {
     pub start_time: Option<DateTime<Utc>>,
     /// Ending date filter for results.
     #[serde(rename = "endTime")]
-    pub end_time: Option<DateTime<Utc>>
+    pub end_time: Option<DateTime<Utc>>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 /// Get current leaderboard.
 pub struct GetLeaderboardRequest {
     /// Ranking type. Options: "notional", "ROE"
-    pub method: Option<String>
+    pub method: Option<String>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 /// Get your alias on the leaderboard.
 pub struct GetLeaderboardNameRequest;
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 pub struct GetLeaderboardNameResponse {
-    pub name: Option<String>
+    pub name: Option<String>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 /// Get liquidation orders.
@@ -223,7 +224,7 @@ pub struct GetLiquidationRequest {
     pub start_time: Option<DateTime<Utc>>,
     /// Ending date filter for results.
     #[serde(rename = "endTime")]
-    pub end_time: Option<DateTime<Utc>>
+    pub end_time: Option<DateTime<Utc>>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 /// Get your current GlobalNotifications.
@@ -248,7 +249,7 @@ pub struct GetOrderRequest {
     pub start_time: Option<DateTime<Utc>>,
     /// Ending date filter for results.
     #[serde(rename = "endTime")]
-    pub end_time: Option<DateTime<Utc>>
+    pub end_time: Option<DateTime<Utc>>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize)]
 /// Create a new order.
@@ -296,7 +297,7 @@ pub struct PostOrderRequest {
     #[serde(rename = "contingencyType")]
     pub contingency_type: Option<super::ContingencyType>,
     /// Optional order annotation. e.g. 'Take profit'.
-    pub text: Option<String>
+    pub text: Option<String>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 /// Amend the quantity or price of an open order.
@@ -331,7 +332,7 @@ pub struct PutOrderRequest {
     #[serde(rename = "pegOffsetValue")]
     pub peg_offset_value: Option<f64>,
     /// Optional amend annotation. e.g. 'Adjust skew'.
-    pub text: Option<String>
+    pub text: Option<String>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 /// Cancel order(s). Send multiple order IDs to cancel in bulk.
@@ -343,19 +344,19 @@ pub struct DeleteOrderRequest {
     #[serde(rename = "clOrdID")]
     pub cl_ord_id: Option<Value>,
     /// Optional cancellation annotation. e.g. 'Spread Exceeded'.
-    pub text: Option<String>
+    pub text: Option<String>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 /// Create multiple new orders for the same symbol.
 pub struct PostOrderBulkRequest {
     /// An array of orders.
-    pub orders: Option<Vec<PostOrderRequest>>
+    pub orders: Option<Vec<PostOrderRequest>>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 /// Amend multiple orders for the same symbol.
 pub struct PutOrderBulkRequest {
     /// An array of orders.
-    pub orders: Option<Vec<PutOrderRequest>>
+    pub orders: Option<Vec<PutOrderRequest>>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize)]
 /// Close a position. [Deprecated, use POST /order with execInst: 'Close']
@@ -363,7 +364,7 @@ pub struct PostOrderClosePositionRequest {
     /// Symbol of position to close.
     pub symbol: String,
     /// Optional limit price.
-    pub price: Option<f64>
+    pub price: Option<f64>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 /// Cancels all of your orders.
@@ -373,13 +374,13 @@ pub struct DeleteOrderAllRequest {
     /// Optional filter for cancellation. Use to only cancel some orders, e.g. `{"side": "Buy"}`.
     pub filter: Option<Value>,
     /// Optional cancellation annotation. e.g. 'Spread Exceeded'
-    pub text: Option<String>
+    pub text: Option<String>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize)]
 /// Automatically cancel all your orders after a specified timeout.
 pub struct PostOrderCancelAllAfterRequest {
-    /// Timeout in ms. Set to 0 to cancel this timer. 
-    pub timeout: f64
+    /// Timeout in ms. Set to 0 to cancel this timer.
+    pub timeout: f64,
 }
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 pub struct PostOrderCancelAllAfterResponse(serde_json::Value);
@@ -389,7 +390,7 @@ pub struct GetOrderBookL2Request {
     /// Instrument symbol. Send a series (e.g. XBT) to get data for the nearest contract in that series.
     pub symbol: String,
     /// Orderbook depth per side. Send 0 for full depth.
-    pub depth: Option<i32>
+    pub depth: Option<i32>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 /// Get your positions.
@@ -399,7 +400,7 @@ pub struct GetPositionRequest {
     /// Which columns to fetch. For example, send ["columnName"].
     pub columns: Option<Value>,
     /// Number of rows to fetch.
-    pub count: Option<i32>
+    pub count: Option<i32>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize)]
 /// Enable isolated margin or cross margin per-position.
@@ -407,7 +408,7 @@ pub struct PostPositionIsolateRequest {
     /// Position symbol to isolate.
     pub symbol: String,
     /// True for isolated margin, false for cross margin.
-    pub enabled: Option<bool>
+    pub enabled: Option<bool>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize)]
 /// Update your risk limit.
@@ -416,7 +417,7 @@ pub struct PostPositionRiskLimitRequest {
     pub symbol: String,
     /// New Risk Limit, in Satoshis.
     #[serde(rename = "riskLimit")]
-    pub risk_limit: i64
+    pub risk_limit: i64,
 }
 #[derive(Clone, Debug, Deserialize, Serialize)]
 /// Transfer equity in or out of a position.
@@ -424,7 +425,7 @@ pub struct PostPositionTransferMarginRequest {
     /// Symbol of position to isolate.
     pub symbol: String,
     /// Amount to transfer, in Satoshis. May be negative.
-    pub amount: i64
+    pub amount: i64,
 }
 #[derive(Clone, Debug, Deserialize, Serialize)]
 /// Choose leverage for a position.
@@ -432,7 +433,7 @@ pub struct PostPositionLeverageRequest {
     /// Symbol of position to adjust.
     pub symbol: String,
     /// Leverage value. Send a number between 0.01 and 100 to enable isolated margin with a fixed leverage. Send 0 to enable cross margin.
-    pub leverage: f64
+    pub leverage: f64,
 }
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 /// Get Quotes.
@@ -454,7 +455,7 @@ pub struct GetQuoteRequest {
     pub start_time: Option<DateTime<Utc>>,
     /// Ending date filter for results.
     #[serde(rename = "endTime")]
-    pub end_time: Option<DateTime<Utc>>
+    pub end_time: Option<DateTime<Utc>>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 /// Get previous quotes in time buckets.
@@ -481,13 +482,13 @@ pub struct GetQuoteBucketedRequest {
     pub start_time: Option<DateTime<Utc>>,
     /// Ending date filter for results.
     #[serde(rename = "endTime")]
-    pub end_time: Option<DateTime<Utc>>
+    pub end_time: Option<DateTime<Utc>>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 /// Get model schemata for data objects returned by this API.
 pub struct GetSchemaRequest {
     /// Optional model filter. If omitted, will return all models.
-    pub model: Option<String>
+    pub model: Option<String>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 pub struct GetSchemaResponse(serde_json::Value);
@@ -516,7 +517,7 @@ pub struct GetSettlementRequest {
     pub start_time: Option<DateTime<Utc>>,
     /// Ending date filter for results.
     #[serde(rename = "endTime")]
-    pub end_time: Option<DateTime<Utc>>
+    pub end_time: Option<DateTime<Utc>>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 /// Get exchange-wide and per-series turnover and volume statistics.
@@ -547,7 +548,7 @@ pub struct GetTradeRequest {
     pub start_time: Option<DateTime<Utc>>,
     /// Ending date filter for results.
     #[serde(rename = "endTime")]
-    pub end_time: Option<DateTime<Utc>>
+    pub end_time: Option<DateTime<Utc>>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 /// Get previous trades in time buckets.
@@ -574,17 +575,17 @@ pub struct GetTradeBucketedRequest {
     pub start_time: Option<DateTime<Utc>>,
     /// Ending date filter for results.
     #[serde(rename = "endTime")]
-    pub end_time: Option<DateTime<Utc>>
+    pub end_time: Option<DateTime<Utc>>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 /// Get a deposit address.
 pub struct GetUserDepositAddressRequest {
-    pub currency: Option<String>
+    pub currency: Option<String>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 /// Get your current wallet information.
 pub struct GetUserWalletRequest {
-    pub currency: Option<String>
+    pub currency: Option<String>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 /// Get a history of all of your wallet transactions (deposits, withdrawals, PNL).
@@ -593,25 +594,25 @@ pub struct GetUserWalletHistoryRequest {
     /// Number of results to fetch.
     pub count: Option<f64>,
     /// Starting point for results.
-    pub start: Option<f64>
+    pub start: Option<f64>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 /// Get a summary of all of your wallet transactions (deposits, withdrawals, PNL).
 pub struct GetUserWalletSummaryRequest {
-    pub currency: Option<String>
+    pub currency: Option<String>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize)]
 /// Get the execution history by day.
 pub struct GetUserExecutionHistoryRequest {
     pub symbol: String,
-    pub timestamp: DateTime<Utc>
+    pub timestamp: DateTime<Utc>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 pub struct GetUserExecutionHistoryResponse(serde_json::Value);
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 /// Get the minimum withdrawal fee for a currency.
 pub struct GetUserMinWithdrawalFeeRequest {
-    pub currency: Option<String>
+    pub currency: Option<String>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 pub struct GetUserMinWithdrawalFeeResponse(serde_json::Value);
@@ -630,22 +631,22 @@ pub struct PostUserRequestWithdrawalRequest {
     /// Network fee for Bitcoin withdrawals. If not specified, a default value will be calculated based on Bitcoin network conditions. You will have a chance to confirm this via email.
     pub fee: Option<f64>,
     /// Optional annotation, e.g. 'Transfer to home wallet'.
-    pub text: Option<String>
+    pub text: Option<String>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize)]
 /// Cancel a withdrawal.
 pub struct PostUserCancelWithdrawalRequest {
-    pub token: String
+    pub token: String,
 }
 #[derive(Clone, Debug, Deserialize, Serialize)]
 /// Confirm a withdrawal.
 pub struct PostUserConfirmWithdrawalRequest {
-    pub token: String
+    pub token: String,
 }
 #[derive(Clone, Debug, Deserialize, Serialize)]
 /// Confirm your email address with a token.
 pub struct PostUserConfirmEmailRequest {
-    pub token: String
+    pub token: String,
 }
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 /// Get your current affiliate/referral status.
@@ -654,7 +655,7 @@ pub struct GetUserAffiliateStatusRequest;
 /// Check if a referral code is valid.
 pub struct GetUserCheckReferralCodeRequest {
     #[serde(rename = "referralCode")]
-    pub referral_code: Option<String>
+    pub referral_code: Option<String>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 /// Get 7 days worth of Quote Fill Ratio statistics.
@@ -667,7 +668,7 @@ pub struct PostUserLogoutRequest;
 pub struct PostUserPreferencesRequest {
     pub prefs: Value,
     /// If true, will overwrite all existing preferences.
-    pub overwrite: Option<bool>
+    pub overwrite: Option<bool>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 /// Get your user model.
@@ -678,14 +679,14 @@ pub struct GetUserCommissionRequest;
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 /// Get your account's margin status. Send a currency of "all" to receive an array of all supported currencies.
 pub struct GetUserMarginRequest {
-    pub currency: Option<String>
+    pub currency: Option<String>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize)]
 /// Register your communication token for mobile clients
 pub struct PostUserCommunicationTokenRequest {
     pub token: String,
     #[serde(rename = "platformAgent")]
-    pub platform_agent: String
+    pub platform_agent: String,
 }
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 /// Get your user events
@@ -694,13 +695,15 @@ pub struct GetUserEventRequest {
     pub count: Option<f64>,
     /// Cursor for pagination.
     #[serde(rename = "startId")]
-    pub start_id: Option<f64>
+    pub start_id: Option<f64>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize, Default)]
 pub struct GetUserEventResponse {
     #[serde(rename = "userEvents")]
-    pub user_events: Vec<UserEvent>
+    pub user_events: Vec<UserEvent>,
 }
+#[derive(Clone, Debug, Deserialize, Serialize, Default)]
+pub struct GetWalletCurrenciesRequest;
 impl Request for GetAnnouncementRequest {
     const METHOD: Method = Method::GET;
     const SIGNED: bool = false;
@@ -1147,7 +1150,7 @@ impl Request for GetUserMarginRequest {
     const SIGNED: bool = true;
     const ENDPOINT: &'static str = "/user/margin";
     const HAS_PAYLOAD: bool = true;
-    type Response = Margin;
+    type Response = Vec<Margin>;
 }
 impl Request for PostUserCommunicationTokenRequest {
     const METHOD: Method = Method::POST;
@@ -1162,4 +1165,11 @@ impl Request for GetUserEventRequest {
     const ENDPOINT: &'static str = "/userEvent";
     const HAS_PAYLOAD: bool = true;
     type Response = GetUserEventResponse;
+}
+impl Request for GetWalletCurrenciesRequest {
+    const METHOD: Method = Method::GET;
+    const SIGNED: bool = false;
+    const ENDPOINT: &'static str = "/wallet/currencies";
+    const HAS_PAYLOAD: bool = false;
+    type Response = std::collections::HashMap<String, CurrencyConfig>;
 }
