@@ -19,6 +19,7 @@ pub enum Message<Row = Value> {
     Table(Box<TableMessage<Row>>),
     Info(InfoMessage),
     CancelAllAfter(CancelAllAfterMessage),
+    Welcome(WelcomeMessage),
     Pong,
     Ping,
 }
@@ -67,6 +68,17 @@ impl From<ErrorMessage> for BitMEXError {
             error: e.error,
         }
     }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct WelcomeMessage {
+    info: String,
+    version: String,
+    timestamp: String,
+    docs: String,
+    heartbeat_enabled: bool,
+    limit: Limit,
 }
 
 //Text("{\"table\":\"chat\",\"action\":\"insert\",\"keys\":[\"id\"],\"data\":[{\"channelID\":4,\"date\":\"2018-10-26T05:09:44.159Z\",\"fromBot\":false,\"html\":\"ㅋㅋㅋㅋㅋ ETF 드립 ㅈㄴ웃기네\\n\",\"id\":21699228,\"message\":\"ㅋㅋㅋㅋㅋ ETF 드립 ㅈㄴ웃기네\",\"user\":\"xixixiaqs\"}],\"filterKey\":\"channelID\"}")
